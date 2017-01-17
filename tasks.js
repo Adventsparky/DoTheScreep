@@ -8,6 +8,12 @@ module.exports = {
             creep.moveTo(closestSource);
         }
     },
+    buildNearestBuilding: function(creep) {
+        var closestSource=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
+        if(creep.build(closestSource) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(closestSource);
+        }
+    },
     upgradeController: function(creep) {
         if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.room.controller);
