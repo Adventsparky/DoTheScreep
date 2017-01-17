@@ -30,8 +30,8 @@ module.exports = {
     dumpEnergyIntoExtensions: function(creep) {
         let closestExtension=creep.pos.findClosestByPath(STRUCTURE_EXTENSION);
         if(closestExtension){
-            if(creep.transfer(manCave, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(manCave);
+            if(creep.transfer(closestExtension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(closestExtension);
             }
         }
     },
