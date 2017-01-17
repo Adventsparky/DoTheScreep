@@ -22,19 +22,32 @@ module.exports = {
     /*
      * ENERGY DUMPING
      */
-    upgradeController: function(creep) {
-        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller);
-        }
-    },
     dumpEnergyAtBase: function(creep) {
         if(creep.transfer(manCave, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(manCave);
         }
     },
+    dumpEnergyIntoExtensions: function(creep) {
+        let closestExtension=creep.pos.findClosestByPath(STRUCTURE_EXTENSION);
+        if(closestExtension){
+            if(creep.transfer(manCave, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(manCave);
+            }
+        }
+    },
+    upgradeController: function(creep) {
+        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(creep.room.controller);
+        }
+    },
+
     pickBestEnergyDump: function(creep) {
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
-            this.upgradeController(creep);
+            if(creep.pos.findClosestByPath(STRUCTURE_EXTENSION)){
+                this.dumpEnergyIntoExtensions(creep);
+            } else {
+                this.upgradeController(creep);
+            }
         } else{
             this.dumpEnergyAtBase(creep);
         }
