@@ -1,6 +1,6 @@
-var Tasks=require('tasks');
+const Tasks=require('tasks');
 
-var roleBuilder = {
+const roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
