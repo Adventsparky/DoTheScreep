@@ -1,4 +1,4 @@
-var tasks=require('tasks');
+var Tasks=require('Tasks');
 
 var roleUpgrader = {
 
@@ -13,10 +13,10 @@ var roleUpgrader = {
         }
 
         if(creep.memory.upgrading) {
-            tasks.upgradeController(creep);
+            Tasks.upgradeController(creep);
         }
         else {
-            tasks.collectNearestEnergy(creep);
+            Tasks.collectNearestEnergy(creep);
         }
     }
 };

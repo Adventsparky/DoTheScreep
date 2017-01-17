@@ -5,11 +5,12 @@ var MAX_UPGRADERZ=2;
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var manCave=Game.spawns.Bastion;
+var Tasks=require('tasks');
 
 module.exports.loop = function () {
 
     // RIP in pieces
-    tasks.clearMemoryOfDeadCreeples();
+    Tasks.clearMemoryOfDeadCreeples();
     console.log('test push 4');
 
     var herversterzCount=manCave.room.find(FIND_CREEPS, {filter: function(object) {return object.memory.role == 'harvester'}}).length;
