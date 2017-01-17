@@ -27,12 +27,9 @@ module.exports = {
             creep.moveTo(manCave);
         }
     },
-    dumpEnergyIntoExtensions: function(creep) {
-        let closestExtension=creep.pos.findClosestByPath(STRUCTURE_EXTENSION);
-        if(closestExtension){
-            if(creep.transfer(closestExtension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(closestExtension);
-            }
+    dumpEnergyIntoExtension: function(creep, extension) {
+        if(creep.transfer(extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(extension);
         }
     },
     upgradeController: function(creep) {
@@ -40,13 +37,12 @@ module.exports = {
             creep.moveTo(creep.room.controller);
         }
     },
-
     pickBestEnergyDump: function(creep) {
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
-            creep.say('base is full')
-            if(creep.pos.findClosestByPath(STRUCTURE_EXTENSION)){
+            let closestExtension = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure) => { return structure.structureType == STRUCTURE_EXTENSION } });
+            if(closestExtension){
                 creep.say('Fill extensions');
-                this.dumpEnergyIntoExtensions(creep);
+                this.dumpEnergyIntoExtension(creep, closestExtension);
             } else {
                 creep.say('Fill controller');
                 this.upgradeController(creep);
