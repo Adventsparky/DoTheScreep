@@ -14,6 +14,7 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
+    console.log('test push');
 
     var herversterzCount=manCave.room.find(FIND_CREEPS, {filter: function(object) {return object.memory.role == 'harvester'}}).length;
     if(herversterzCount<MAX_HERVERSTERZ && manCave.canCreateCreep){
