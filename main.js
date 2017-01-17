@@ -2,8 +2,8 @@ var MAX_HERVERSTERZ=3;
 var MAX_UPGRADERZ=2;
 // var MAX_BUILDERZ=2;
 
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
+var roleHarvester=require('role.harvester');
+var roleUpgrader=require('role.upgrader');
 var manCave=Game.spawns.Bastion;
 var Tasks=require('tasks');
 
