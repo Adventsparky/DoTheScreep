@@ -6,11 +6,11 @@ const roleHarvester = {
     run: function(creep) {
 
         if(creep.carry.energy < creep.carryCapacity) {
-            creep.say('pang');
+            creep.say('Feeding')
             // If the creep is hungry, eat
             Tasks.collectNearestEnergyToHomeBase(creep)
         } else {
-            creep.say('full');
+            creep.say('Loaded')
             // Not hungry, xmas stuffed, dump required!
             Tasks.pickBestEnergyDump(creep);
         }

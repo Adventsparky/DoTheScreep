@@ -44,11 +44,14 @@ module.exports = {
     pickBestEnergyDump: function(creep) {
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
             if(creep.pos.findClosestByPath(STRUCTURE_EXTENSION)){
+                creep.say('Fill extensions');
                 this.dumpEnergyIntoExtensions(creep);
             } else {
+                creep.say('Fill controller');
                 this.upgradeController(creep);
             }
         } else{
+            creep.say('Dump to base');
             this.dumpEnergyAtBase(creep);
         }
     },
