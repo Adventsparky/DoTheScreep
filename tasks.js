@@ -8,6 +8,12 @@ module.exports = {
             creep.moveTo(closestSource);
         }
     },
+    collectNearestEnergyToBase: function(creep) {
+        let closestSource=manCave.pos.findClosestByRange(FIND_SOURCES);
+        if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(closestSource);
+        }
+    },
     buildNearestBuilding: function(creep) {
         let closestSource=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
         if(creep.build(closestSource) == ERR_NOT_IN_RANGE) {
