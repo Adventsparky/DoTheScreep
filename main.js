@@ -1,5 +1,6 @@
 var MAX_HERVERSTERZ=3;
 var MAX_UPGRADERZ=2;
+// var MAX_BUILDERZ=2;
 
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
@@ -8,13 +9,8 @@ var manCave=Game.spawns.Bastion;
 module.exports.loop = function () {
 
     // RIP in pieces
-    for(var name in Memory.creeps) {
-        if(!Game.creeps[name]) {
-            delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
-        }
-    }
-    console.log('test push 3');
+    tasks.clearMemoryOfDeadCreeples();
+    console.log('test push 4');
 
     var herversterzCount=manCave.room.find(FIND_CREEPS, {filter: function(object) {return object.memory.role == 'harvester'}}).length;
     if(herversterzCount<MAX_HERVERSTERZ && manCave.canCreateCreep){
@@ -39,4 +35,4 @@ module.exports.loop = function () {
             roleUpgrader.run(creep);
         }
     }
-}
+};
