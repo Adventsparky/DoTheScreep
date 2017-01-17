@@ -6,7 +6,7 @@ const roleBuilder = {
     run: function(creep) {
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
-            creep.say('harvesting');
+            creep.say('hungry');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
@@ -14,7 +14,7 @@ const roleBuilder = {
         }
 
         if(creep.memory.building) {
-            Tasks.buildNearestBuilding(creep);
+            Tasks.buildNearestStructure(creep);
         }
         else {
             Tasks.collectNearestEnergy(creep);

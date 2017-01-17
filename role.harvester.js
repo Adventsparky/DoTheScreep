@@ -7,7 +7,7 @@ const roleHarvester = {
 
         if(creep.carry.energy < creep.carryCapacity) {
             // If the creep is hungry, eat
-            Tasks.collectNearestEnergyToBase(creep)
+            Tasks.collectNearestEnergyToHomeBase(creep)
         } else {
             // Not hungry, xmas stuffed, dump required!
             Tasks.pickBestEnergyDump(creep);
