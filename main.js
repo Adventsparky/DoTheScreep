@@ -11,7 +11,6 @@ module.exports.loop = function () {
 
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
-    console.log('test push 4');
 
     var herversterzCount=manCave.room.find(FIND_CREEPS, {filter: function(object) {return object.memory.role == 'harvester'}}).length;
     if(herversterzCount<MAX_HERVERSTERZ && manCave.canCreateCreep){

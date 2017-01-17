@@ -1,4 +1,4 @@
-var Tasks=require('Tasks');
+var Tasks=require('tasks');
 
 var roleUpgrader = {
 
