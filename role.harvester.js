@@ -4,7 +4,7 @@ var roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        creep.say('Do the screep!');
+
         if(creep.carry.energy < creep.carryCapacity) {
             // If the creep is hungry, eat
             Tasks.collectNearestEnergy(creep)
