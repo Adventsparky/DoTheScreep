@@ -38,5 +38,13 @@ module.exports = {
                 console.log('Clearing non-existing creep memory:', name);
             }
         }
+    },
+    performCreepleCensusByRole: function(role) {
+        var creepleCountForRole = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+        if(creepleCountForRole.length < role.min) {
+            manCave.createCreep(role.parts,undefined, {role: role.role});
+            return false;
+        }
+        return true;
     }
 };

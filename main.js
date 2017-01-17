@@ -2,15 +2,6 @@ var roleManager=require('role.manager');
 var manCave=Game.spawns.Bastion;
 var Tasks=require('tasks');
 
-function creepleCensusByRole(role) {
-    var creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-    if(creeps.length < role.min) {
-        manCave.createCreep(role.parts,undefined, {role: role.role});
-        return false;
-    }
-    return true;
-}
-
 module.exports.loop = function () {
 
     // RIP in pieces
@@ -22,7 +13,7 @@ module.exports.loop = function () {
     }
 
     for(var role in roleManager) {
-        if(!creepleCensusByRole(roleManager[role])) {
+        if(!Tasks.performCreepleCensusByRole(roleManager[role])) {
             break;
         }
     }
