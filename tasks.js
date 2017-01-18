@@ -43,7 +43,9 @@ module.exports = {
             //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             // });
             let closestUnfilledExtension = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
+                filter: (structure) => {
+                    return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_EXTENSION;
+                }
             });
 
             if(closestUnfilledExtension){
