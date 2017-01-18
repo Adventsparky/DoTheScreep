@@ -40,7 +40,7 @@ module.exports = {
     pickBestEnergyDump: function(creep) {
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
             let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
-                return(structure.structureType == STRUCTURE_EXTENSION);
+                return  structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_EXTENSION;
             });
             // let closestExtension = creep.pos.findInRange(FIND_STRUCTURES, {
             //     filter: (structure) => {
