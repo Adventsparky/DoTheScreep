@@ -41,14 +41,11 @@ module.exports = {
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
             let closestExtension = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure) => { return structure.structureType == STRUCTURE_EXTENSION } });
             if(closestExtension){
-                creep.say('Fill extensions');
                 this.dumpEnergyIntoExtension(creep, closestExtension);
             } else {
-                creep.say('Fill controller');
                 this.upgradeController(creep);
             }
         } else{
-            creep.say('Dump to base');
             this.dumpEnergyAtBase(creep);
         }
     },
