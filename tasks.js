@@ -39,14 +39,12 @@ module.exports = {
     },
     pickBestEnergyDump: function(creep) {
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
-            let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
-                return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
-            });
-            // let closestExtension = creep.pos.findInRange(FIND_STRUCTURES, {
-            //     filter: (structure) => {
-            //         return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity
-            //     }
+            // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
+            //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             // });
+            let closestUnfilledExtension = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: (structure) => structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
+            });
 
             if(closestUnfilledExtension){
                 this.dumpEnergyIntoExtension(creep, closestUnfilledExtension);
