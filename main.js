@@ -13,6 +13,7 @@ module.exports.loop = function () {
         if(availableSources.hasOwnProperty(source)){
             console.log(source);
             console.log(availableSources[source]);
+            console.log(availableSources[source].id);
             if (Memory.sources[source.id] === undefined) {
                 Memory.sources[source.id] = source.id;
                 Memory.sources[source.id].dedicatedMiners = 0;
