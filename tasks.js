@@ -40,6 +40,34 @@ module.exports = {
         }
     },
     pickBestEnergyDump: function(creep) {
+        let dropOffStructures = Memory.structures.find(FIND_MY_STRUCTURES, { filter: (structure) => {
+                return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
+            }});
+        if(!dropOffStructures) {
+            dropOffStructures = Memory.structures.find(FIND_MY_STRUCTURES, { filter: (structure) => {
+                return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
+            }});
+        }
+        if(!dropOffStructures) {
+            dropOffStructures = Memory.structures.find(FIND_STRUCTURES, { filter: (structure) => {
+                return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) ||
+                    // (structure.structureType == STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity) ||
+                    (structure.structure == STRUCTURE_CONTROLLER)
+            }});
+        }
+        console.log('Potential drop-off structures');
+        console.log(dropOffStructures);
+        console.log('---');
+        // if(dropOffStructures) {
+        //     let target = _.reduce(dropOffStructures, function(result, structure) {
+        //         let range=creep.pos.getRangeTo(structure);
+        //         if(result && result.range < range) {
+        //             return result;
+        //         }
+        //         return {range: range, structure: structure}
+        //     },{range: 99999});
+        //     creep.memory.dropoff =  target.structure.id
+        // }
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
             //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;

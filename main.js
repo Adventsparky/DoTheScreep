@@ -6,6 +6,7 @@ module.exports.loop = function () {
 
     // Set up some lists of things we might use more than once per tick
     Memory.availableSources=manCave.room.find(FIND_SOURCES);
+    Memory.structures=manCave.room.find(FIND_STRUCTURES);
 
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
@@ -22,6 +23,9 @@ module.exports.loop = function () {
             }
         }
     }
+
+    // Can we auto build available extensions?
+    manCave.createConstructionSite(STRUCTURE_EXTENSION)
 
     // Basic tower code taken directly from tutorial
     let tower = Game.getObjectById('TOWER_ID');
