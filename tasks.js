@@ -109,7 +109,7 @@ module.exports = {
      */
     performCreepleCensusByRole: function(role) {
         let creepleCountForRole = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-        if(creepleCountForRole.length < role.min) {
+        if(creepleCountForRole.length < role.minRoomPopulation) {
             manCave.createCreep(role.parts,undefined, {role: role.role});
             return false;
         }

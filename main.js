@@ -1,7 +1,7 @@
 const roleManager=require('role.manager');
 const Tasks=require('tasks');
 const manCave=Game.spawns.Bastion;
-const availableSources=manCave.room.find(FIND_SOURCES);
+const availableSources=Memory.manCave.room.find(FIND_SOURCES);
 
 module.exports.loop = function () {
 
@@ -11,6 +11,12 @@ module.exports.loop = function () {
     for(let source in availableSources) {
         if(availableSources.hasOwnProperty(source)){
             console.log(source);
+            if (Memory.sources[source.id] === undefined) {
+                Memory.sources[source.id] = source.id;
+                Memory.sources[source.id].dedicatedMiners = 0;
+                console.log(Memory.sources);
+                return;
+            }
         }
     }
 

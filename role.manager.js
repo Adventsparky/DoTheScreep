@@ -1,24 +1,30 @@
-const roleHarvester = require('role.harvester');
+const roleHarvester = require('role.mobileHarvester');
 const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
 
 module.exports = {
-    harvester: {
+    mobileHarvester: {
         parts: [WORK,CARRY,MOVE],
-        role: 'harvester',
-        min: 4,
+        role: 'mobileHarvester',
+        minRoomPopulation: 4,
+        run: roleHarvester.run
+    },
+    staticHarvester: {
+        parts: [WORK,CARRY,MOVE],
+        role: 'staticHarvester',
+        minRoomPopulation: 4,
         run: roleHarvester.run
     },
     builder: {
         parts: [WORK,CARRY,MOVE],
         role: 'builder',
-        min: 5,
+        minRoomPopulation: 5,
         run: roleBuilder.run
     },
     upgrader: {
         parts: [WORK,CARRY,MOVE],
         role: 'upgrader',
-        min: 5,
+        minRoomPopulation: 5,
         run: roleUpgrader.run
     }
 };
