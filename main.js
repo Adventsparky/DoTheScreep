@@ -19,8 +19,8 @@ module.exports.loop = function () {
                 Memory.sources[source.id] = {};
                 Memory.sources[source.id].dedicatedMiner = 0;
             }
-            if (Memory.sources){
-                console.log(Memory.sources);
+            if (Memory.sources && Memory.sources[source.id]){
+                console.log(Memory.sources[source.id]);
             }
         }
     }
