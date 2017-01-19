@@ -15,7 +15,8 @@ module.exports.loop = function () {
             if (Memory.sources === undefined) {
                 Memory.sources={};
             }
-            if (Memory.sources[source.id] === undefined) {
+            if (Memory.sources[source.id] === undefined ||
+                Memory.sources[source.id].dedicatedMiner === undefined) {
                 Memory.sources[source.id] = {};
                 Memory.sources[source.id].dedicatedMiner = 0;
             }
