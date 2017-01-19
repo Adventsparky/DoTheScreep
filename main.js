@@ -1,10 +1,13 @@
 const roleManager=require('role.manager');
 const Tasks=require('tasks');
+const manCave=Game.spawns.Bastion;
 
 module.exports.loop = function () {
 
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
+
+    console.log(manCave.room.find(FIND_SOURCES));
 
     for(let name in Game.creeps) {
         if(Game.creeps.hasOwnProperty(name)) {
