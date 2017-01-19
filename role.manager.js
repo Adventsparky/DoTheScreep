@@ -4,7 +4,7 @@ const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
 
 module.exports = {
-    mobileHarvester: {
+    harvester: {
         parts: [WORK,CARRY,MOVE],
         role: 'harvester',
         minRoomPopulation: 4,
