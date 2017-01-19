@@ -27,7 +27,7 @@ module.exports.loop = function () {
     let tower = Game.getObjectById('TOWER_ID');
     if(tower) {
         let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax
+            filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 10000 // todo remove hardcoded hits check for tower repair
         });
         if(closestDamagedStructure) {
             tower.repair(closestDamagedStructure);

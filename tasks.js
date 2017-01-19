@@ -64,6 +64,7 @@ module.exports = {
      * CONSTRUCTION
      */
     buildNearestStructure: function(creep) {
+
         let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
         if(closestBuildingSite) {
             if (creep.build(closestBuildingSite) == ERR_NOT_IN_RANGE) {
