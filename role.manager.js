@@ -1,4 +1,4 @@
-const roleHarvester = require('role.mobileHarvester');
+const roleHarvester = require('role.harvester');
 // const roleStaticHarvester = require('role.staticHarvester');
 const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
