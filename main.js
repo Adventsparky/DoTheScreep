@@ -1,17 +1,19 @@
 const roleManager=require('role.manager');
 const Tasks=require('tasks');
 const manCave=Game.spawns.Bastion;
-const availableSources=manCave.room.find(FIND_SOURCES);
 
 module.exports.loop = function () {
+
+    // Set up some lists of things we might use more than once per tick
+    Memory.availableSources=manCave.room.find(FIND_SOURCES);
 
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
 
-    console.log(availableSources);
-    for(let sourceNum in availableSources) {
-        if(availableSources.hasOwnProperty(sourceNum)){
-            let source=availableSources[sourceNum];
+    console.log(Memory.availableSources);
+    for(let sourceNum in Memory.availableSources) {
+        if(Memory.availableSources.hasOwnProperty(sourceNum)){
+            let source=Memory.availableSources[sourceNum];
             if (Memory.sources === undefined) {
                 Memory.sources={};
             }
