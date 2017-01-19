@@ -14,13 +14,8 @@ module.exports.loop = function () {
     for(let sourceNum in Memory.availableSources) {
         if(Memory.availableSources.hasOwnProperty(sourceNum)){
             let source=Memory.availableSources[sourceNum];
-            if (Memory.sources === undefined) {
-                Memory.sources={};
-            }
-            if (Memory.sources[source.id] === undefined ||
-                Memory.sources[source.id].dedicatedMiner === undefined) {
-                Memory.sources[source.id] = {};
-                Memory.sources[source.id].dedicatedMiner = 0;
+            if (source[source.id].dedicatedMiner === undefined) {
+                source[source.id].dedicatedMiner = 0;
             }
             if (Memory.sources && Memory.sources[source.id]){
                 console.log(Memory.sources[source.id]);
