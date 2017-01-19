@@ -86,7 +86,8 @@ module.exports = {
                 creep.say('Repair ' + status)
             }
         } else {
-            creep.say('Nothing to repair')
+            creep.say('Nothing to repair, I\'ll dump');
+            this.pickBestEnergyDump(creep);
         }
     },
 
