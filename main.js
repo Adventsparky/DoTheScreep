@@ -31,6 +31,7 @@ module.exports.loop = function () {
     for(let name in Game.creeps) {
         if(Game.creeps.hasOwnProperty(name)) {
             let creep = Game.creeps[name];
+            console.log(roleManager[creep.memory.role]);
             roleManager[creep.memory.role].run(creep);
         }
     }
