@@ -1,7 +1,7 @@
 const roleManager=require('role.manager');
 const Tasks=require('tasks');
 const manCave=Game.spawns.Bastion;
-const availableSources=Memory.manCave.room.find(FIND_SOURCES);
+const availableSources=manCave.room.find(FIND_SOURCES);
 
 module.exports.loop = function () {
 
