@@ -19,10 +19,11 @@ module.exports.loop = function () {
                 Memory.sources={};
             }
             if (Memory.sources[source.id] === undefined) {
-                Memory.sources[source.id] = source.id;
-                Memory.sources[source.id].dedicatedMiners = 0;
+                Memory.sources[source.id] = {};
+                Memory.sources[source.id].dedicatedMiner = 0;
+            }
+            if (Memory.sources){
                 console.log(Memory.sources);
-                return;
             }
         }
     }
