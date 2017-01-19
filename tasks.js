@@ -1,7 +1,7 @@
 const manCave=Game.spawns.Bastion;
 const HITS_MIN=5000;
 const HITS_IMPROVED=10000;
-const HITS_NOW_WERE_SUCKIN_DIESEL=100000;
+const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
 
 module.exports = {
 
