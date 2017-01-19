@@ -92,7 +92,7 @@ module.exports = {
             if(status == ERR_NOT_IN_RANGE) {
                 creep.moveTo(closestDamagedStructure);
             } else {
-                creep.say('Repair ' + status)
+                creep.say('Repairing')
             }
         } else {
             creep.say('Nothing to repair, I\'ll dump');
