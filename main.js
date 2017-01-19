@@ -23,6 +23,22 @@ module.exports.loop = function () {
         }
     }
 
+    // Basic tower code taken directly from tutorial
+    let tower = Game.getObjectById('TOWER_ID');
+    if(tower) {
+        let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => structure.hits < structure.hitsMax
+        });
+        if(closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+        }
+
+        let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+        }
+    }
+
     for(let name in Game.creeps) {
         if(Game.creeps.hasOwnProperty(name)) {
             let creep = Game.creeps[name];
