@@ -40,9 +40,9 @@ module.exports = {
         }
     },
     pickBestEnergyDump: function(creep) {
-        let dropOffStructures = Memory.structures.find(FIND_MY_STRUCTURES, { filter: (structure) => {
+        let dropOffStructures = _.filter(Memory.structures, function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
-            }});
+            });
         if(!dropOffStructures) {
             dropOffStructures = Memory.structures.find(FIND_MY_STRUCTURES, { filter: (structure) => {
                 return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
