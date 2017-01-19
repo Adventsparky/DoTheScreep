@@ -1,6 +1,7 @@
 const manCave=Game.spawns.Bastion;
-const MIN_HITS=5000;
-const BETTER_HITS=10000;
+const HITS_MIN=5000;
+const HITS_IMPROVED=10000;
+const HITS_NOW_WERE_SUCKIN_DIESEL=100000;
 
 module.exports = {
 
@@ -75,20 +76,28 @@ module.exports = {
     repairNearestStructure: function(creep) {
         let closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.hits < MIN_HITS && structure.hits < structure.hitsMax);
+                return (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
             }
         });
         if(!closestDamagedStructure) {
             // Try again with higher threshold
             closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.hits < BETTER_HITS && structure.hits < structure.hitsMax);
+                    return (structure.hits < HITS_IMPROVED && structure.hits < structure.hitsMax);
+                }
+            });
+        }
+        if(!closestDamagedStructure) {
+            // Try again with higher threshold
+            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.hits < HITS_NOW_WERE_SUCKIN_DIESEL && structure.hits < structure.hitsMax);
                 }
             });
         }
         if(closestDamagedStructure) {
-            console.log('Repair closest ' + closestDamagedStructure)
-            let status = creep.repair(closestDamagedStructure)
+            console.log('Repair closest ' + closestDamagedStructure);
+            let status = creep.repair(closestDamagedStructure);
             if(status == ERR_NOT_IN_RANGE) {
                 creep.moveTo(closestDamagedStructure);
             } else {
