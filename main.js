@@ -8,9 +8,11 @@ module.exports.loop = function () {
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
 
+    console.log(availableSources);
     for(let source in availableSources) {
         if(availableSources.hasOwnProperty(source)){
             console.log(source);
+            console.log(availableSources[source]);
             if (Memory.sources[source.id] === undefined) {
                 Memory.sources[source.id] = source.id;
                 Memory.sources[source.id].dedicatedMiners = 0;
