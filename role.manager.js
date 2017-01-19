@@ -13,7 +13,7 @@ module.exports = {
     staticHarvester: {
         parts: [WORK,CARRY,MOVE],
         role: 'staticHarvester',
-        minRoomPopulation: 0,
+        minRoomPopulation: 1,
         run: roleStaticHarvester.run
     },
     builder: {
