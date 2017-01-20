@@ -99,11 +99,10 @@ module.exports = {
     buildingTypeAvailable: function(type) {
         return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
     },
-    buildingTypeAffordable: function(type) {
-        console.log(this.energyAvailable());
-        console.log(CONSTRUCTION_COST[type]);
-        return this.energyAvailable() >= CONSTRUCTION_COST[type];
-    },
+    // Pointless check, it's not paid from spawn, it's filled
+    // buildingTypeAffordable: function(type) {
+    //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
+    // },
     buildNearestStructure: function(creep) {
 
         let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
