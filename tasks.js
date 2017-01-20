@@ -172,7 +172,7 @@ module.exports = {
         for(let roomId in Memory.roomInfo){
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
-                    if(room.spawn != undefined) {
+                    if(room.spawn != undefined && room.spawn.length) {
                         console.log('room');
                         console.log(room);
                         console.log(room.spawn);
