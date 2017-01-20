@@ -34,7 +34,9 @@ module.exports.loop = function () {
             }
 
             //STRUCTURES
-            let availableStructures=storedRoom.structures=thisRoom.find(FIND_STRUCTURES);
+            let availableStructures=storedRoom.structures=thisRoom.find(FIND_STRUCTURES, {
+                filter: (structure) => structure.structureType != STRUCTURE_ROAD
+            });
 
             // SPAWN
             storedRoom.spawn=_.filter(availableStructures, function(structure){
