@@ -100,6 +100,8 @@ module.exports = {
         return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
     },
     buildingTypeAffordable: function(type) {
+        console.log(this.energyAvailable());
+        console.log(CONSTRUCTION_COST[type]);
         return this.energyAvailable() >= CONSTRUCTION_COST[type];
     },
     buildNearestStructure: function(creep) {
