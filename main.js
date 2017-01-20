@@ -25,7 +25,8 @@ module.exports.loop = function () {
     }
 
     // Can we auto build available extensions?
-    // Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION);
+    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION);
+    console.log(test);
 
     // Basic tower code taken directly from tutorial
     let tower = Game.getObjectById('TOWER_ID');
