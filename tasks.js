@@ -43,12 +43,12 @@ module.exports = {
         let dropOffStructures = _.filter(Memory.structures, function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
-        if(!dropOffStructures) {
+        if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(Memory.structures, function(structure) {
                 return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             });
         }
-        if(!dropOffStructures) {
+        if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(Memory.structures, function(structure) {
                 return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) ||
                     // (structure.structureType == STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity) ||
@@ -58,7 +58,7 @@ module.exports = {
         console.log('Potential drop-off structures');
         console.log(dropOffStructures);
         console.log('---');
-        // if(dropOffStructures) {
+        // if(dropOffStructures.length > 0) {
         //     let target = _.reduce(dropOffStructures, function(result, structure) {
         //         let range=creep.pos.getRangeTo(structure);
         //         if(result && result.range < range) {
@@ -67,6 +67,8 @@ module.exports = {
         //         return {range: range, structure: structure}
         //     },{range: 99999});
         //     creep.memory.dropoff =  target.structure.id
+        // } else{
+        //  creep.say('aw snap girrl');
         // }
         if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
@@ -91,6 +93,9 @@ module.exports = {
     /*
      * CONSTRUCTION
      */
+    buildingTypeAvailable: function(type) {
+        return _.filter(Memory.structures, function(structure){ return structure.structureType == STRUCTURE_TOWER; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
+    },
     buildNearestStructure: function(creep) {
 
         let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);

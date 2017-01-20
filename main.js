@@ -25,7 +25,7 @@ module.exports.loop = function () {
     }
 
     // Can we auto build available extensions?
-    // manCave.createConstructionSite(STRUCTURE_EXTENSION)
+    // Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION);
 
     // Basic tower code taken directly from tutorial
     let tower = Game.getObjectById('TOWER_ID');
