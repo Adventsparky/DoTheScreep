@@ -20,7 +20,7 @@ module.exports.loop = function () {
             }
 
             // SOURCES
-            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES)[0];
+            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
             for(let sourceNum in availableSources) {
                 if(availableSources.hasOwnProperty(sourceNum)){
                     let source=availableSources[sourceNum];
@@ -41,14 +41,14 @@ module.exports.loop = function () {
                 if(structure.structureType == STRUCTURE_SPAWN){
                     return structure;
                 }
-            });
+            })[0];
 
             // CONTROLLER
             storedRoom.controller=_.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_CONTROLLER){
                     return structure;
                 }
-            });
+            })[0];
 
             // CREEPS
             storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
