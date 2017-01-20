@@ -37,5 +37,16 @@ module.exports = {
             "attack": 80,
             "ranged_attack": 150
         };
+    },
+    countRolesInRoom: function(checkRoomName, checkRole) {
+        let checkRoom = _.find(Memory.roomInfo, function(room){
+            return room.name == checkRoomName;
+        });
+        if(checkRoom){
+            return _.filter(checkRoom.creeps, function(creep) {
+                return creep.memory.role == checkRole;
+            });
+        }
+        return 0;
     }
 };
