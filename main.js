@@ -54,6 +54,7 @@ module.exports.loop = function () {
             console.log('stored creeps');
             console.log(storedRoom.creeps);
             console.log('--');
+            console.log('--');
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
