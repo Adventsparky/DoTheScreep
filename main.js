@@ -40,7 +40,7 @@ module.exports.loop = function () {
             storedRoom.spawn=_.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_SPAWN){
                     console.log('found spawn');
-                    storedRoom.spawn=structure;
+                    return structure;
                 }
             });
         }
