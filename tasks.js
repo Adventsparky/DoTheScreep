@@ -186,7 +186,7 @@ module.exports = {
                         try {
                             console.log('New: Check role: ' + role.role);
                             let creepleCountForRole = 0;
-                            console.log('New: ',room);
+                            console.log('New: ',JSON.stringify(room));
                             console.log('New: '+room.creeps);
                             if (room.creeps !== undefined && room.creeps.length) {
                                 creepleCountForRole = _.filter(room.creeps, function (creep) {
