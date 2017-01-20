@@ -170,6 +170,28 @@ module.exports = {
      * CREEPLE MANAGEMENT
      */
     performCreepleCensusByRole: function(role) {
+
+        try {
+            console.log(Game.time);
+            console.log(Game.time % 5);
+            if(Game.time % 5) {
+                let roomPopSummary = 'No cached rooms found!!';
+                for(let roomId in Memory.roomInfo) {
+                    if (Memory.roomInfo.hasOwnProperty(roomId)) {
+                        roomPopSummary = '';
+                        for(let role in roleManager) {
+                            if (roleManager.hasOwnProperty(role)) {
+                                roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role.role)+',');
+                            }
+                        }
+                    }
+                }
+                console.log(roomPopSummary);
+            }
+        } catch(e){
+            console.log(e);
+        }
+
         for(let roomId in Memory.roomInfo){
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
@@ -211,27 +233,6 @@ module.exports = {
                 }
             }
 
-        }
-
-        try {
-            console.log(Game.time);
-            console.log(Game.time % 5);
-            if(Game.time % 5) {
-                let roomPopSummary = 'No cached rooms found!!';
-                for(let roomId in Memory.roomInfo) {
-                    if (Memory.roomInfo.hasOwnProperty(roomId)) {
-                        roomPopSummary = '';
-                        for(let role in roleManager) {
-                            if (roleManager.hasOwnProperty(role)) {
-                                roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role.role)+',');
-                            }
-                        }
-                    }
-                }
-                console.log(roomPopSummary);
-            }
-        } catch(e){
-            console.log(e);
         }
 
         return true;
