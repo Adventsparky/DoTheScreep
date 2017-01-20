@@ -173,27 +173,35 @@ module.exports = {
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
                     if(room.spawn != undefined && room.spawn.length) {
-                        console.log('Check role: '+role.role);
-                        let creepleCountForRole = 0;
-                        console.log(room.creeps);
-                        if(room.creeps !== undefined && room.creeps.length) {
-                            creepleCountForRole = _.filter(room.creeps, function (creep) {
-                                console.log(creep);
-                                return creep.memory.role == role.role;
-                            }).length;
-                        }
 
-                        if (creepleCountForRole === undefined) {
-                            creepleCountForRole = 0;
-                        }
-
-                        console.log('Found '+creepleCountForRole+' creeple');
-
-                        if (creepleCountForRole < role.minRoomPopulation) {
-                            console.log('need to spawn a ' + role.role);
-                            room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                        let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+                        if(creeps.length < role.minRoomPopulation) {
+                            room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
                             return false;
                         }
+                        return true;
+                        //
+                        // console.log('Check role: '+role.role);
+                        // let creepleCountForRole = 0;
+                        // console.log(room.creeps);
+                        // if(room.creeps !== undefined && room.creeps.length) {
+                        //     creepleCountForRole = _.filter(room.creeps, function (creep) {
+                        //         console.log(creep);
+                        //         return creep.memory.role == role.role;
+                        //     }).length;
+                        // }
+                        //
+                        // if (creepleCountForRole === undefined) {
+                        //     creepleCountForRole = 0;
+                        // }
+                        //
+                        // console.log('Found '+creepleCountForRole+' creeple');
+                        //
+                        // if (creepleCountForRole < role.minRoomPopulation) {
+                        //     console.log('need to spawn a ' + role.role);
+                        //     room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                        //     return false;
+                        // }
                     }
             }
 
