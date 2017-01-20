@@ -55,9 +55,9 @@ module.exports = {
                     (structure.structureType == STRUCTURE_CONTROLLER)
             });
         }
-        console.log('Potential drop-off structures');
-        console.log(dropOffStructures);
-        console.log('---');
+        // console.log('Potential drop-off structures');
+        // console.log(dropOffStructures);
+        // console.log('---');
         // if(dropOffStructures.length > 0) {
         //     let target = _.reduce(dropOffStructures, function(result, structure) {
         //         let range=creep.pos.getRangeTo(structure);
