@@ -9,7 +9,6 @@ module.exports = {
      * ENERGY
      */
     energyAvailable: function() {
-        console.log(manCave.room.energyCapacityAvailable);
         return manCave.room.energyCapacityAvailable;
     },
     collectNearestEnergy: function(creep) {

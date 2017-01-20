@@ -25,8 +25,8 @@ module.exports.loop = function () {
     }
 
     // Can we auto build available extensions?
-    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION) && Tasks.buildingTypeAffordable();
-    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER) && Tasks.buildingTypeAffordable();
+    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION) && Tasks.buildingTypeAffordable(STRUCTURE_EXTENSION);
+    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER) && Tasks.buildingTypeAffordable(STRUCTURE_TOWER);
     console.log('extension available:'+test);
     console.log('tower available:'+test2);
 
