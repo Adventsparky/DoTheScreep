@@ -1,12 +1,13 @@
 const roleManager=require('role.manager');
 const Tasks=require('tasks');
+const Query=require('data');
 
 module.exports.loop = function () {
 
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
 
-    // Set up some lists of things we might use more than once but don't change in a room
+    // Set up some lists of things we might use more than once per tick
     if(Memory.roomInfo == undefined) {
         Memory.roomInfo = {};
     }
@@ -53,6 +54,19 @@ module.exports.loop = function () {
             storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
+        }
+    }
+
+    // Calculate role build costs
+    if(Memory.roleBuildCosts === undefined){
+        Memory.roleBuildCosts={};
+        for(let roleName in roleManager) {
+            if(roleManager.hasOwnProperty(roleName)) {
+                let role=roleManager[roleName];
+                let cost=0;
+                _.forEach(role.body, function(part){ cost+=Query.creepBodyPartCost()[part]; });
+                Memory.roleBuildCosts[role]=cost;
+            }
         }
     }
 

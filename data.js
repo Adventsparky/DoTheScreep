@@ -26,5 +26,16 @@ module.exports = {
                 }
             }
         }
+    },
+    creepBodyPartCost: function() {
+        return {
+            "move": 50,
+            "carry": 50,
+            "work": 20,
+            "heal": 200,
+            "tough": 20,
+            "attack": 80,
+            "ranged_attack": 150
+        };
     }
 };
