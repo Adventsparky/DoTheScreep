@@ -25,8 +25,8 @@ module.exports = {
      * ENERGY DUMPING
      */
     dumpEnergyAtBase: function(creep) {
-        if(creep.transfer(creep.spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.spawn);
+        if(creep.transfer(Query.spawnInCreepRoom(creep), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(Query.spawnInCreepRoom(creep));
         }
     },
     dumpEnergyIntoExtension: function(creep, extension) {
@@ -89,6 +89,7 @@ module.exports = {
                 this.upgradeController(creep);
             }
         } else{
+            console.log('lets dump to base');
             this.dumpEnergyAtBase(creep);
         }
     },
