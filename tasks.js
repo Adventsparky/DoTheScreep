@@ -6,8 +6,11 @@ const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
 module.exports = {
 
     /*
-     * ENERGY COLLECTION
+     * ENERGY
      */
+    energyAvailable: function() {
+        return manCave.room.energyCapacityAvailable;
+    },
     collectNearestEnergy: function(creep) {
         let closestSource=creep.pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
@@ -97,7 +100,7 @@ module.exports = {
         return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
     },
     buildingTypeAffordable: function(type) {
-        return _.filter(Memory.structures, function(structure){ return this.energyAvailablestructure.structureType == type; }).length >= CONSTRUCTION_COST[type];
+        return this.energyAvailable() >= CONSTRUCTION_COST[type];
     },
     buildNearestStructure: function(creep) {
 

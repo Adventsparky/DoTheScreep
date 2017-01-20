@@ -25,12 +25,10 @@ module.exports.loop = function () {
     }
 
     // Can we auto build available extensions?
-    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION);
-    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER);
+    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION) && Tasks.buildingTypeAffordable;
+    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER) && Tasks.buildingTypeAffordable;
     console.log('extension available:'+test);
     console.log('tower available:'+test2);
-    console.log('energy capacity: '+manCave.room.energyCapacityAvailable);
-    console.log('energy: '+manCave.room.energyAvailable);
 
     // Basic tower code taken directly from tutorial
     let tower = Game.getObjectById('TOWER_ID');
