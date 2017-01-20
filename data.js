@@ -17,9 +17,9 @@ module.exports = {
                 if (room_name == creep.room.name) {
                     console.log('ok got the room');
                     console.log(Memory.roomInfo[room_name]);
-                    console.log(Memory.roomInfo[room_name].spawn);
-                    console.log(Memory.roomInfo[room_name].spawn.pos);
-                    return Memory.roomInfo[room_name].spawn;
+                    console.log(Memory.roomInfo[room_name].spawn[0]);
+                    console.log(Memory.roomInfo[room_name].spawn[0].pos);
+                    return Memory.roomInfo[room_name].spawn[0];
                 }
             }
         }
