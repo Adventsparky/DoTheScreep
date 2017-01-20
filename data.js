@@ -18,6 +18,7 @@ module.exports = {
                     console.log('ok got the room');
                     console.log(Memory.roomInfo[room_name]);
                     console.log(Memory.roomInfo[room_name].spawn);
+                    console.log(Memory.roomInfo[room_name].spawn.pos);
                     return Memory.roomInfo[room_name].spawn;
                 }
             }
