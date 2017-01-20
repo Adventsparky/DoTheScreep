@@ -35,8 +35,8 @@ module.exports = {
         }
     },
     upgradeController: function(creep) {
-        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller);
+        if(creep.upgradeController(Query.controllerInCreepRoom(creep)) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(Query.controllerInCreepRoom(creep));
         }
     },
     pickBestEnergyDump: function(creep) {

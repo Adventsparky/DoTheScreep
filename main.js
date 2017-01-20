@@ -42,6 +42,13 @@ module.exports.loop = function () {
                 }
             });
 
+            // CONTROLLER
+            storedRoom.controller=_.filter(availableStructures, function(structure){
+                if(structure.structureType == STRUCTURE_CONTROLLER){
+                    return structure;
+                }
+            });
+
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
     }

@@ -17,5 +17,14 @@ module.exports = {
                 }
             }
         }
+    },
+    controllerInCreepRoom: function(creep) {
+        for(let room_name in Memory.roomInfo){
+            if(Memory.roomInfo.hasOwnProperty(room_name)) {
+                if (room_name == creep.room.name) {
+                    return Memory.roomInfo[room_name].controller[0];
+                }
+            }
+        }
     }
 };
