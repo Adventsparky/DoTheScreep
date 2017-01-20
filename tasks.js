@@ -186,7 +186,7 @@ module.exports = {
                             creepleCountForRole = 0;
                         }
 
-                        if (creepleCountForRole.length < role.minRoomPopulation && room.spawn.canCreateCreep(role.parts, undefined)) {
+                        if (creepleCountForRole.length < role.minRoomPopulation && room.spawn.canCreateCreep(role.parts, null)) {
                             console.log('need to spawn a ' + role);
                             room.spawn.createCreep(role.parts, undefined, {role: role.role});
                             return false;
