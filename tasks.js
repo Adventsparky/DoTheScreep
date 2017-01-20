@@ -71,7 +71,8 @@ module.exports = {
         //  creep.say('aw snap girrl');
         // }
         console.log('dump in spawn?');
-        console.log(Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05)));
+        console.log(Query.spawnInCreepRoom(creep).energy);
+        console.log(Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05));
         if(Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
             //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
