@@ -50,8 +50,6 @@ module.exports.loop = function () {
             });
 
             // CREEPS
-            console.log(thisRoom.find(FIND_MY_CREEPS));
-            console.log(thisRoom.find(FIND_MY_CREEPS).length);
             storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
 
             Memory.roomInfo[thisRoom.name]=storedRoom;

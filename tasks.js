@@ -177,8 +177,7 @@ module.exports = {
                 if(creepleCountForRole === undefined) {
                     creepleCountForRole=0;
                 }
-                console.log(role.role);
-                console.log(creepleCountForRole);
+                console.log(role.role+': '+creepleCountForRole.length);
                 if (creepleCountForRole.length < role.minRoomPopulation) {
                     room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
                     return false;
