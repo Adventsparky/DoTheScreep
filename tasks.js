@@ -175,8 +175,8 @@ module.exports = {
                     if(room.spawn != undefined && room.spawn.length) {
                         console.log('Check role: '+role.role);
                         let creepleCountForRole = 0;
-                        if(room.creeps[0] !== undefined && room.creeps[0].length) {
-                            creepleCountForRole = _.filter(room.creeps[0], function (creep) {
+                        if(room.creeps !== undefined && room.creeps.length) {
+                            creepleCountForRole = _.filter(room.creeps, function (creep) {
                                 return creep.memory.role == role.role;
                             }).length;
                         }
