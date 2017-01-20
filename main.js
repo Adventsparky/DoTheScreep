@@ -41,14 +41,14 @@ module.exports.loop = function () {
                 if(structure.structureType == STRUCTURE_SPAWN){
                     return structure;
                 }
-            });
+            })[0];
 
             // CONTROLLER
             storedRoom.controller=_.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_CONTROLLER){
                     return structure;
                 }
-            });
+            })[0];
 
             // CREEPS
             storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
