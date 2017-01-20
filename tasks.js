@@ -164,11 +164,13 @@ module.exports = {
     /*
      * CREEPLE MANAGEMENT
      */
-    performCreepleCensusByRole: function(role, room) {
-        let creepleCountForRole = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-        if(creepleCountForRole.length < role.minRoomPopulation) {
-            room.spawn.createCreep(role.parts,undefined, {role: role.role});
-            return false;
+    performCreepleCensusByRole: function(role) {
+        for(let room in Memory.roomInfo){
+            let creepleCountForRole = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+            if(creepleCountForRole.length < role.minRoomPopulation) {
+                room.spawn.createCreep(role.parts,undefined, {role: role.role});
+                return false;
+            }
         }
         return true;
     }
