@@ -168,6 +168,8 @@ module.exports = {
         for(let room in Memory.roomInfo){
             let creepleCountForRole = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
             if(creepleCountForRole.length < role.minRoomPopulation) {
+                console.log(room);
+                console.log(room.spawn);
                 room.spawn.createCreep(role.parts,undefined, {role: role.role});
                 return false;
             }
