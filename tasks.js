@@ -179,8 +179,7 @@ module.exports = {
                         if(room.creeps !== undefined && room.creeps.length) {
                             creepleCountForRole = _.filter(room.creeps, function (creep) {
                                 console.log(creep[0]);
-                                console.log(creep[0].memory);
-                                console.log(creep[0].memory.role);
+                                console.log(creep.memory[0]);
                                 if(creep.memory.role == undefined){
                                     return {};
                                 }
