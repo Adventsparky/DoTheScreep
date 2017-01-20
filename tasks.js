@@ -134,7 +134,7 @@ module.exports = {
             });
         }
         if(closestDamagedStructure) {
-            console.log('Repair closest ' + closestDamagedStructure);
+            // console.log('Repair closest ' + closestDamagedStructure);
             let status = creep.repair(closestDamagedStructure);
             if(status == ERR_NOT_IN_RANGE) {
                 creep.moveTo(closestDamagedStructure);

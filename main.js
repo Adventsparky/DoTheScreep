@@ -26,9 +26,9 @@ module.exports.loop = function () {
                     if (source.dedicatedMiner === undefined) {
                         source.dedicatedMiner = 0;
                     }
-                    if (Memory.sources && Memory.sources[source.id]){
-                        console.log(Memory.sources[source.id]);
-                    }
+                    // if (Memory.sources && Memory.sources[source.id]){
+                    //     console.log(Memory.sources[source.id]);
+                    // }
                 }
             }
 
@@ -36,14 +36,11 @@ module.exports.loop = function () {
             let availableStructures=storedRoom.structures=thisRoom.find(FIND_STRUCTURES);
 
             // SPAWN
-            console.log('check spawn');
             storedRoom.spawn=_.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_SPAWN){
-                    console.log('found spawn');
                     return structure;
                 }
             });
-            console.log(storedRoom.spawn);
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
