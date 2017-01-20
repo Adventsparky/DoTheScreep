@@ -170,8 +170,10 @@ module.exports = {
      */
     performCreepleCensusByRole: function(role) {
         for(let roomId in Memory.roomInfo){
+            console.log(roomId);
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
+                console.log(room);
                 let creepleCountForRole = _.filter(room.creeps, (creep) => creep.memory.role == role.role);
                 console.log(role.role+': '+creepleCountForRole);
                 if (creepleCountForRole.length < role.minRoomPopulation) {
