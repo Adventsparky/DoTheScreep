@@ -53,7 +53,7 @@ module.exports.loop = function () {
             });
 
             // CREEPS
-            storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS)[0];
+            storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
