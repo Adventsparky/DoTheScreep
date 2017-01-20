@@ -43,6 +43,7 @@ module.exports.loop = function () {
                     return structure;
                 }
             });
+            console.log(storedRoom.spawn);
         }
     }
 
