@@ -34,6 +34,13 @@ module.exports.loop = function () {
 
             //STRUCTURES
             let availableStructures=storedRoom.structures=thisRoom.find(FIND_STRUCTURES);
+
+            // SPAWN
+            storedRoom.spawn=_.filter(availableStructures, function(structure){
+                if(structure.structureType == STRUCTURE_SPAWN){
+                    storedRoom.spawn=structure;
+                }
+            });
         }
     }
 
