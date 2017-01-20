@@ -173,60 +173,64 @@ module.exports = {
         for(let roomId in Memory.roomInfo){
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
-                    if(room.spawn != undefined && room.spawn.length) {
+                if(room.spawn != undefined && room.spawn.length) {
 
+                    try {
+
+                        let creepleCountForRole = 0;
+                        if (room.creeps !== undefined && room.creeps.length) {
+                            creepleCountForRole = _.filter(room.creeps, function (creep) {
+                                return creep.memory.role == role.role;
+                            }).length;
+                        }
+
+                        if (creepleCountForRole === undefined) {
+                            creepleCountForRole = 0;
+                        }
+
+                        if (creepleCountForRole < role.minRoomPopulation) {
+                            console.log('New: '+'need to spawn a ' + role.role + ', only have '+creepleCountForRole);
+                            room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                            return false;
+                        }
+
+                    }catch(e){
+                        console.log(e);
+
+                        // Fall back to this non cache based stuff if we murder the census
                         let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
                         // console.log('ST: '+creeps.length+' '+role.role);
                         if(creeps.length < role.minRoomPopulation) {
                             console.log('ST: '+'need to spawn a '+role.role);
-                            // room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
-                            // return false;
+                            room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
+                            return false;
                         }
-
-                        try {
-                            // console.log('New: Check role: ' + role.role);
-                            let creepleCountForRole = 0;
-                            if (room.creeps !== undefined && room.creeps.length) {
-                                creepleCountForRole = _.filter(room.creeps, function (creep) {
-                                    return creep.memory.role == role.role;
-                                }).length;
-                            }
-
-                            if (creepleCountForRole === undefined) {
-                                creepleCountForRole = 0;
-                            }
-
-                            // console.log('New: '+'Found ' + creepleCountForRole + ' creeple');
-
-                            if (creepleCountForRole < role.minRoomPopulation) {
-                                console.log('New: '+'need to spawn a ' + role.role);
-                                room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
-                                return false;
-                            }
-                        }catch(e){
-                            console.log(e);
-                        }
-
-                        return true;
                     }
+
+                    return true;
+                }
             }
 
         }
 
-        // if(!(Game.time % 5)) {
-        //     let roomPopSummary = 'No cached rooms found!!';
-        //     for(let roomId in Memory.roomInfo) {
-        //         if (Memory.roomInfo.hasOwnProperty(roomId)) {
-        //             roomPopSummary = '';
-        //             for(let role in roleManager) {
-        //                 if (roleManager.hasOwnProperty(role)) {
-        //                     roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role)+',');
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     console.log(roomPopSummary);
-        // }
+        try {
+            if(!(Game.time % 5)) {
+                let roomPopSummary = 'No cached rooms found!!';
+                for(let roomId in Memory.roomInfo) {
+                    if (Memory.roomInfo.hasOwnProperty(roomId)) {
+                        roomPopSummary = '';
+                        for(let role in roleManager) {
+                            if (roleManager.hasOwnProperty(role)) {
+                                roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role)+',');
+                            }
+                        }
+                    }
+                }
+                console.log(roomPopSummary);
+            }
+        } catch(e){
+            console.log(e);
+        }
 
         return true;
     }
