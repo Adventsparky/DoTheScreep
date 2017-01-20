@@ -36,8 +36,10 @@ module.exports.loop = function () {
             let availableStructures=storedRoom.structures=thisRoom.find(FIND_STRUCTURES);
 
             // SPAWN
+            console.log('check spawn');
             storedRoom.spawn=_.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_SPAWN){
+                    console.log('found spawn');
                     storedRoom.spawn=structure;
                 }
             });
