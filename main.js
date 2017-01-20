@@ -49,6 +49,9 @@ module.exports.loop = function () {
                 }
             });
 
+            // CREEPS
+            storedRoom.creeps=thisRoom.creeps;
+
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
     }
