@@ -14,7 +14,7 @@ module.exports.loop = function () {
     for(let roomId in Game.rooms){
         if(Game.rooms.hasOwnProperty(roomId)) {
             let thisRoom = Game.rooms[roomId];
-            let storedRoom=Memory.roomInfo[thisRoom.name];
+            let storedRoom={};
             if(storedRoom == undefined) {
                 storedRoom=Memory.roomInfo[thisRoom.name] = {};
             }
