@@ -176,10 +176,10 @@ module.exports = {
                 let creepleCountForRole = _.filter(room.creeps, function(creep) { return creep.memory.role == role.role; });
                 console.log(role.role);
                 console.log(creepleCountForRole);
-                // if (creepleCountForRole.length < role.minRoomPopulation) {
-                //     room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
-                //     return false;
-                // }
+                if (creepleCountForRole.length < role.minRoomPopulation) {
+                    room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                    return false;
+                }
             }
 
         }
