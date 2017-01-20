@@ -175,20 +175,20 @@ module.exports = {
                     if(room.spawn != undefined && room.spawn.length) {
 
                         let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-                        console.log(creeps.length+' '+role.role);
+                        console.log('ST: '+creeps.length+' '+role.role);
                         if(creeps.length < role.minRoomPopulation) {
-                            console.log('need to spawn a '+role.role);
-                            room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
+                            console.log('ST: '+'need to spawn a '+role.role);
+                            // room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
                             return false;
                         }
 
                         try {
-                            console.log('Check role: ' + role.role);
+                            console.log('New: Check role: ' + role.role);
                             let creepleCountForRole = 0;
-                            console.log(room.creeps);
+                            console.log('New: '+room.creeps);
                             if (room.creeps !== undefined && room.creeps.length) {
                                 creepleCountForRole = _.filter(room.creeps, function (creep) {
-                                    console.log(creep);
+                                    console.log('New: '+creep);
                                     return creep.memory.role == role.role;
                                 }).length;
                             }
@@ -197,10 +197,10 @@ module.exports = {
                                 creepleCountForRole = 0;
                             }
 
-                            console.log('Found ' + creepleCountForRole + ' creeple');
+                            console.log('New: '+'Found ' + creepleCountForRole + ' creeple');
 
                             if (creepleCountForRole < role.minRoomPopulation) {
-                                console.log('need to spawn a ' + role.role);
+                                console.log('New: '+'need to spawn a ' + role.role);
                                 // room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
                                 // return false;
                             }
