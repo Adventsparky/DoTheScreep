@@ -1,4 +1,5 @@
 const Query=require('data');
+const RoleManager=require('role.manager');
 const HITS_MIN=5000;
 const HITS_IMPROVED=10000;
 const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
@@ -179,8 +180,8 @@ module.exports = {
                 for(let roomId in Memory.roomInfo) {
                     if (Memory.roomInfo.hasOwnProperty(roomId)) {
                         roomPopSummary = '';
-                        for(let role in roleManager) {
-                            if (roleManager.hasOwnProperty(role)) {
+                        for(let role in RoleManager) {
+                            if (RoleManager.hasOwnProperty(role)) {
                                 roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role.role)+',');
                             }
                         }
