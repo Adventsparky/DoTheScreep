@@ -182,28 +182,34 @@ module.exports = {
                             return false;
                         }
                         return true;
-                        //
-                        // console.log('Check role: '+role.role);
-                        // let creepleCountForRole = 0;
-                        // console.log(room.creeps);
-                        // if(room.creeps !== undefined && room.creeps.length) {
-                        //     creepleCountForRole = _.filter(room.creeps, function (creep) {
-                        //         console.log(creep);
-                        //         return creep.memory.role == role.role;
-                        //     }).length;
-                        // }
-                        //
-                        // if (creepleCountForRole === undefined) {
-                        //     creepleCountForRole = 0;
-                        // }
-                        //
-                        // console.log('Found '+creepleCountForRole+' creeple');
-                        //
-                        // if (creepleCountForRole < role.minRoomPopulation) {
-                        //     console.log('need to spawn a ' + role.role);
-                        //     room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
-                        //     return false;
-                        // }
+
+                        try {
+                            console.log('Check role: ' + role.role);
+                            let creepleCountForRole = 0;
+                            console.log(room.creeps);
+                            if (room.creeps !== undefined && room.creeps.length) {
+                                creepleCountForRole = _.filter(room.creeps, function (creep) {
+                                    console.log(creep);
+                                    return creep.memory.role == role.role;
+                                }).length;
+                            }
+
+                            if (creepleCountForRole === undefined) {
+                                creepleCountForRole = 0;
+                            }
+
+                            console.log('Found ' + creepleCountForRole + ' creeple');
+
+                            if (creepleCountForRole < role.minRoomPopulation) {
+                                console.log('need to spawn a ' + role.role);
+                                // room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                                // return false;
+                            }
+                        }catch(e){
+                            console.log(e);
+                        }
+
+                        return true;
                     }
             }
 
