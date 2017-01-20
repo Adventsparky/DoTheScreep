@@ -4,13 +4,41 @@ const manCave=Game.spawns.Bastion;
 
 module.exports.loop = function () {
 
-    // Set up some lists of things we might use more than once per tick
-    let availableSources=manCave.room.find(FIND_SOURCES);
-    Memory.structures=manCave.room.find(FIND_STRUCTURES);
-
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
 
+    // Set up some lists of things we might use more than once but don't change in a room
+    if(Memory.roomInfo == undefined) {
+        Memory.roomInfo = {};
+    }
+    for(let roomId in Game.rooms){
+        if(Game.rooms.hasOwnProperty(roomId)) {
+            let thisRoom = Game.rooms[roomId];
+            let storedRoom=Memory.roomInfo[thisRoom.name];
+            if(storedRoom == undefined) {
+                storedRoom=Memory.roomInfo[thisRoom.name] = {};
+            }
+
+            // SOURCES
+            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
+            for(let sourceNum in availableSources) {
+                if(availableSources.hasOwnProperty(sourceNum)){
+                    let source=availableSources[sourceNum];
+                    if (source.dedicatedMiner === undefined) {
+                        source.dedicatedMiner = 0;
+                    }
+                    if (Memory.sources && Memory.sources[source.id]){
+                        console.log(Memory.sources[source.id]);
+                    }
+                }
+            }
+
+            //STRUCTURES
+            let availableStructures=storedRoom.structures.structures=thisRoom.find(FIND_STRUCTURES);
+        }
+    }
+
+    let availableSources=manCave.room.find(FIND_SOURCES);
     for(let sourceNum in availableSources) {
         if(availableSources.hasOwnProperty(sourceNum)){
             let source=availableSources[sourceNum];
@@ -22,6 +50,7 @@ module.exports.loop = function () {
             }
         }
     }
+    Memory.structures=manCave.room.find(FIND_STRUCTURES);
 
     // Can we auto build available extensions?
     let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION);
