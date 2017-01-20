@@ -96,6 +96,9 @@ module.exports = {
     buildingTypeAvailable: function(type) {
         return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
     },
+    buildingTypeAffordable: function(type) {
+        return _.filter(Memory.structures, function(structure){ return this.energyAvailablestructure.structureType == type; }).length >= CONSTRUCTION_COST[type];
+    },
     buildNearestStructure: function(creep) {
 
         let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);

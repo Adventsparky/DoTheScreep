@@ -29,6 +29,8 @@ module.exports.loop = function () {
     let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER);
     console.log('extension available:'+test);
     console.log('tower available:'+test2);
+    console.log('energy capacity: '+manCave.room.energyCapacityAvailable);
+    console.log('energy: '+manCave.room.energyAvailable);
 
     // Basic tower code taken directly from tutorial
     let tower = Game.getObjectById('TOWER_ID');
