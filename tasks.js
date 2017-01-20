@@ -178,7 +178,7 @@ module.exports = {
                         if(room.creeps[0] !== undefined && room.creeps[0].length) {
                             creepleCountForRole = _.filter(room.creeps[0], function (creep) {
                                 return creep.memory.role == role.role;
-                            });
+                            }).length;
                         }
 
                         if (creepleCountForRole === undefined) {
@@ -187,7 +187,7 @@ module.exports = {
 
                         console.log('Found '+creepleCountForRole+' creeple');
 
-                        if (creepleCountForRole.length < role.minRoomPopulation) {
+                        if (creepleCountForRole < role.minRoomPopulation) {
                             console.log(room.spawn);
                             console.log(room.spawn[0]);
                             console.log('need to spawn a ' + role);
