@@ -1,4 +1,3 @@
-const manCave=Game.spawns.Bastion;
 const HITS_MIN=5000;
 const HITS_IMPROVED=10000;
 const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
@@ -8,9 +7,6 @@ module.exports = {
     /*
      * ENERGY
      */
-    energyAvailable: function() {
-        return manCave.room.energyCapacityAvailable;
-    },
     collectNearestEnergy: function(creep) {
         let closestSource=creep.pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
@@ -18,7 +14,7 @@ module.exports = {
         }
     },
     collectNearestEnergyToHomeBase: function(creep) {
-        let closestSource=manCave.pos.findClosestByRange(FIND_SOURCES);
+        let closestSource=creep.spawn.pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
             creep.moveTo(closestSource);
         }
@@ -28,8 +24,8 @@ module.exports = {
      * ENERGY DUMPING
      */
     dumpEnergyAtBase: function(creep) {
-        if(creep.transfer(manCave, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(manCave);
+        if(creep.transfer(creep.spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(creep.spawn);
         }
     },
     dumpEnergyIntoExtension: function(creep, extension) {
@@ -73,7 +69,7 @@ module.exports = {
         // } else{
         //  creep.say('aw snap girrl');
         // }
-        if(manCave.energy >= (manCave.energyCapacity-(manCave.energyCapacity*.05))){
+        if(creep.spawn.energy >= (creep.spawn.energyCapacity-(creep.spawn.energyCapacity*.05))){
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
             //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             // });
@@ -96,8 +92,8 @@ module.exports = {
     /*
      * CONSTRUCTION
      */
-    buildingTypeAvailable: function(type) {
-        return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
+    buildingTypeAvailable: function(type, room) {
+        return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][room.controller.level];
     },
     // Pointless check, it's not paid from spawn, it's filled
     // buildingTypeAffordable: function(type) {
@@ -167,10 +163,10 @@ module.exports = {
     /*
      * CREEPLE MANAGEMENT
      */
-    performCreepleCensusByRole: function(role) {
+    performCreepleCensusByRole: function(role, room) {
         let creepleCountForRole = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
         if(creepleCountForRole.length < role.minRoomPopulation) {
-            manCave.createCreep(role.parts,undefined, {role: role.role});
+            room.spawn.createCreep(role.parts,undefined, {role: role.role});
             return false;
         }
         return true;

@@ -1,6 +1,5 @@
 const roleManager=require('role.manager');
 const Tasks=require('tasks');
-const manCave=Game.spawns.Bastion;
 
 module.exports.loop = function () {
 
@@ -38,23 +37,9 @@ module.exports.loop = function () {
         }
     }
 
-    let availableSources=manCave.room.find(FIND_SOURCES);
-    for(let sourceNum in availableSources) {
-        if(availableSources.hasOwnProperty(sourceNum)){
-            let source=availableSources[sourceNum];
-            if (source.dedicatedMiner === undefined) {
-                source.dedicatedMiner = 0;
-            }
-            if (Memory.sources && Memory.sources[source.id]){
-                console.log(Memory.sources[source.id]);
-            }
-        }
-    }
-    Memory.structures=manCave.room.find(FIND_STRUCTURES);
-
     // Can we auto build available extensions?
-    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION);
-    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER);
+    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION, Memory.roomInfo[0]);
+    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER, Memory.roomInfo[0]);
     console.log('extension available:'+test);
     console.log('tower available:'+test2);
 
