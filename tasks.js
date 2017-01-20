@@ -191,7 +191,7 @@ module.exports = {
                             console.log(room.spawn);
                             console.log(room.spawn[0]);
                             console.log('need to spawn a ' + role);
-                            room.spawn.createCreep(role.parts, undefined, {role: role.role});
+                            room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
                             return false;
                         }
                     }
