@@ -221,7 +221,7 @@ module.exports = {
                         roomPopSummary = '';
                         for(let role in roleManager) {
                             if (roleManager.hasOwnProperty(role)) {
-                                roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role)+',');
+                                roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role.role)+',');
                             }
                         }
                     }
