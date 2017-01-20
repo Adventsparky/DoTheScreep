@@ -38,10 +38,10 @@ module.exports.loop = function () {
     }
 
     // Can we auto build available extensions?
-    let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION, Memory.roomInfo[0]);
-    let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER, Memory.roomInfo[0]);
-    console.log('extension available:'+test);
-    console.log('tower available:'+test2);
+    // let test=Tasks.buildingTypeAvailable(STRUCTURE_EXTENSION, Memory.roomInfo[0]);
+    // let test2=Tasks.buildingTypeAvailable(STRUCTURE_TOWER, Memory.roomInfo[0]);
+    // console.log('extension available:'+test);
+    // console.log('tower available:'+test2);
 
     // Basic tower code taken directly from tutorial
     let tower = Game.getObjectById('TOWER_ID');
