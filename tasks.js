@@ -175,7 +175,9 @@ module.exports = {
                     if(room.spawn != undefined && room.spawn.length) {
 
                         let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+                        console.log(creeps.length+' '+role.role);
                         if(creeps.length < role.minRoomPopulation) {
+                            console.log('need to spawn a '+role.role);
                             room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
                             return false;
                         }
