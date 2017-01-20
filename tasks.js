@@ -186,20 +186,20 @@ module.exports = {
 
         }
 
-        if(!(Game.time % 5)) {
-            let roomPopSummary = 'No cached rooms found!!';
-            for(let roomId in Memory.roomInfo) {
-                if (Memory.roomInfo.hasOwnProperty(roomId)) {
-                    roomPopSummary = '';
-                    for(let role in roleManager) {
-                        if (roleManager.hasOwnProperty(role)) {
-                            roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role)+',');
-                        }
-                    }
-                }
-            }
-            console.log(roomPopSummary);
-        }
+        // if(!(Game.time % 5)) {
+        //     let roomPopSummary = 'No cached rooms found!!';
+        //     for(let roomId in Memory.roomInfo) {
+        //         if (Memory.roomInfo.hasOwnProperty(roomId)) {
+        //             roomPopSummary = '';
+        //             for(let role in roleManager) {
+        //                 if (roleManager.hasOwnProperty(role)) {
+        //                     roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role)+',');
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     console.log(roomPopSummary);
+        // }
 
         return true;
     }
