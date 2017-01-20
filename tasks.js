@@ -94,7 +94,7 @@ module.exports = {
      * CONSTRUCTION
      */
     buildingTypeAvailable: function(type) {
-        return _.filter(Memory.structures, function(structure){ return structure.structureType == STRUCTURE_TOWER; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
+        return _.filter(Memory.structures, function(structure){ return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][manCave.room.controller.level];
     },
     buildNearestStructure: function(creep) {
 
