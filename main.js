@@ -1,4 +1,4 @@
-const roleManager=require('role.manager');
+const RoleManager=require('role.manager');
 const Tasks=require('tasks');
 const Query=require('data');
 
@@ -64,10 +64,10 @@ module.exports.loop = function () {
     // Calculate role build costs
     if(Memory.roleBuildCosts === undefined){
         Memory.roleBuildCosts={};
-        for(let roleName in roleManager) {
-            if(roleManager.hasOwnProperty(roleName)) {
+        for(let roleName in RoleManager) {
+            if(RoleManager.hasOwnProperty(roleName)) {
                 console.log('Calculate costs for '+roleName);
-                let role=roleManager[roleName];
+                let role=RoleManager[roleName];
                 let cost=0;
                 _.each(role.body, function(part){
                     console.log(part);
@@ -103,13 +103,13 @@ module.exports.loop = function () {
     for(let name in Game.creeps) {
         if(Game.creeps.hasOwnProperty(name)) {
             let creep = Game.creeps[name];
-            roleManager[creep.memory.role].run(creep);
+            RoleManager[creep.memory.role].run(creep);
         }
     }
 
-    for(let role in roleManager) {
-        if(roleManager.hasOwnProperty(role)) {
-            if (!Tasks.performCreepleCensusByRole(roleManager[role])) {
+    for(let role in RoleManager) {
+        if(RoleManager.hasOwnProperty(role)) {
+            if (!Tasks.performCreepleCensusByRole(RoleManager[role])) {
                 break;
             }
         }
