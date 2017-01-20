@@ -214,6 +214,8 @@ module.exports = {
         }
 
         try {
+            console.log(Game.time);
+            console.log(Game.time % 5);
             if(Game.time % 5) {
                 let roomPopSummary = 'No cached rooms found!!';
                 for(let roomId in Memory.roomInfo) {
