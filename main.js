@@ -44,6 +44,8 @@ module.exports.loop = function () {
                 }
             });
             console.log(storedRoom.spawn);
+
+            Memory.roomInfo[thisRoom.name]=storedRoom;
         }
     }
 
