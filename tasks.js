@@ -172,7 +172,7 @@ module.exports = {
         for(let roomId in Memory.roomInfo){
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
-                    if(room.spawn != undefined && room.spawn.length && room.spawn.canCreateCreep()) {
+                    if(room.spawn != undefined && room.spawn.length) {
                         console.log('Check role: '+role);
                         console.log('Check role: '+role[0]);
                         let creepleCountForRole = 0;
@@ -186,7 +186,7 @@ module.exports = {
                             creepleCountForRole = 0;
                         }
 
-                        if (creepleCountForRole.length < role.minRoomPopulation) {
+                        if (creepleCountForRole.length < role.minRoomPopulation && room.spawn.canCreateCreep(role.parts, undefined)) {
                             console.log('need to spawn a ' + role);
                             room.spawn.createCreep(role.parts, undefined, {role: role.role});
                             return false;
