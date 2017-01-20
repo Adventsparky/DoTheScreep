@@ -181,7 +181,6 @@ module.exports = {
                             room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
                             return false;
                         }
-                        return true;
 
                         try {
                             console.log('Check role: ' + role.role);
