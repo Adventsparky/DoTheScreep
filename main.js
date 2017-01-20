@@ -20,7 +20,7 @@ module.exports.loop = function () {
             }
 
             // SOURCES
-            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
+            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES)[0];
             for(let sourceNum in availableSources) {
                 if(availableSources.hasOwnProperty(sourceNum)){
                     let source=availableSources[sourceNum];
