@@ -4,6 +4,8 @@ const Query=require('data');
 
 module.exports.loop = function () {
 
+    console.log('- - - NEW TICK - - -');
+
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
 
