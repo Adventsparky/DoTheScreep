@@ -1,3 +1,4 @@
+const Query=require('data');
 const HITS_MIN=5000;
 const HITS_IMPROVED=10000;
 const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
@@ -14,7 +15,7 @@ module.exports = {
         }
     },
     collectNearestEnergyToHomeBase: function(creep) {
-        let closestSource=creep.spawn.pos.findClosestByRange(FIND_SOURCES);
+        let closestSource=Query.spawnInCreepRoom(creep).pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
             creep.moveTo(closestSource);
         }
