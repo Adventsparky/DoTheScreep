@@ -50,6 +50,8 @@ module.exports.loop = function () {
             });
 
             // CREEPS
+            console.log('creeps to store');
+            console.log(thisRoom.creeps);
             storedRoom.creeps=thisRoom.creeps;
             console.log('stored creeps');
             console.log(storedRoom.creeps);
