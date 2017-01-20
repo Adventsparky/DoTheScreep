@@ -70,11 +70,11 @@ module.exports = {
         // } else{
         //  creep.say('aw snap girrl');
         // }
-        if(creep.spawn.energy >= (creep.spawn.energyCapacity-(creep.spawn.energyCapacity*.05))){
+        if(Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
             //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             // });
-            let closestUnfilledExtension = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            let closestUnfilledExtension = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_EXTENSION;
                 }
