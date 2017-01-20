@@ -44,16 +44,16 @@ module.exports = {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
         if(!dropOffStructures) {
-            dropOffStructures = Memory.structures.find(FIND_MY_STRUCTURES, { filter: (structure) => {
+            dropOffStructures = _.filter(Memory.structures, function(structure) {
                 return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
-            }});
+            });
         }
         if(!dropOffStructures) {
-            dropOffStructures = Memory.structures.find(FIND_STRUCTURES, { filter: (structure) => {
+            dropOffStructures = _.filter(Memory.structures, function(structure) {
                 return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) ||
                     // (structure.structureType == STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity) ||
                     (structure.structure == STRUCTURE_CONTROLLER)
-            }});
+            });
         }
         console.log('Potential drop-off structures');
         console.log(dropOffStructures);
