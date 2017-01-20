@@ -172,8 +172,11 @@ module.exports = {
         for(let roomId in Memory.roomInfo){
             if(Memory.roomInfo.hasOwnProperty(roomId)) {
                 let room = Memory.roomInfo[roomId];
-                console.log(room);
                 let creepleCountForRole = _.filter(room.creeps, function(creep) { return creep.memory.role == role.role; });
+
+                if(creepleCountForRole === undefined) {
+                    creepleCountForRole=0;
+                }
                 console.log(role.role);
                 console.log(creepleCountForRole);
                 if (creepleCountForRole.length < role.minRoomPopulation) {
