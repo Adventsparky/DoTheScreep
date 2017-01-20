@@ -176,12 +176,15 @@ module.exports = {
                         console.log('room');
                         console.log(room.spawn);
                         console.log(room.creeps);
-                        let creepleCountForRole = _.filter(room.creeps, function (creep) {
-                            console.log(creep);
-                            console.log(creep.memory);
-                            console.log(creep.memory.role);
-                            return creep.memory.role == role.role;
-                        });
+                        let creepleCountForRole = 0;
+                        if(room.creeps != undefined) {
+                            creepleCountForRole = _.filter(room.creeps, function (creep) {
+                                console.log(creep);
+                                console.log(creep.memory);
+                                console.log(creep.memory.role);
+                                return creep.memory.role == role.role;
+                            });
+                        }
                         console.log(role);
                         console.log(creepleCountForRole);
 
