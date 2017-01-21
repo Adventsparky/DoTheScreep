@@ -43,6 +43,7 @@ module.exports = {
         let checkRoom = _.find(Memory.roomInfo, function(room){
             return room.name == checkRoomName;
         });
+        console.log(JSON.stringify(checkRoom));
         if(checkRoom){
             return _.filter(checkRoom.creeps, function(creep) {
                 return creep.memory.role == checkRole;
