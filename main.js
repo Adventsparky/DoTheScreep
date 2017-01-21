@@ -61,8 +61,10 @@ module.exports.loop = function () {
             if(Memory.creepRoles == undefined){
                 Memory.creepRoles = {};
             }
+            console.log('set up creep roles');
             for(let role in RoleManager) {
                 if(RoleManager.hasOwnProperty(role)) {
+                    console.log('Insert '+role+' as '+role.role);
                     Memory.creepRoles[role.role]=role;
                 }
             }
