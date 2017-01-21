@@ -67,7 +67,9 @@ module.exports.loop = function () {
             for(let roleName in RoleManager) {
                 if(RoleManager.hasOwnProperty(roleName)) {
                     let role=RoleManager[roleName];
-                    Memory.creepRoles[role.role]=role;
+                    if(role != undefined) {
+                        Memory.creepRoles[role.role] = role;
+                    }
                 }
             }
 
