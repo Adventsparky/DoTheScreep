@@ -71,7 +71,7 @@ module.exports = {
                         }
                         return {range: range, structure: structure}
                     },{range: 99999});
-                    console.log('Chose '+target+' for '+creep.name);
+                    console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
                     creep.memory.dropoff =  target.structure.id
             }catch(e) {
                 console.log(e);
