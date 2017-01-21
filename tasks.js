@@ -181,9 +181,9 @@ module.exports = {
                 for(let roomId in Memory.roomInfo) {
                     if (Memory.roomInfo.hasOwnProperty(roomId)) {
                         roomPopSummary = '';
-                        for(let role in RoleManager) {
-                            if (RoleManager.hasOwnProperty(role)) {
-                                roomPopSummary+=(role+': '+Query.countRolesInRoom(roomId, role.role)+',');
+                        for(let roleName in Memory.crepRoles) {
+                            if (Memory.crepRoles.hasOwnProperty(roleName)) {
+                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomId, roleName.role)+',');
                             }
                         }
                     }

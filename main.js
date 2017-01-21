@@ -57,6 +57,17 @@ module.exports.loop = function () {
             // CREEPS
             storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
 
+            // ROLES
+            if(Memory.creepRoles == undefined){
+                Memory.creepRoles = {};
+            }
+            for(let role in RoleManager) {
+                if(RoleManager.hasOwnProperty(role)) {
+                    Memory.creepRoles[role.role]=role;
+                }
+            }
+
+
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
     }
@@ -64,8 +75,8 @@ module.exports.loop = function () {
     // Calculate role build costs
     if(Memory.roleBuildCosts === undefined){
         Memory.roleBuildCosts={};
-        for(let roleName in RoleManager) {
-            if(RoleManager.hasOwnProperty(roleName)) {
+        for(let roleName in Memory.creepRoles) {
+            if(Memory.creepRoles.hasOwnProperty(roleName)) {
                 console.log('Calculate costs for '+roleName);
                 let role=RoleManager[roleName];
                 let cost=0;
@@ -107,9 +118,9 @@ module.exports.loop = function () {
         }
     }
 
-    for(let role in RoleManager) {
-        if(RoleManager.hasOwnProperty(role)) {
-            if (!Tasks.performCreepleCensusByRole(RoleManager[role])) {
+    for(let roleName in Memory.creepRoles) {
+        if(Memory.creepRoles.hasOwnProperty(roleName)) {
+            if (!Tasks.performCreepleCensusByRole(RoleManager[roleName])) {
                 break;
             }
         }
