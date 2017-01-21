@@ -172,10 +172,8 @@ module.exports = {
     outputPopulationInfoPerRoom: function() {
         try {
             if(Game.time % 5 == 0) {
-                console.log('go');
                 let roomPopSummary = 'No cached rooms found!!';
                 for(let roomName in Memory.roomInfo) {
-                    console.log('Check room '+roomName);
                     if (Memory.roomInfo.hasOwnProperty(roomName)) {
                         let room=Memory.roomInfo[roomName];
                         roomPopSummary = roomName+': ';
