@@ -43,7 +43,6 @@ module.exports = {
         // console.log(creep);
         // console.log(creep.room.name);
         let potentialDropOffs = Memory.roomInfo[creep.room.name].structures;
-        console.log(potentialDropOffs.length);
         let dropOffStructures = _.filter(potentialDropOffs, function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
@@ -61,21 +60,24 @@ module.exports = {
         }
         console.log('Potential drop-off structures');
         console.log(JSON.stringify(dropOffStructures));
-        console.log('- - -');
 
-        // console.log('---');
-        // if(dropOffStructures.length > 0) {
-        //     let target = _.reduce(dropOffStructures, function(result, structure) {
-        //         let range=creep.pos.getRangeTo(structure);
-        //         if(result && result.range < range) {
-        //             return result;
-        //         }
-        //         return {range: range, structure: structure}
-        //     },{range: 99999});
-        //     creep.memory.dropoff =  target.structure.id
-        // } else{
-        //  creep.say('aw snap girrl');
-        // }
+        console.log('---');
+        if(dropOffStructures.length > 0) {
+            try {
+                    let target = _.reduce(dropOffStructures, function(result, structure) {
+                        let range=creep.pos.getRangeTo(structure);
+                        if(result && result.range < range) {
+                            return result;
+                        }
+                        return {range: range, structure: structure}
+                    },{range: 99999});
+                    creep.memory.dropoff =  target.structure.id
+            }catch(e) {
+                console.log(e);
+            }
+        } else{
+            creep.say('no dumps');
+        }
         // console.log('dump in spawn?');
         // console.log(Query.spawnInCreepRoom(creep).energy);
         // console.log(Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05));
