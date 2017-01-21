@@ -176,11 +176,11 @@ module.exports = {
                 console.log('go');
                 let roomPopSummary = 'No cached rooms found!!';
                 for(let roomName in Memory.roomInfo) {
+                    console.log('Check room '+roomName);
                     if (Memory.roomInfo.hasOwnProperty(roomName)) {
                         roomPopSummary = roomName+': ';
                         for(let roleName in Memory.creepRoles) {
                             if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                                console.log(roleName);
                                 roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomName, roleName)+',');
                             }
                         }
