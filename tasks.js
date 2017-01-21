@@ -199,10 +199,10 @@ module.exports = {
                 if(room.spawn != undefined && room.spawn.length) {
 
                     try {
-
                         let creepleCountForRole = 0;
                         if (room.creeps !== undefined && room.creeps.length) {
                             creepleCountForRole = _.filter(room.creeps, function (creep) {
+                                console.log('here');
                                 return creep.memory.role == role.role;
                             }).length;
                         }
