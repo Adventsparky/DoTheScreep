@@ -182,7 +182,7 @@ module.exports = {
                         roomPopSummary = '';
                         for(let roleName in Memory.creepRoles) {
                             if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomId, roleName.role)+',');
+                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomId, roleName)+',');
                             }
                         }
                     }
