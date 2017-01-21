@@ -21,6 +21,9 @@ module.exports.loop = function () {
                 storedRoom=Memory.roomInfo[thisRoom.name] = {};
             }
 
+            // NAME
+            storedRoom.name=roomId;
+
             // SOURCES
             let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
             for(let sourceNum in availableSources) {
