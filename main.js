@@ -66,6 +66,7 @@ module.exports.loop = function () {
                     Memory.creepRoles[role.role]=role;
                 }
             }
+            console.log(JSON.stringify(Memory.creepRoles));
 
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
