@@ -55,8 +55,9 @@ module.exports = {
                     (structure.structureType == STRUCTURE_CONTROLLER)
             });
         }
-        // console.log('Potential drop-off structures');
-        // console.log(dropOffStructures);
+        console.log('Potential drop-off structures');
+        console.log(JSON.stringify(dropOffStructures));
+
         // console.log('---');
         // if(dropOffStructures.length > 0) {
         //     let target = _.reduce(dropOffStructures, function(result, structure) {
