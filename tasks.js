@@ -40,6 +40,10 @@ module.exports = {
         }
     },
     pickBestEnergyDump: function(creep) {
+        console.log(creep);
+        console.log(creep.room);
+        console.log(creep.room.name);
+        console.log(creep.roomName);
         let dropOffStructures = _.filter(Memory.roomInfo[creep.room.name], function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
