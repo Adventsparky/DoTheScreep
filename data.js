@@ -42,10 +42,11 @@ module.exports = {
         let checkRoom = _.filter(Memory.roomInfo, function(room){
             return room == checkRoomName;
         });
+
         if(checkRoom){
             return _.filter(checkRoom.creeps, function(creep) {
                 return creep.memory.role == checkRole;
-            }).length;
+            });
         }
         return 0;
     }
