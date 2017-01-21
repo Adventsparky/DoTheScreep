@@ -177,10 +177,11 @@ module.exports = {
                 for(let roomName in Memory.roomInfo) {
                     console.log('Check room '+roomName);
                     if (Memory.roomInfo.hasOwnProperty(roomName)) {
+                        let room=Memory.roomInfo[roomName];
                         roomPopSummary = roomName+': ';
                         for(let roleName in Memory.creepRoles) {
                             if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomName, roleName)+',');
+                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(room, roleName)+',');
                             }
                         }
                     }

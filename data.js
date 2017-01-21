@@ -38,12 +38,7 @@ module.exports = {
             "ranged_attack": 150
         };
     },
-    countRolesInRoom: function(checkRoomName, checkRole) {
-        let checkRoom = _.filter(Memory.roomInfo, function(room){
-            console.log(JSON.stringify(room));
-            return room == checkRoomName;
-        });
-
+    countRolesInRoom: function(checkRoom, checkRole) {
         if(checkRoom){
             console.log(JSON.stringify(checkRoom));
             return _.filter(checkRoom.creeps, function(creep) {
