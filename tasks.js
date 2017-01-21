@@ -40,7 +40,7 @@ module.exports = {
         }
     },
     pickBestEnergyDump: function(creep) {
-        let dropOffStructures = _.filter(Memory.structures, function(structure) {
+        let dropOffStructures = _.filter(Memory.roomInfo[creep.roomName], function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
         if(dropOffStructures.length == 0) {
