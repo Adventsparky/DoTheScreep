@@ -40,6 +40,7 @@ module.exports = {
     },
     countRolesInRoom: function(checkRoomName, checkRole) {
         let checkRoom = _.filter(Memory.roomInfo, function(room){
+            console.log(JSON.stringify(room));
             return room == checkRoomName;
         });
 
