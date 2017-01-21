@@ -46,7 +46,7 @@ module.exports = {
         if(checkRoom){
             return _.filter(checkRoom.creeps, function(creep) {
                 return creep.memory.role == checkRole;
-            });
+            }).length;
         }
         return 0;
     }
