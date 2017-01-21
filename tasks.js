@@ -172,17 +172,16 @@ module.exports = {
     performCreepleCensusByRole: function(role) {
 
         try {
-            console.log(Game.time);
-            console.log(Game.time % 5);
             if(Game.time % 5 == 0) {
                 console.log('go');
                 let roomPopSummary = 'No cached rooms found!!';
-                for(let roomId in Memory.roomInfo) {
-                    if (Memory.roomInfo.hasOwnProperty(roomId)) {
+                for(let roomName in Memory.roomInfo) {
+                    if (Memory.roomInfo.hasOwnProperty(roomName)) {
                         roomPopSummary = '';
                         for(let roleName in Memory.creepRoles) {
                             if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomId, roleName)+',');
+                                console.log('Check '+roleName+' in '+roomName)
+                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomName, roleName)+',');
                             }
                         }
                     }
