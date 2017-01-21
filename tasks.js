@@ -85,7 +85,7 @@ module.exports = {
         if(!Query.spawnInCreepRoom(creep) && Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
             let closestUnfilledTower = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_TOWER;
+                    return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
                 }
             });
             if(closestUnfilledTower){
