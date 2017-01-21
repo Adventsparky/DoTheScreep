@@ -43,6 +43,7 @@ module.exports = {
         // console.log(creep);
         // console.log(creep.room.name);
         let potentialDropOffs = Memory.roomInfo[creep.room.name].structures;
+        console.log(potentialDropOffs.length);
         let dropOffStructures = _.filter(potentialDropOffs, function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
