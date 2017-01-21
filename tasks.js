@@ -177,6 +177,7 @@ module.exports = {
                 let roomPopSummary = 'No cached rooms found!!';
                 for(let roomName in Memory.roomInfo) {
                     if (Memory.roomInfo.hasOwnProperty(roomName)) {
+                        console.log(role);
                         roomPopSummary = '';
                         for(let roleName in Memory.creepRoles) {
                             if (Memory.creepRoles.hasOwnProperty(roleName)) {
