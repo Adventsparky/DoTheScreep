@@ -39,6 +39,7 @@ module.exports = {
         };
     },
     countRolesInRoom: function(checkRoomName, checkRole) {
+        console.log('Check '+checkRole+' in '+checkRoomName)
         let checkRoom = _.find(Memory.roomInfo, function(room){
             return room.name == checkRoomName;
         });
