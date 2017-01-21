@@ -41,6 +41,7 @@ module.exports = {
     countRolesInRoom: function(checkRoomName, checkRole) {
         let checkRoom = _.find(Memory.roomInfo, function(room){
             console.log(JSON.stringify(room));
+            console.log(JSON.stringify(room)[0]);
             return room.name == checkRoomName;
         });
         console.log(JSON.stringify(checkRoom));
