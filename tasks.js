@@ -89,7 +89,7 @@ module.exports = {
                 }
             });
             if(closestUnfilledTower){
-                this.dumpEnergyIntoExtension(creep, closestUnfilledExtension);
+                this.dumpEnergyIntoExtension(creep, closestUnfilledTower);
             }
 
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
