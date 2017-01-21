@@ -202,7 +202,7 @@ module.exports = {
                         let creepleCountForRole = 0;
                         if (room.creeps !== undefined && room.creeps.length) {
                             creepleCountForRole = _.filter(room.creeps, function (creep) {
-                                console.log('here');
+                                console.log(JSON.stringify(creep));
                                 return creep.memory.role == role.role;
                             }).length;
                         }
