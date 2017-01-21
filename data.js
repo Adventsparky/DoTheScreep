@@ -40,7 +40,6 @@ module.exports = {
     },
     countRolesInRoom: function(checkRoom, checkRole) {
         if(checkRoom){
-            console.log(JSON.stringify(checkRoom));
             return _.filter(checkRoom.creeps, function(creep) {
                 return creep.memory.role == checkRole;
             }).length;
