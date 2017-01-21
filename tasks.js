@@ -185,8 +185,8 @@ module.exports = {
                             }
                         }
                     }
+                    console.log(roomPopSummary);
                 }
-                console.log(roomPopSummary);
             }
         } catch(e){
             console.log(e);
