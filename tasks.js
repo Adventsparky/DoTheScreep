@@ -169,8 +169,7 @@ module.exports = {
     /*
      * CREEPLE MANAGEMENT
      */
-    performCreepleCensusByRole: function(role) {
-
+    outputPopulationInfoPerRoom: function() {
         try {
             if(Game.time % 5 == 0) {
                 console.log('go');
@@ -191,6 +190,8 @@ module.exports = {
         } catch(e){
             console.log(e);
         }
+    },
+    performCreepleCensusByRole: function(role) {
 
         for(let roomId in Memory.roomInfo){
             if(Memory.roomInfo.hasOwnProperty(roomId)) {

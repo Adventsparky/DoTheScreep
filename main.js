@@ -130,4 +130,6 @@ module.exports.loop = function () {
             }
         }
     }
+
+    Tasks.outputPopulationInfoPerRoom();
 };
