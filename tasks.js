@@ -205,7 +205,6 @@ module.exports = {
                                 console.log(JSON.stringify(creep));
                                 console.log(JSON.stringify(creep.memory));
                                 console.log(JSON.stringify(creep.memory.role));
-                                console.log(JSON.stringify(creep.role));
                                 return creep.memory.role == role.role;
                             }).length;
                         }
