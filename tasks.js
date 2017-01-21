@@ -75,6 +75,15 @@ module.exports = {
         // console.log(Query.spawnInCreepRoom(creep).energy);
         // console.log(Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05));
         if(!Query.spawnInCreepRoom(creep) && Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
+            let closestUnfilledTower = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_TOWER;
+                }
+            });
+            if(closestUnfilledTower){
+                this.dumpEnergyIntoExtension(creep, closestUnfilledExtension);
+            }
+
             // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
             //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             // });
