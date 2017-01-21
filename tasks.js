@@ -181,8 +181,8 @@ module.exports = {
                 for(let roomId in Memory.roomInfo) {
                     if (Memory.roomInfo.hasOwnProperty(roomId)) {
                         roomPopSummary = '';
-                        for(let roleName in Memory.crepRoles) {
-                            if (Memory.crepRoles.hasOwnProperty(roleName)) {
+                        for(let roleName in Memory.creepRoles) {
+                            if (Memory.creepRoles.hasOwnProperty(roleName)) {
                                 roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomId, roleName.role)+',');
                             }
                         }
