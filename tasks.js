@@ -1,5 +1,4 @@
 const Query=require('data');
-const RoleManager=require('role.manager');
 const HITS_MIN=5000;
 const HITS_IMPROVED=10000;
 const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
