@@ -8,17 +8,23 @@ module.exports = {
     /*
      * ENERGY
      */
-    collectNearestEnergy: function(creep) {
+    findNearestEnergy: function(creep) {
         let closestSource=creep.pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(closestSource);
+            return closestSource.id;
         }
     },
-    collectNearestEnergyToHomeBase: function(creep) {
+    findNearestEnergyToHomeBase: function(creep) {
         let closestSource=Query.spawnInCreepRoom(creep).pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(closestSource);
+            return closestSource.id;
         }
+    },
+    structureHasSpaceForEnergy : function (structure) {
+        if(structure.structureType == STRUCTURE_CONTAINER) {
+            return _.sum(structure.store) < structure.storeCapacity;
+        }
+        return structure.energy > structure.energyCapacity;
     },
 
     /*
@@ -39,20 +45,20 @@ module.exports = {
             creep.moveTo(Query.controllerInCreepRoom(creep));
         }
     },
-    pickBestEnergyDump: function(creep) {
+    findBestEnergyDump: function(creep) {
         // console.log(creep);
         // console.log(creep.room.name);
-        let potentialDropOffs = Memory.roomInfo[creep.room.name].structures;
-        let dropOffStructures = _.filter(potentialDropOffs, function(structure) {
+        let potentialDropOffsInThisRoom = Memory.roomInfo[creep.room.name].structures;
+        let dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
         if(dropOffStructures.length == 0) {
-            dropOffStructures = _.filter(potentialDropOffs, function(structure) {
+            dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
                 return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             });
         }
         if(dropOffStructures.length == 0) {
-            dropOffStructures = _.filter(potentialDropOffs, function(structure) {
+            dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
                 return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) ||
                     // (structure.structureType == STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity) ||
                     (structure.structureType == STRUCTURE_CONTROLLER)
@@ -64,15 +70,15 @@ module.exports = {
         console.log('---');
         if(dropOffStructures.length > 0) {
             try {
-                    let target = _.reduce(dropOffStructures, function(result, structure) {
-                        let range=creep.pos.getRangeTo(structure);
-                        if(result && result.range < range) {
-                            return result;
-                        }
-                        return {range: range, structure: structure}
-                    },{range: 99999});
-                    console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-                    creep.memory.dropoff =  target.structure.id
+                let target = _.reduce(dropOffStructures, function(result, structure) {
+                    let range=creep.pos.getRangeTo(structure);
+                    if(result && result.range < range) {
+                        return result;
+                    }
+                    return {range: range, structure: structure}
+                },{range: 99999});
+                console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                creep.memory.dropoff =  target.structure.id
             }catch(e) {
                 console.log(e);
             }
@@ -82,34 +88,34 @@ module.exports = {
         // console.log('dump in spawn?');
         // console.log(Query.spawnInCreepRoom(creep).energy);
         // console.log(Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05));
-        if(!Query.spawnInCreepRoom(creep) && Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
-            let closestUnfilledTower = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
-                }
-            });
-            if(closestUnfilledTower){
-                this.dumpEnergyIntoExtension(creep, closestUnfilledTower);
-            }
-
-            // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
-            //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
-            // });
-            let closestUnfilledExtension = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_EXTENSION;
-                }
-            });
-
-            if(closestUnfilledExtension){
-                this.dumpEnergyIntoExtension(creep, closestUnfilledExtension);
-            } else {
-                this.upgradeController(creep);
-            }
-        } else{
-            // console.log('lets dump to base');
-            this.dumpEnergyAtBase(creep);
-        }
+        // if(!Query.spawnInCreepRoom(creep) && Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
+        //     let closestUnfilledTower = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
+        //         filter: (structure) => {
+        //             return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
+        //         }
+        //     });
+        //     if(closestUnfilledTower){
+        //         this.dumpEnergyIntoExtension(creep, closestUnfilledTower);
+        //     }
+        //
+        //     // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
+        //     //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
+        //     // });
+        //     let closestUnfilledExtension = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
+        //         filter: (structure) => {
+        //             return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_EXTENSION;
+        //         }
+        //     });
+        //
+        //     if(closestUnfilledExtension){
+        //         this.dumpEnergyIntoExtension(creep, closestUnfilledExtension);
+        //     } else {
+        //         this.upgradeController(creep);
+        //     }
+        // } else{
+        //     // console.log('lets dump to base');
+        //     this.dumpEnergyAtBase(creep);
+        // }
     },
 
     /*
@@ -166,7 +172,7 @@ module.exports = {
             }
         } else {
             creep.say('Nothing to repair, I\'ll dump');
-            this.pickBestEnergyDump(creep);
+            // this.findBestEnergyDump(creep);
         }
     },
 

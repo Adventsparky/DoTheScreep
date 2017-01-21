@@ -17,7 +17,7 @@ const roleBuilder = {
             Tasks.buildNearestStructure(creep);
         }
         else {
-            Tasks.collectNearestEnergy(creep);
+            Tasks.findNearestEnergy(creep);
         }
     }
 };

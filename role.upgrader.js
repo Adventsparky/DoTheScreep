@@ -16,7 +16,7 @@ const roleUpgrader = {
             Tasks.upgradeController(creep);
         }
         else {
-            Tasks.collectNearestEnergy(creep);
+            Tasks.findNearestEnergy(creep);
         }
     }
 };

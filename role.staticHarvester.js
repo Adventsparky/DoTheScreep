@@ -5,14 +5,40 @@ const roleHarvester = {
     /** @param {Creep} creep **/
     run: function(creep) {
 
-        if(creep.carry.energy < creep.carryCapacity) {
-            creep.say('Omnomnom')
-            // If the creep is hungry, eat
-            Tasks.collectNearestEnergyToHomeBase(creep)
-        } else {
-            // creep.say('Buuuuurp')
-            // Not hungry, xmas stuffed, dump required!
-            Tasks.pickBestEnergyDump(creep);
+        let currentlyHarvesting=creep.memory.targetSource;
+
+        // Two checks to set up the harvesting flag only get run when it fills, or empties
+
+        if(!currentlyHarvesting && creep.carry.energy == 0) {
+            // We haven't started harvesting yet and we're out of energy, creep's gotta eat
+            creep.memory.targetSource = Tasks.findNearestEnergy(creep)
+        }
+
+        if(currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
+            // We were harvesting and now we're full, time to dump
+            creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
+        }
+
+        // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
+        if(creep.memory.targetSource) {
+            let targetSource = Game.getObjectById(creep.memory.targetSource);
+            if(targetSource){
+                if(creep.harvest(targetSource) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targetSource);
+                }
+            }
+        }
+
+        if(creep.memory.targetDropoff) {
+            let targetDropoff = Game.getObjectById(creep.memory.dropoff);
+            // Let's make sure it's still a valid energy dump
+            if(!Tasks.structureHasSpaceForEnergy(targetDropoff)) {
+                targetDropoff = Tasks.findBestEnergyDump(creep);
+            }
+
+            if(creep.transfer(targetDropoff, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(targetDropoff);
+            }
         }
     }
 };
