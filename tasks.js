@@ -61,6 +61,7 @@ module.exports = {
         }
         console.log('Potential drop-off structures');
         console.log(JSON.stringify(dropOffStructures));
+        console.log('- - -');
 
         // console.log('---');
         // if(dropOffStructures.length > 0) {
