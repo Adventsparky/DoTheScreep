@@ -1,4 +1,5 @@
 const Tasks=require('tasks');
+const Query=require('data');
 
 const roleUpgrader = {
 
@@ -16,7 +17,10 @@ const roleUpgrader = {
             Tasks.upgradeController(creep);
         } else {
             if(!creep.memory.targetSource) {
-                Tasks.findNearestEnergy(creep);
+                let controllerInThisRoom=Query.controllerInCreepRoom(creep);
+                if(controllerInThisRoom) {
+                    Tasks.findNearestEnergyToStructure(controllerInThisRoom);
+                }
             }
             Tasks.collectEnergy(creep);
         }

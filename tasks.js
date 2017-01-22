@@ -15,9 +15,9 @@ module.exports = {
             delete creep.memory.targetDropoff; // This will only be for harvesters
         }
     },
-    findNearestEnergyToHomeBase: function(creep) {
-        let closestSource=Query.spawnInCreepRoom(creep).pos.findClosestByRange(FIND_SOURCES);
-        if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
+    findNearestEnergyToStructure: function(structure) {
+        let closestSource=structure.pos.findClosestByRange(FIND_SOURCES);
+        if(closestSource) {
             return closestSource.id;
         }
     },
@@ -121,15 +121,25 @@ module.exports = {
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
-    buildNearestStructure: function(creep) {
-
+    findNearestConstruction : function(creep) {
         let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
-        console.log(creep.name+' found '+closestBuildingSite+' to build');
         if(closestBuildingSite) {
-            if (creep.build(closestBuildingSite) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(closestBuildingSite);
+            creep.memory.targetConstruction=closestBuildingSite.id;
+        }
+    },
+    buildNearestStructure: function(creep) {
+        if(creep.memory.targetConstruction) {
+            let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
+            if(targetConstruction) {
+                if (creep.build(targetConstruction) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targetConstruction);
+                }
+            } else{
+                delete creep.memory.targetConstruction;
+                delete creep.memory.building;
             }
         } else{
+            delete creep.memory.building
             this.repairNearestStructure(creep);
         }
     },
