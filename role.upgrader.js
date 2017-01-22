@@ -4,7 +4,7 @@ const roleUpgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
+        creep.say('u');
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
         }
