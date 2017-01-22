@@ -65,7 +65,9 @@ module.exports = {
             });
         }
         // console.log(dropOffStructures.length+' potential energy drop-off structures');
-        // console.log(JSON.stringify(dropOffStructures));
+        if(creep.name == 'Katherine') {
+            console.log(JSON.stringify(dropOffStructures));
+        }
 
         // console.log('---');
         if(dropOffStructures.length > 0) {
