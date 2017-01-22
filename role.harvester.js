@@ -23,7 +23,7 @@ const roleHarvester = {
         }
 
         // Fallback for aimless creeps (like when this code went live, might be able to remove later)
-        console.log(JSON.stringify(creep));
+        // console.log(JSON.stringify(creep));
         if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
             // console.log('aimless harvester: '+creep.name);
             if(creep.carry.energy < creep.carryCapacity) {
