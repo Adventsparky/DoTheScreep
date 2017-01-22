@@ -77,16 +77,13 @@ module.exports = {
             if(dropOffStructures.length > 0) {
             try {
                 let target = _.reduce(dropOffStructures, function(result, structure) {
-                    console.log(result);
-                    console.log(structure);
                     let range=creep.pos.getRangeTo(structure);
-                    console.log(range);
                     if(result && result.range < range) {
                         return result;
                     }
                     return {range: range, structure: structure}
                 },{range: 99999});
-                console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
                 return target.structure.id
             }catch(e) {
                 console.log(e);
