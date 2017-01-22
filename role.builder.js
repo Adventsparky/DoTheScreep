@@ -21,10 +21,22 @@ const roleBuilder = {
             Tasks.buildNearestStructure(creep);
         }
         else {
-            if(!creep.memory.targetSource) {
-                Tasks.findNearestEnergy(creep);
+            if(creep.carry.energy == creep.carryCapacity) {
+                // drop it off
+                // Find new drop off
+                if(!creep.memory.targetDropoff) {
+                    Tasks.findBestEnergyDump(creep);
+                }
+                delete creep.memory.targetSource;
+                Tasks.depositEnergy(creep);
+            } else {
+                // collect energy
+                if (!creep.memory.targetSource) {
+                    Tasks.findNearestEnergy(creep);
+                }
+                delete creep.memory.targetDropoff;
+                Tasks.collectEnergy(creep);
             }
-            Tasks.collectEnergy(creep);
         }
     }
 };
