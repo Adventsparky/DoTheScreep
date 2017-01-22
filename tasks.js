@@ -11,7 +11,8 @@ module.exports = {
     findNearestEnergy: function(creep) {
         let closestSource=creep.pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
-            return closestSource.id;
+            creep.memory.targetSource = closestSource.id;
+            delete creep.memory.targetDropoff; // This will only be for harvesters
         }
     },
     findNearestEnergyToHomeBase: function(creep) {
@@ -25,6 +26,30 @@ module.exports = {
             return _.sum(structure.store) < structure.storeCapacity;
         }
         return structure.energy > structure.energyCapacity;
+    },
+    collectEnergy : function(creep) {
+        // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
+        if(creep.memory.targetSource) {
+            let targetSource = Game.getObjectById(creep.memory.targetSource);
+            if(targetSource){
+                if(creep.harvest(targetSource) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targetSource);
+                }
+            }
+        }
+    },
+    depositEnergy : function(creep) {
+        if(creep.memory.targetDropoff) {
+            let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
+            // Let's make sure it's still a valid energy dump
+            if(!Tasks.structureHasSpaceForEnergy(targetDropoff)) {
+                targetDropoff = Tasks.findBestEnergyDump(creep);
+            }
+
+            if(creep.transfer(targetDropoff, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(targetDropoff);
+            }
+        }
     },
 
     /*
@@ -82,7 +107,7 @@ module.exports = {
                     return {range: range, structure: structure}
                 },{range: 99999});
                 // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-                return target.structure.id
+                creep.memory.targetDropoff=target.structure.id
             }catch(e) {
                 console.log(e);
             }
