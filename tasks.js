@@ -41,6 +41,7 @@ module.exports = {
     },
     depositEnergy : function(creep) {
         console.log(creep.name);
+        console.log(creep.memory.targetDropoff);
         if(creep.memory.targetDropoff) {
             let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
             // Let's make sure it's still a valid energy dump
