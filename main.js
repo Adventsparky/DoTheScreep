@@ -87,9 +87,9 @@ module.exports.loop = function () {
                 console.log('Calculate costs for '+roleName);
                 let role=RoleManager[roleName];
                 console.log(role);
-                console.log(role.body);
+                console.log(role.parts);
                 let cost=0;
-                _.each(role.body, function(part){
+                _.each(role.parts, function(part){
                     console.log(part);
                     cost+=Query.creepBodyPartCost()[part];
                 });
