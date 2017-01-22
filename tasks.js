@@ -66,6 +66,7 @@ module.exports = {
         }
         // console.log(dropOffStructures.length+' potential energy drop-off structures');
         if(creep.name == 'Katherine') {
+            console.log(dropOffStructures.length);
             console.log(JSON.stringify(dropOffStructures));
         }
 
