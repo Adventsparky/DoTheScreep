@@ -92,15 +92,9 @@ module.exports = {
                     (structure.structureType == STRUCTURE_CONTROLLER)
             });
         }
-        // console.log(dropOffStructures.length+' potential energy drop-off structures');
-        // console.log(dropOffStructures.length);
-        // console.log(JSON.stringify(dropOffStructures));
 
-        // console.log('---');
-        // if(dropOffStructures.length == 1){
-        //     creep.memory.targetDropoff =  dropOffStructures[0].structure.id
-        // }else
-            if(dropOffStructures.length > 0) {
+
+        if(dropOffStructures.length > 0) {
             try {
                 let target = _.reduce(dropOffStructures, function(result, structure) {
                     let range=creep.pos.getRangeTo(structure);
@@ -117,37 +111,6 @@ module.exports = {
         } else{
             creep.say('no dumps');
         }
-        // console.log('dump in spawn?');
-        // console.log(Query.spawnInCreepRoom(creep).energy);
-        // console.log(Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05));
-        // if(!Query.spawnInCreepRoom(creep) && Query.spawnInCreepRoom(creep).energy >= (Query.spawnInCreepRoom(creep).energyCapacity-(Query.spawnInCreepRoom(creep).energyCapacity*.05))){
-        //     let closestUnfilledTower = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
-        //         filter: (structure) => {
-        //             return structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
-        //         }
-        //     });
-        //     if(closestUnfilledTower){
-        //         this.dumpEnergyIntoExtension(creep, closestUnfilledTower);
-        //     }
-        //
-        //     // let closestUnfilledExtension=_.filter(Game.structures, function(structure) {
-        //     //     return  structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
-        //     // });
-        //     let closestUnfilledExtension = Query.spawnInCreepRoom(creep).pos.findClosestByPath(FIND_STRUCTURES, {
-        //         filter: (structure) => {
-        //             return typeof(structure.energyCapacity)!=='undefined' && structure.energy < structure.energyCapacity && structure.structureType == STRUCTURE_EXTENSION;
-        //         }
-        //     });
-        //
-        //     if(closestUnfilledExtension){
-        //         this.dumpEnergyIntoExtension(creep, closestUnfilledExtension);
-        //     } else {
-        //         this.upgradeController(creep);
-        //     }
-        // } else{
-        //     // console.log('lets dump to base');
-        //     this.dumpEnergyAtBase(creep);
-        // }
     },
 
     /*
@@ -164,6 +127,7 @@ module.exports = {
     buildNearestStructure: function(creep) {
 
         let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
+        console.log(creep.name+' found '+closestBuildingSite+' to build');
         if(closestBuildingSite) {
             if (creep.build(closestBuildingSite) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(closestBuildingSite);
