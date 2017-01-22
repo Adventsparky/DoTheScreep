@@ -71,7 +71,9 @@ module.exports = {
         }
 
         // console.log('---');
-        if(dropOffStructures.length > 0) {
+        if(dropOffStructures.length == 1){
+            creep.memory.targetDropoff =  dropOffStructures[0].structure.id
+        }else if(dropOffStructures.length > 0) {
             try {
                 let target = _.reduce(dropOffStructures, function(result, structure) {
                     let range=creep.pos.getRangeTo(structure);
@@ -80,7 +82,7 @@ module.exports = {
                     }
                     return {range: range, structure: structure}
                 },{range: 99999});
-                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
                 creep.memory.targetDropoff =  target.structure.id
             }catch(e) {
                 console.log(e);
