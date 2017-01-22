@@ -93,7 +93,7 @@ module.exports.loop = function () {
                     console.log(part);
                     cost+=Query.creepBodyPartCost()[part];
                 });
-                Memory.roleBuildCosts[role]=cost;
+                Memory.roleBuildCosts[role.name]=cost;
             }
         }
     }
