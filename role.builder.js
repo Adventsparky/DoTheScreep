@@ -15,7 +15,7 @@ const roleBuilder = {
         }
 
         // Catch for builders with borked memory
-        if(c)
+        // if(c)
 
         if(creep.memory.building) {
             Tasks.buildNearestStructure(creep);
