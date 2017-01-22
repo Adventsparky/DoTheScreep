@@ -76,7 +76,10 @@ module.exports = {
         }else if(dropOffStructures.length > 0) {
             try {
                 let target = _.reduce(dropOffStructures, function(result, structure) {
+                    console.log(result);
+                    console.log(structure);
                     let range=creep.pos.getRangeTo(structure);
+                    console.log(range);
                     if(result && result.range < range) {
                         return result;
                     }
