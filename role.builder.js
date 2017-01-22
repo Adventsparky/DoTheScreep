@@ -14,11 +14,17 @@ const roleBuilder = {
             creep.say('Building');
         }
 
+        // Catch for builders with borked memory
+        if(c)
+
         if(creep.memory.building) {
             Tasks.buildNearestStructure(creep);
         }
         else {
-            Tasks.findNearestEnergy(creep);
+            if(!creep.memory.targetSource) {
+                Tasks.findNearestEnergy(creep);
+            }
+            Tasks.collectEnergy(creep);
         }
     }
 };
