@@ -41,29 +41,8 @@ const roleHarvester = {
         }
 
         // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
-        if(creep.memory.targetSource) {
-            let targetSource = Game.getObjectById(creep.memory.targetSource);
-            if(targetSource){
-                if(creep.harvest(targetSource) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targetSource);
-                }
-            }
-        }
-
-        if(creep.memory.targetDropoff) {
-            // console.log('drop off for: '+creep.name);
-            let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
-            // console.log(targetDropoff);
-            // Let's make sure it's still a valid energy dump
-            if(!Tasks.structureHasSpaceForEnergy(targetDropoff)) {
-                creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
-                targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
-            }
-
-            if(creep.transfer(targetDropoff, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(targetDropoff);
-            }
-        }
+        Tasks.collectEnergy(creep);
+        Tasks.depositEnergy(creep);
     }
 };
 
