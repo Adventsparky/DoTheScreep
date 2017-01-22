@@ -86,6 +86,8 @@ module.exports.loop = function () {
             if(Memory.creepRoles.hasOwnProperty(roleName)) {
                 console.log('Calculate costs for '+roleName);
                 let role=RoleManager[roleName];
+                console.log(role);
+                console.log(role.body);
                 let cost=0;
                 _.each(role.body, function(part){
                     console.log(part);
