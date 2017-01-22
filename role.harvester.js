@@ -30,7 +30,7 @@ const roleHarvester = {
         }
 
         if(creep.memory.targetDropoff) {
-            let targetDropoff = Game.getObjectById(creep.memory.dropoff);
+            let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
             // Let's make sure it's still a valid energy dump
             if(!Tasks.structureHasSpaceForEnergy(targetDropoff)) {
                 targetDropoff = Tasks.findBestEnergyDump(creep);
