@@ -25,7 +25,7 @@ const roleHarvester = {
         // Fallback for aimless creeps (like when this code went live, might be able to remove later)
         console.log(JSON.stringify(creep));
         if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
-            console.log('aimless harvester: '+creep.name);
+            // console.log('aimless harvester: '+creep.name);
             if(creep.carry.energy < creep.carryCapacity) {
                 // Find fresh source
                 creep.memory.targetSource = Tasks.findNearestEnergy(creep)
@@ -35,7 +35,7 @@ const roleHarvester = {
                 creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
             }
         } else {
-            console.log('grand harvester : '+creep.name);
+            // console.log('grand harvester : '+creep.name);
         }
 
         // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
