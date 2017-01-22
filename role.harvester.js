@@ -51,6 +51,7 @@ const roleHarvester = {
         }
 
         if(creep.memory.targetDropoff) {
+            console.log('drop off for: '+creep.name);
             let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
             // Let's make sure it's still a valid energy dump
             if(!Tasks.structureHasSpaceForEnergy(targetDropoff)) {
