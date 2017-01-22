@@ -30,6 +30,8 @@ const roleHarvester = {
                 // Find new drop off
                 creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
             }
+        } else {
+            console.log('grand harvester: '+creep.name);
         }
 
         // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
