@@ -50,12 +50,10 @@ module.exports = {
         // console.log(creep.room.name);
         let potentialDropOffsInThisRoom = Memory.roomInfo[creep.room.name].structures;
         let dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-            console.log('found spawn to dump to');
                 return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
             });
         if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-                console.log('found extension to dump to');
                 return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
             });
         }
