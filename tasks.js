@@ -45,8 +45,8 @@ module.exports = {
         if(creep.memory.targetDropoff) {
             let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
             // Let's make sure it's still a valid energy dump
-            if(!Tasks.structureHasSpaceForEnergy(targetDropoff)) {
-                targetDropoff = Tasks.findBestEnergyDump(creep);
+            if(!this.structureHasSpaceForEnergy(targetDropoff)) {
+                targetDropoff = this.findBestEnergyDump(creep);
             }
 
             if(creep.transfer(targetDropoff, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
