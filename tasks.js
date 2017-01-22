@@ -25,7 +25,7 @@ module.exports = {
         if(structure.structureType == STRUCTURE_CONTAINER) {
             return _.sum(structure.store) < structure.storeCapacity;
         }
-        return structure.energy > structure.energyCapacity;
+        return structure.energy < structure.energyCapacity;
     },
     collectEnergy : function(creep) {
         // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
