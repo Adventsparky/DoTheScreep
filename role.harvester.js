@@ -29,10 +29,12 @@ const roleHarvester = {
             if(creep.carry.energy < creep.carryCapacity) {
                 // Find fresh source
                 creep.memory.targetSource = Tasks.findNearestEnergy(creep)
+                creep.memory.targetDropoff = null
             }
             if(creep.carry.energy == creep.carryCapacity) {
                 // Find new drop off
                 creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
+                creep.memory.targetSource = null;
             }
         } else {
             // console.log('grand harvester : '+creep.name);
