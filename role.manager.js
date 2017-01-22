@@ -6,12 +6,7 @@ const roleBuilder = require('role.builder');
 module.exports = {
     harvester: {
         parts: [WORK,CARRY,MOVE],
-        role: 'harvester',
-        minRoomPopulation: 7,
-        run: roleHarvester.run
-    },
-    improvedHarvester: {
-        parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
+        improvedParts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'harvester',
         minRoomPopulation: 7,
         run: roleHarvester.run
@@ -24,12 +19,14 @@ module.exports = {
     // },
     builder: {
         parts: [WORK,CARRY,MOVE],
+        improvedParts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'builder',
         minRoomPopulation: 4,
         run: roleBuilder.run
     },
     upgrader: {
         parts: [WORK,CARRY,MOVE],
+        improvedParts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'upgrader',
         minRoomPopulation: 5,
         run: roleUpgrader.run
