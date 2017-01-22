@@ -20,6 +20,7 @@ const roleUpgrader = {
             if(!creep.memory.targetSource) {
                 Tasks.findNearestEnergy(creep);
             }
+            console.log('collect at '+creep.memory.targetSource);
             Tasks.collectEnergy(creep);
         }
     }
