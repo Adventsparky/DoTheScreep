@@ -31,6 +31,7 @@ module.exports = {
         // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
         if(creep.memory.targetSource) {
             let targetSource = Game.getObjectById(creep.memory.targetSource);
+            console.log(targetSource);
             if(targetSource){
                 if(creep.harvest(targetSource) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetSource);
