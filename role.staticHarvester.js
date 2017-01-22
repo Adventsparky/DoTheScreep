@@ -6,16 +6,19 @@ const roleHarvester = {
     run: function(creep) {
 
         let currentlyHarvesting=creep.memory.targetSource;
-
+console.log('here1');
         if(!currentlyHarvesting && creep.carry.energy == 0) {
+            console.log('here2');
             // We haven't started harvesting yet and we're out of energy, creep's gotta eat
             creep.memory.targetSource = Tasks.findNearestEnergy(creep)
         }
 
         if(currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
+            console.log('here3');
             // We were harvesting and now we're full, time to dump
             creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
         }
+        console.log('here4');
 
         // Fallback for aimless creeps (like when this code went live, might be able to remove later)
         console.log(JSON.stringify(creep));
