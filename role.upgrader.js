@@ -17,9 +17,10 @@ const roleUpgrader = {
             Tasks.upgradeController(creep);
         } else {
             if(!creep.memory.targetSource) {
+                console.log('Time for a new source')
                 let controllerInThisRoom=Query.controllerInCreepRoom(creep);
                 if(controllerInThisRoom) {
-                    Tasks.findNearestEnergyToStructure(controllerInThisRoom);
+                    Tasks.findNearestEnergyToStructure(creep,controllerInThisRoom);
                 }
             }
             Tasks.collectEnergy(creep);

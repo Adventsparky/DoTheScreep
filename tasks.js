@@ -15,10 +15,11 @@ module.exports = {
             delete creep.memory.targetDropoff; // This will only be for harvesters
         }
     },
-    findNearestEnergyToStructure: function(structure) {
+    findNearestEnergyToStructure: function(creep,structure) {
         let closestSource=structure.pos.findClosestByRange(FIND_SOURCES);
         if(closestSource) {
-            return closestSource.id;
+            creep.memory.targetSource=closestSource.id;
+            delete creep.memory.targetDropoff; // This will only be for harvesters
         }
     },
     structureHasSpaceForEnergy : function (structure) {
