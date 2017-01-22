@@ -10,6 +10,12 @@ module.exports = {
         minRoomPopulation: 7,
         run: roleHarvester.run
     },
+    improvedHarvester: {
+        parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
+        role: 'harvester',
+        minRoomPopulation: 7,
+        run: roleHarvester.run
+    },
     // staticHarvester: {
     //     parts: [WORK,CARRY,MOVE],
     //     role: 'staticHarvester',
