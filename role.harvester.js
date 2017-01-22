@@ -17,7 +17,7 @@ const roleHarvester = {
 
         if(currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
             // We were harvesting and now we're full, time to dump
-             = Tasks.findBestEnergyDump(creep);
+            creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
             creep.memory.targetSource = false;
 
         }
