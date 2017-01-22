@@ -84,16 +84,14 @@ module.exports.loop = function () {
         Memory.roleBuildCosts={};
         for(let roleName in Memory.creepRoles) {
             if(Memory.creepRoles.hasOwnProperty(roleName)) {
-                console.log('Calculate costs for '+roleName);
                 let role=RoleManager[roleName];
-                console.log(role);
-                console.log(role.parts);
                 let cost=0;
                 _.each(role.parts, function(part){
-                    console.log(part);
+                    console.log('part');
+                    console.log(Query.creepBodyPartCost()[part]);
                     cost+=Query.creepBodyPartCost()[part];
                 });
-                Memory.roleBuildCosts[role.name]=cost;
+                Memory.roleBuildCosts[roleName]=cost;
             }
         }
     }
