@@ -13,9 +13,10 @@ const roleUpgrader = {
         }
 
         if(creep.memory.upgrading) {
+            console.log('upgrading');
             Tasks.upgradeController(creep);
-        }
-        else {
+        } else {
+            console.log('need energy');
             if(!creep.memory.targetSource) {
                 Tasks.findNearestEnergy(creep);
             }
