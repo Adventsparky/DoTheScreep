@@ -12,13 +12,13 @@ const roleHarvester = {
         if(!currentlyHarvesting && creep.carry.energy == 0) {
             // We haven't started harvesting yet and we're out of energy, creep's gotta eat
             creep.memory.targetSource = Tasks.findNearestEnergy(creep)
-            creep.memory.targetDropoff = null;
+            delete creep.memory.targetDropoff;
         }
 
         if(currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
             // We were harvesting and now we're full, time to dump
             creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
-            creep.memory.targetSource = null;
+            delete creep.memory.targetSource;
 
         }
 
@@ -29,12 +29,12 @@ const roleHarvester = {
             if(creep.carry.energy < creep.carryCapacity) {
                 // Find fresh source
                 creep.memory.targetSource = Tasks.findNearestEnergy(creep)
-                creep.memory.targetDropoff = null
+                delete creep.memory.targetDropoff;
             }
             if(creep.carry.energy == creep.carryCapacity) {
                 // Find new drop off
                 creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
-                creep.memory.targetSource = null;
+                delete creep.memory.targetSource;
             }
         } else {
             // console.log('grand harvester : '+creep.name);
