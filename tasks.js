@@ -64,10 +64,10 @@ module.exports = {
                     (structure.structureType == STRUCTURE_CONTROLLER)
             });
         }
-        console.log(dropOffStructures.length+' potential energy drop-off structures');
+        // console.log(dropOffStructures.length+' potential energy drop-off structures');
         // console.log(JSON.stringify(dropOffStructures));
 
-        console.log('---');
+        // console.log('---');
         if(dropOffStructures.length > 0) {
             try {
                 let target = _.reduce(dropOffStructures, function(result, structure) {
@@ -77,7 +77,7 @@ module.exports = {
                     }
                     return {range: range, structure: structure}
                 },{range: 99999});
-                console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
                 creep.memory.targetDropoff =  target.structure.id
             }catch(e) {
                 console.log(e);
