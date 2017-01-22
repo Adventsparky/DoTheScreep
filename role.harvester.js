@@ -33,7 +33,7 @@ const roleHarvester = {
             }
             if(creep.carry.energy == creep.carryCapacity) {
                 // Find new drop off
-                creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
+                Tasks.findBestEnergyDump(creep);
                 delete creep.memory.targetSource;
             }
         } else {
