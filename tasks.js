@@ -71,9 +71,10 @@ module.exports = {
         }
 
         // console.log('---');
-        if(dropOffStructures.length == 1){
-            creep.memory.targetDropoff =  dropOffStructures[0].structure.id
-        }else if(dropOffStructures.length > 0) {
+        // if(dropOffStructures.length == 1){
+        //     creep.memory.targetDropoff =  dropOffStructures[0].structure.id
+        // }else
+            if(dropOffStructures.length > 0) {
             try {
                 let target = _.reduce(dropOffStructures, function(result, structure) {
                     console.log(result);
