@@ -62,7 +62,12 @@ module.exports = {
 
         console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
         console.log('Start xy: '+x+','+y);
-        while (x <= (structure.pos.x+1) && y <= (structure.pos.y+1)) {
+        let loopCounter=0;
+        while (loopCounter<9) {
+            if(loopCounter == 5) {
+                // Mid point, ie this structure
+                continue;
+            }
             if(Game.map.getTerrainAt(x,y,structure.roomName) == 'plain') {
                 spaces++;
             }
