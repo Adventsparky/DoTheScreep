@@ -4,7 +4,7 @@ const roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        creep.say('h');
+        // creep.say('h');
         let currentlyHarvesting=creep.memory.targetSource;
 
         // Two checks to set up the harvesting flag only get run when it fills, or empties
