@@ -48,7 +48,7 @@ module.exports = {
             }
 
             // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
-            console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
+            // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
             if(creep.transfer(targetDropoff, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(targetDropoff);
             }

@@ -29,12 +29,16 @@ module.exports.loop = function () {
             for(let sourceNum in availableSources) {
                 if(availableSources.hasOwnProperty(sourceNum)){
                     let source=availableSources[sourceNum];
+
+                    Query.countAccessibleSpacesAroundStructure(source);
+
                     if (source.dedicatedMiner === undefined) {
                         source.dedicatedMiner = 0;
                     }
                     // if (Memory.sources && Memory.sources[source.id]){
                     //     console.log(Memory.sources[source.id]);
                     // }
+
                 }
             }
 

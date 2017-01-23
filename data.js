@@ -46,5 +46,29 @@ module.exports = {
             }).length;
         }
         return 0;
+    },
+
+    /*
+     * TERRAIN
+     */
+    countAccessibleSpacesAroundStructure(structure) {
+        console.log('Check '+structure);
+        let spaces=0;
+
+
+        // Checking the immediate spaces so start top right
+        let x=structure.pos.y - 1;
+        let y=structure.pos.y - 1;
+
+        console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
+        console.log('Start xy: '+x+','+y);
+        while (x <= (structure.x+1) && y <= (structure.y+1)) {
+            if(Game.map.getTerrainAt(x,y,structure.roomName) == 'plain') {
+                spaces++;
+            }
+        }
+        console.log('End xy: '+x+','+y);
+        console.log(spaces+' empty spaces around '+structure);
+
     }
 };
