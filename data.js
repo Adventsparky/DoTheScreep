@@ -62,7 +62,7 @@ module.exports = {
 
         console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
         console.log('Start xy: '+x+','+y);
-        while (x <= (structure.x+1) && y <= (structure.y+1)) {
+        while (x <= (structure.pos.x+1) && y <= (structure.pos.y+1)) {
             if(Game.map.getTerrainAt(x,y,structure.roomName) == 'plain') {
                 spaces++;
             }
