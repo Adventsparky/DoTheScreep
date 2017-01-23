@@ -238,7 +238,8 @@ module.exports = {
                         }
 
                         if (creepleCountForRole < role.minRoomPopulation) {
-                            console.log('New: '+'need to spawn a ' + role.role + ', only have '+creepleCountForRole);
+                            console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
+                            console.log(Game.rooms[roomId].energyCapacityAvailable);
 
                             if(Game.rooms[roomId].energyCapacityAvailable > Memory.roleBuildCosts[role.role+'Stage2Parts']){
                                 console.log('Build big one');
