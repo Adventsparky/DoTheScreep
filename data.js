@@ -31,9 +31,10 @@ module.exports = {
         return {
             "move": 50,
             "carry": 50,
-            "work": 20,
-            "heal": 200,
-            "tough": 20,
+            "work": 100,
+            "heal": 250,
+            "claim": 600,
+            "tough": 10,
             "attack": 80,
             "ranged_attack": 150
         };
