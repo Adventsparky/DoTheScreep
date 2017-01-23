@@ -8,7 +8,7 @@ module.exports = {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'harvester',
-        minRoomPopulation: 7,
+        minRoomPopulation: 4,
         run: roleHarvester.run
     },
     // staticHarvester: {
@@ -21,14 +21,14 @@ module.exports = {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'builder',
-        minRoomPopulation: 4,
+        minRoomPopulation: 3,
         run: roleBuilder.run
     },
     upgrader: {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'upgrader',
-        minRoomPopulation: 5,
+        minRoomPopulation: 4,
         run: roleUpgrader.run
     }
 };
