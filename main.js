@@ -87,11 +87,15 @@ module.exports.loop = function () {
                 let role=RoleManager[roleName];
                 let cost=0;
                 _.each(role.parts, function(part){
-                    console.log('part');
-                    console.log(Query.creepBodyPartCost()[part]);
                     cost+=Query.creepBodyPartCost()[part];
                 });
                 Memory.roleBuildCosts[roleName]=cost;
+
+                let improvedCost=0;
+                _.each(role.improvedParts, function(part){
+                    improvedCost+=Query.creepBodyPartCost()[part];
+                });
+                Memory.roleBuildCosts[roleName+'Improved']=improvedCost;
             }
         }
     }
