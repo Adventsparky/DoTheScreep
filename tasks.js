@@ -142,7 +142,7 @@ module.exports = {
                 delete creep.memory.building;
             }
         } else{
-            delete creep.memory.building
+            delete creep.memory.building;
             this.repairNearestStructure(creep);
         }
     },

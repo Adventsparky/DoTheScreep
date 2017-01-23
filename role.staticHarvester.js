@@ -21,7 +21,7 @@ const roleHarvester = {
         if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
             if(creep.carry.energy < creep.carryCapacity) {
                 // Find fresh source
-                Tasks.findNearestEnergy(creep)
+                Tasks.findNearestEnergy(creep);
                 delete creep.memory.targetDropoff;
             }
             if(creep.carry.energy == creep.carryCapacity) {
