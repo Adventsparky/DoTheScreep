@@ -63,6 +63,18 @@ module.exports = {
         console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
         console.log('Start xy: '+x+','+y);
 
+        for(let i=0; i++; i<3) {
+            y=structure.pos.y - 1;
+            for(let j=0; j++; j<3) {
+                console.log('Check: '+x+','+y);
+                if(Game.map.getTerrainAt(x,y,structure.roomName) == 'plain') {
+                    spaces++;
+                }
+                y++;
+            }
+            x++;
+        }
+
         console.log('End xy: '+x+','+y);
         console.log(spaces+' empty spaces around '+structure);
 
