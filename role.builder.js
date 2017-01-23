@@ -7,10 +7,13 @@ const roleBuilder = {
         // creep.say('b');
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
+            delete creep.memory.targetDropoff;
+            delete creep.memory.targetConstruction;
             creep.say('Gathering');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
+            delete creep.memory.targetSource;
             creep.say('Building');
         }
 

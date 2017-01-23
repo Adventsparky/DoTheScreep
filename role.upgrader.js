@@ -16,7 +16,6 @@ const roleUpgrader = {
 
         if(creep.memory.upgrading) {
             Tasks.upgradeController(creep);
-
         } else {
             if(!creep.memory.targetSource) {
                 console.log('Time for a new source')
