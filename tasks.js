@@ -242,7 +242,7 @@ module.exports = {
 
                             console.log('room energy: '+ this.energyAvailableInRoom());
                             console.log('Stage 2 build costs: '+ Memory.roleBuildCosts[role+'Stage2Parts']);
-                            if(this.energyAvailableInRoom() > Memory.roleBuildCosts[role+'Stage2Parts']){
+                            if(this.energyAvailableInRoom(room) > Memory.roleBuildCosts[role+'Stage2Parts']){
                                 console.log('spawn cool dude');
                                 room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
                             } else {
