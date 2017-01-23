@@ -66,6 +66,8 @@ module.exports = {
             if(Game.map.getTerrainAt(x,y,structure.roomName) == 'plain') {
                 spaces++;
             }
+            x++;
+            y++;
         }
         console.log('End xy: '+x+','+y);
         console.log(spaces+' empty spaces around '+structure);
