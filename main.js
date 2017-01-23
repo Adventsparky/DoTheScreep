@@ -92,10 +92,10 @@ module.exports.loop = function () {
                 Memory.roleBuildCosts[roleName]=cost;
 
                 let improvedCost=0;
-                _.each(role.improvedParts, function(part){
+                _.each(role.stage2Parts, function(part){
                     improvedCost+=Query.creepBodyPartCost()[part];
                 });
-                Memory.roleBuildCosts[roleName+'Improved']=improvedCost;
+                Memory.roleBuildCosts[roleName+'Stage2Parts']=improvedCost;
             }
         }
     }
