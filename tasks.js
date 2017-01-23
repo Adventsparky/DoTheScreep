@@ -240,9 +240,13 @@ module.exports = {
                         if (creepleCountForRole < role.minRoomPopulation) {
                             console.log('New: '+'need to spawn a ' + role.role + ', only have '+creepleCountForRole);
 
+                            console.log('room energy: '+ this.energyAvailableInRoom());
+                            console.log('Stage 2 build costs: '+ Memory.roleBuildCosts[role+'Stage2Parts']);
                             if(this.energyAvailableInRoom() > Memory.roleBuildCosts[role+'Stage2Parts']){
+                                console.log('spawn cool dude');
                                 room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
                             } else {
+                                console.log('spawn regular dude');
                                 room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
                             }
                             return false;
