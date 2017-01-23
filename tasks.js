@@ -240,7 +240,7 @@ module.exports = {
                         if (creepleCountForRole < role.minRoomPopulation) {
                             console.log('New: '+'need to spawn a ' + role.role + ', only have '+creepleCountForRole);
 
-                            console.log('room energy: '+ this.energyAvailableInRoom());
+                            console.log('room energy: '+ this.energyAvailableInRoom(room));
                             console.log('Stage 2 build costs: '+ Memory.roleBuildCosts[role+'Stage2Parts']);
                             if(this.energyAvailableInRoom(room) > Memory.roleBuildCosts[role+'Stage2Parts']){
                                 console.log('spawn cool dude');
