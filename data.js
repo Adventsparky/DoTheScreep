@@ -57,7 +57,7 @@ module.exports = {
 
 
         // Checking the immediate spaces so start top right
-        let x=structure.pos.y - 1;
+        let x=structure.pos.x - 1;
         let y=structure.pos.y - 1;
 
         console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
