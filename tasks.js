@@ -231,13 +231,14 @@ module.exports = {
                 let room = Memory.roomInfo[roomId];
                 if(room.spawn != undefined && room.spawn.length) {
 
-                    try {
-                        this.checkIfWeAreReadyForStaticHarvesters(room);
+                    this.checkIfWeAreReadyForStaticHarvesters(room);
 
-                        if(!Memory.spawningPaused) {
-                            for(let roleName in Memory.creepRoles) {
-                                if(Memory.creepRoles.hasOwnProperty(roleName)) {
-                                    let role=Memory.creepRoles[roleName];
+                    if(!Memory.spawningPaused) {
+                        for(let roleName in Memory.creepRoles) {
+                            if(Memory.creepRoles.hasOwnProperty(roleName)) {
+                                let role=Memory.creepRoles[roleName];
+
+                                try {
                                     let creepleCountForRole = 0;
 
                                     if (room.creeps !== undefined && room.creeps.length) {
@@ -264,20 +265,19 @@ module.exports = {
                                         // }
                                         return false;
                                     }
+                                }catch(e){
+                                    console.log(e);
+
+                                    // Fall back to this non cache based stuff if we murder the census
+                                    let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+                                    // console.log('ST: '+creeps.length+' '+role.role);
+                                    if(creeps.length < role.targetRoomPopulation) {
+                                        console.log('ST: '+'need to spawn a '+role.role);
+                                        room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
+                                        return false;
+                                    }
                                 }
                             }
-                        }
-
-                    }catch(e){
-                        console.log(e);
-
-                        // Fall back to this non cache based stuff if we murder the census
-                        let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-                        // console.log('ST: '+creeps.length+' '+role.role);
-                        if(creeps.length < role.targetRoomPopulation) {
-                            console.log('ST: '+'need to spawn a '+role.role);
-                            room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
-                            return false;
                         }
                     }
 
