@@ -129,6 +129,7 @@ module.exports.loop = function () {
                 console.log('wtf');
                 console.log(name);
                 console.log(creep);
+                console.log(creep.memory.role);
                 console.log(RoleManager[creep.memory.role]);
             }
         }
