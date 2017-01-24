@@ -292,7 +292,7 @@ module.exports = {
     checkIfWeAreReadyForStaticHarvesters : function(room) {
         console.log(room);
         console.log(room.name);
-        if(this.energyAvailableInRoom(Game.rooms[room.name]) > Memory.roleBuildCosts['staticHarvester']){
+        if(this.energyAvailableInRoom(Game.rooms[room]) > Memory.roleBuildCosts['staticHarvester']){
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
             // then pause all spawning in favour of a static harvester
             Memory.spawningPaused=true;
