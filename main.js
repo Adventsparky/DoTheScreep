@@ -127,13 +127,7 @@ module.exports.loop = function () {
         }
     }
 
-    for(let roleName in Memory.creepRoles) {
-        if(Memory.creepRoles.hasOwnProperty(roleName)) {
-            if (!Tasks.performCreepleCensusByRole(Memory.creepRoles[roleName])) {
-                break;
-            }
-        }
-    }
+    Tasks.performCreepleCensusByRole();
 
     Tasks.outputPopulationInfoPerRoom();
 };
