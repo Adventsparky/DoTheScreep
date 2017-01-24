@@ -291,14 +291,15 @@ module.exports = {
     },
     checkIfWeAreReadyForStaticHarvesters : function(room) {
         console.log(room);
-        console.log(room.name);
         if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
+            console.log('ok we have the power');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
             // then pause all spawning in favour of a static harvester
             Memory.spawningPaused=true;
             for(let roleName in Memory.creepRoles) {
                 if(Memory.creepRoles.hasOwnProperty(roleName)) {
                     let role=Memory.creepRoles[roleName];
+                    console.log('check min pop for: '+roleName);
                     if(role.minRoomPopulation){
                         if (room.creeps !== undefined && room.creeps.length) {
                             let creepsOfRole = _.filter(room.creeps, function (creep) {
