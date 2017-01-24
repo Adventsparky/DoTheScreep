@@ -123,12 +123,13 @@ module.exports.loop = function () {
     for(let name in Game.creeps) {
         if(Game.creeps.hasOwnProperty(name)) {
             let creep = Game.creeps[name];
-            if(creep !== undefined){
+            if(RoleManager[creep.memory.role] !== undefined){
                 RoleManager[creep.memory.role].run(creep);
             } else {
                 console.log('wtf');
                 console.log(name);
                 console.log(creep);
+                console.log(RoleManager[creep.memory.role]);
             }
         }
     }
