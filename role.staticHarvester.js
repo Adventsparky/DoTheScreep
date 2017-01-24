@@ -46,4 +46,4 @@ const roleStaticHarvester = {
     }
 };
 
-module.exports = roleHarvester;
+module.exports = roleStaticHarvester;
