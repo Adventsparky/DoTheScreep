@@ -8,7 +8,7 @@ module.exports = {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'harvester',
-        targetRoomPopulation: 4,
+        targetRoomPopulation: 2,
         minRoomPopulation: 2,
         run: roleHarvester.run
     },
@@ -16,7 +16,7 @@ module.exports = {
         parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
         stage2Parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
         role: 'staticHarvester',
-        targetRoomPopulation: 2,
+        targetRoomPopulation: 4,
         run: roleStaticHarvester.run
     },
     builder: {
