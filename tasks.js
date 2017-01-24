@@ -136,7 +136,7 @@ module.exports = {
             console.log('wat3');
             let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
             if(targetConstruction) {
-                console.log('wat3');
+                console.log(creep.build(targetConstruction));
                 if (creep.build(targetConstruction) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetConstruction);
                 }
