@@ -14,6 +14,7 @@ module.exports = {
     },
     staticHarvester: {
         parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
+        stage2Parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
         role: 'staticHarvester',
         targetRoomPopulation: 2,
         run: roleStaticHarvester.run
