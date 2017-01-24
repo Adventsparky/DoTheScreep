@@ -52,9 +52,8 @@ module.exports = {
      * TERRAIN
      */
     countAccessibleSpacesAroundStructure(structure) {
-        console.log('Check '+structure);
+        // console.log('Check '+structure);
         let spaces=0;
-
 
         // Checking the immediate spaces so start top right
         let x=structure.pos.x - 1;
