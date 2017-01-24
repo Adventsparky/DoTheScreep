@@ -289,34 +289,32 @@ module.exports = {
 
         return true;
     },
-    checkIfWeAreReadyForStaticHarvesters : function(roomId) {
-        if(this.energyAvailableInRoom(Game.rooms[roomId]) > Memory.roleBuildCosts['staticHarvester']){
-            if(Memory.roomInfo.hasOwnProperty(roomId)) {
-                let room = Memory.roomInfo[roomId];
-                // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
-                // then pause all spawning in favour of a static harvester
-                Memory.spawningPaused = true;
-                for (let roleName in Memory.creepRoles) {
-                    if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                        let role = Memory.creepRoles[roleName];
-                        if (role.minRoomPopulation) {
-                            if (room.creeps !== undefined && room.creeps.length) {
-                                let creepsOfRole = _.filter(room.creeps, function (creep) {
-                                    return creep.memory.role == role.role;
-                                }).length;
-                                if (creepsOfRole < role.minRoomPopulation) {
-                                    // wa waaaaa
-                                    console.log('wa waaaa, have the energy capacity but not the min screeps required');
-                                    delete Memory.spawningPaused;
-                                    return;
-                                }
+    checkIfWeAreReadyForStaticHarvesters : function(room) {
+        console.log(room.name);
+        if(this.energyAvailableInRoom(Game.rooms[room.name]) > Memory.roleBuildCosts['staticHarvester']){
+            // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
+            // then pause all spawning in favour of a static harvester
+            Memory.spawningPaused=true;
+            for(let roleName in Memory.creepRoles) {
+                if(Memory.creepRoles.hasOwnProperty(roleName)) {
+                    let role=Memory.creepRoles[roleName];
+                    if(role.minRoomPopulation){
+                        if (room.creeps !== undefined && room.creeps.length) {
+                            let creepsOfRole = _.filter(room.creeps, function (creep) {
+                                return creep.memory.role == role.role;
+                            }).length;
+                            if(creepsOfRole < role.minRoomPopulation){
+                                // wa waaaaa
+                                console.log('wa waaaa, have the energy capacity but not the min screeps required');
+                                delete Memory.spawningPaused;
+                                return;
                             }
                         }
                     }
                 }
-                console.log('Pausing spawn system, ready for big bastard harvesters');
-                return true;
             }
+            console.log('Pausing spawn system, ready for big bastard harvesters');
+            return true;
         } else{
             delete Memory.spawningPaused;
         }
