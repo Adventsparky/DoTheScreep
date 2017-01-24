@@ -294,10 +294,10 @@ module.exports = {
         console.log('Available: ' + Game.rooms[room].energyCapacityAvailable);
         console.log('Required: ' + Memory.roleBuildCosts['staticHarvester']);
         if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
-            console.log('ok we have the power');
+            console.log('ok we have the power, PAUSE SPAWNING');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
             // then pause all spawning in favour of a static harvester
-            Memory.spawningPaused=true;
+            // Memory.spawningPaused=true;
             for(let roleName in Memory.creepRoles) {
                 if(Memory.creepRoles.hasOwnProperty(roleName)) {
                     let role=Memory.creepRoles[roleName];
@@ -309,8 +309,8 @@ module.exports = {
                             }).length;
                             if(creepsOfRole < role.minRoomPopulation){
                                 // wa waaaaa
-                                console.log('wa waaaa, have the energy capacity but not the min screeps required');
-                                delete Memory.spawningPaused;
+                                console.log('wa waaaa, have the energy capacity but not the min screeps required, ENABLE SPAWNING AGAIN, damn you '+roleName);
+                                // delete Memory.spawningPaused;
                                 return;
                             }
                         }
@@ -320,7 +320,7 @@ module.exports = {
             console.log('Pausing spawn system, ready for big bastard harvesters');
             return true;
         } else{
-            delete Memory.spawningPaused;
+            // delete Memory.spawningPaused;
         }
     }
 };
