@@ -60,8 +60,8 @@ module.exports = {
         let x=structure.pos.x - 1;
         let y=structure.pos.y - 1;
 
-        console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
-        console.log('Start xy: '+x+','+y);
+        // console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
+        // console.log('Start xy: '+x+','+y);
 
         for(let i=0; i<3; i++) {
             y=structure.pos.y - 1;
@@ -76,7 +76,7 @@ module.exports = {
             x++;
         }
 
-        console.log('End xy: '+x+','+y);
+        // console.log('End xy: '+x+','+y);
         console.log(spaces+' empty spaces around '+structure);
 
     }
