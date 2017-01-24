@@ -63,7 +63,7 @@ module.exports = {
         console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
         console.log('Start xy: '+x+','+y);
 
-        for(let i=1; i<3; i++) {
+        for(let i=0; i<3; i++) {
             y=structure.pos.y - 1;
             for(let j=1; j<3; j++) {
                 // console.log('Check: '+x+','+y);
