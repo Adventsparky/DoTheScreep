@@ -291,8 +291,8 @@ module.exports = {
     },
     checkIfWeAreReadyForStaticHarvesters : function(room) {
         console.log(room);
-        console.log(Game.rooms[room].energyCapacityAvailable);
-        console.log(Memory.roleBuildCosts['staticHarvester']);
+        console.log('Available: ' + Game.rooms[room].energyCapacityAvailable);
+        console.log('Required: ' + Memory.roleBuildCosts['staticHarvester']);
         if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
             console.log('ok we have the power');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
