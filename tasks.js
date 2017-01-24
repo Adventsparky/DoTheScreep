@@ -131,13 +131,17 @@ module.exports = {
         }
     },
     buildNearestStructure: function(creep) {
+        console.log('wat');
         if(creep.memory.targetConstruction) {
+            console.log('wat3');
             let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
             if(targetConstruction) {
+                console.log('wat3');
                 if (creep.build(targetConstruction) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetConstruction);
                 }
             } else{
+                console.log('wat4');
                 delete creep.memory.targetConstruction;
                 delete creep.memory.building;
             }
