@@ -1,6 +1,6 @@
 const Tasks=require('tasks');
 
-const roleHarvester = {
+const roleStaticHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
