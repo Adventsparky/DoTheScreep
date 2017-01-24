@@ -11,7 +11,7 @@ const roleHarvester = {
 
         if(!currentlyHarvesting && creep.carry.energy == 0) {
             // We haven't started harvesting yet and we're out of energy, creep's gotta eat
-            Tasks.findNearestEnergy(creep)
+            Tasks.findNearestEnergy(creep);
             delete creep.memory.targetDropoff;
         }
 
@@ -28,7 +28,7 @@ const roleHarvester = {
             // console.log('aimless harvester: '+creep.name);
             if(creep.carry.energy < creep.carryCapacity) {
                 // Find fresh source
-                Tasks.findNearestEnergy(creep)
+                Tasks.findNearestEnergy(creep);
                 delete creep.memory.targetDropoff;
             }
             if(creep.carry.energy == creep.carryCapacity) {
