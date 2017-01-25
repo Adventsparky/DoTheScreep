@@ -30,7 +30,7 @@ module.exports.loop = function () {
                 if(availableSources.hasOwnProperty(sourceNum)){
                     let source=availableSources[sourceNum];
 
-                    Query.countAccessibleSpacesAroundStructure(source);
+                    // Query.countAccessibleSpacesAroundStructure(source);
 
                     if (source.dedicatedMiner === undefined) {
                         source.dedicatedMiner = 0;

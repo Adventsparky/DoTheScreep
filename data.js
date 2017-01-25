@@ -74,9 +74,5 @@ module.exports = {
             }
             x++;
         }
-
-        // console.log('End xy: '+x+','+y);
-        console.log(spaces+' empty spaces around '+structure);
-
     }
 };
