@@ -30,9 +30,12 @@ module.exports = {
         // Count how many are heading to this, if it's more than 3, check the next
         _.each(room.availableSources, function(source) {
             console.log('check source '+source.id);
+            console.log(room.creeps);
 
             let creepAssignedToSourceCount=0;
             _.each(room.creeps, function(creep) {
+                console.log(creep);
+                console.log(creep.targetSource);
                 if (creep.targetSource && creep.targetSource == source.id){
                     creepAssignedToSourceCount++;
                     console.log('Another for '+source.id);
