@@ -148,7 +148,7 @@ module.exports = {
             });
         }
 
-        if(potentialConstructions.length == 0) {
+        if(potentialConstructions.length > 0) {
             try {
                 let target = _.reduce(potentialConstructions, function(result, site) {
                     let range=creep.pos.getRangeTo(site);
