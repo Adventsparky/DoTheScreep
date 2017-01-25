@@ -22,6 +22,34 @@ module.exports = {
             delete creep.memory.targetDropoff; // This will only be for harvesters
         }
     },
+    findNearestOrLeastBusySource : function(creep) {
+        let assignedToCurrentChoice = 0;
+        let room = Memory.roomInfo[creep.room.name]
+        console.log(room);
+
+        // Count how many are heading to this, if it's more than 3, check the next
+        _.each(room.availableSources, function(source) {
+            console.log('check source '+source.id);
+
+            let creepAssignedToSourceCount=0;
+            _.each(room.creeps, function(creep) {
+                if (creep.targetSource && creep.targetSource == source.id){
+                    creepAssignedToSourceCount++;
+                    console.log('Another for '+source.id);
+                }
+            });
+
+            console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
+
+            if (creepAssignedToSourceCount < 3 || creepAssignedToSourceCount < assignedToCurrentChoice) {
+                console.log(creep+ ' choosing '+source.id);
+                // This will do
+                assignedToCurrentChoice=creepAssignedToSourceCount;
+                creep.memory.targetSource=source.id;
+                delete creep.memory.targetDropoff; // This will only be for harvesters
+            }
+        });
+    },
     structureHasSpaceForEnergy : function (structure) {
         if(structure.structureType == STRUCTURE_CONTAINER) {
             return _.sum(structure.store) < structure.storeCapacity;
