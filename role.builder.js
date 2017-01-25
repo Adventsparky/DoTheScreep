@@ -19,7 +19,7 @@ const roleBuilder = {
 
         if(creep.memory.building) {
             if(!creep.memory.targetConstruction){
-                Tasks.findNearestConstruction(creep);
+                Tasks.findNearestConstructionTowerExtensionRoad(creep);
             }
             Tasks.buildNearestStructure(creep);
         }

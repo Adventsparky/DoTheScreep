@@ -124,16 +124,47 @@ module.exports = {
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
-    findNearestConstruction : function(creep) {
-        let closestBuildingSite=creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
-        if(closestBuildingSite) {
-            creep.memory.targetConstruction=closestBuildingSite.id;
+    findNearestConstructionTowerExtensionRampartWall : function(creep) {
+        let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+        let potentialConstructions = _.filter(sites, function(constructionSite) {
+            return constructionSite.structureType == STRUCTURE_TOWER;
+        });
+        if(potentialConstructions.length == 0) {
+            potentialConstructions = _.filter(sites, function(constructionSite) {
+                return constructionSite.structureType == STRUCTURE_EXTENSION;
+            });
+        }
+        if(potentialConstructions.length == 0) {
+            potentialConstructions = _.filter(sites, function (constructionSite) {
+                return constructionSite.structureType == STRUCTURE_RAMPART;
+            });
+        }
+        if(potentialConstructions.length == 0) {
+            potentialConstructions = _.filter(sites, function (constructionSite) {
+                return constructionSite.structureType == STRUCTURE_WALL;
+            });
+        }
+
+        if(potentialConstructions.length == 0) {
+            try {
+                let target = _.reduce(potentialConstructions, function(result, site) {
+                    let range=creep.pos.getRangeTo(site);
+                    if(result && result.range < range) {
+                        return result;
+                    }
+                    return {range: range, site: site}
+                },{range: 99999});
+                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                creep.memory.targetConstruction=target.site.id
+            }catch(e) {
+                console.log(e);
+            }
+        } else {
+            creep.say('no builds');
         }
     },
     buildNearestStructure: function(creep) {
-        console.log('wat');
         if(creep.memory.targetConstruction) {
-            console.log('wat3');
             let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
             if(targetConstruction) {
                 console.log(creep.build(targetConstruction));
@@ -141,7 +172,6 @@ module.exports = {
                     creep.moveTo(targetConstruction);
                 }
             } else{
-                console.log('wat4');
                 delete creep.memory.targetConstruction;
                 delete creep.memory.building;
             }
