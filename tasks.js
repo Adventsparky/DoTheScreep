@@ -201,7 +201,6 @@ module.exports = {
         if(creep.memory.targetConstruction) {
             let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
             if(targetConstruction) {
-                console.log(creep.build(targetConstruction));
                 if (creep.build(targetConstruction) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetConstruction);
                 }
