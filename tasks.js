@@ -126,7 +126,10 @@ module.exports = {
     // },
     findNearestConstructionTowerExtensionRampartWall : function(creep) {
         let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+        console.log(sites);
         let potentialConstructions = _.filter(sites, function(constructionSite) {
+            console.log(constructionSite);
+            console.log(constructionSite.structureType);
             return constructionSite.structureType == STRUCTURE_TOWER;
         });
         if(potentialConstructions.length == 0) {
