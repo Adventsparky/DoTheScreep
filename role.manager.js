@@ -31,7 +31,7 @@ module.exports = {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'upgrader',
-        targetRoomPopulation: 4,
+        targetRoomPopulation: 2,
         minRoomPopulation: 1,
         run: roleUpgrader.run
     }
