@@ -359,7 +359,7 @@ module.exports = {
         //     return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
         // });
 
-        console.log(sourceWithoutStaticHarvester+' does not have id');
+        // console.log(sourceWithoutStaticHarvester+' does not have id');
 
         if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
             console.log('Pausing spawn system, ready for big bastard harvesters');
