@@ -157,10 +157,7 @@ module.exports = {
     // },
     findNearestConstructionTowerExtensionRampartWall : function(creep) {
         let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
-        console.log(sites);
         let potentialConstructions = _.filter(sites, function(constructionSite) {
-            console.log(constructionSite);
-            console.log(constructionSite.structureType);
             return constructionSite.structureType == STRUCTURE_TOWER;
         });
         if(potentialConstructions.length == 0) {
@@ -356,6 +353,14 @@ module.exports = {
         return true;
     },
     checkIfWeAreReadyForStaticHarvesters : function(room) {
+        // count sources without static harvester flag
+        let sources = Memory.roomInfo[room.name].availableSources;
+        let sourceWithoutStaticHarvester = _.filter(sources, function (structure) {
+            return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
+        });
+
+        console.log(sourceWithoutStaticHarvester+' does not have id');
+
         if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
             console.log('Pausing spawn system, ready for big bastard harvesters');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
@@ -379,6 +384,9 @@ module.exports = {
                     }
                 }
             }
+
+            // we're good to spawn statics
+
             return true;
         } else{
             // delete Memory.spawningPaused;
