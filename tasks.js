@@ -44,24 +44,23 @@ module.exports = {
             console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
 
             let creepAllowanceForSource=source.accessibleSpaces+1;
-            console.log(creepAllowanceForSource);
+            // console.log(creepAllowanceForSource);
             let creepOverflowForSource=source.accessibleSpaces*1.5;
-            console.log(creepOverflowForSource);
+            // console.log(creepOverflowForSource);
 
-            if (creepAssignedToSourceCount <= creepAllowanceForSource) {
-                console.log('choosing because there is space');
-            } else if (creepAssignedToSourceCount <= creepOverflowForSource) {
-                console.log('choosing because there is overflowspace');
-            } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
-                console.log('default choice, less creeps waiting');
-            }
+            // if (creepAssignedToSourceCount <= creepAllowanceForSource) {
+            //     console.log('choosing because there is space');
+            // } else if (creepAssignedToSourceCount <= creepOverflowForSource) {
+            //     console.log('choosing because there is overflowspace');
+            // } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
+            //     console.log('default choice, less creeps waiting');
+            // }
 
 
             if (bestChoiceSource==null ||
                 creepAssignedToSourceCount <= creepAllowanceForSource ||
                 creepAssignedToSourceCount <= creepOverflowForSource ||
                 creepAssignedToSourceCount < assignedToCurrentChoice) {
-                console.log(creep+ ' choosing '+source.id);
                 // This will do
                 bestChoiceSource=source;
                 assignedToCurrentChoice=creepAssignedToSourceCount;
@@ -69,6 +68,7 @@ module.exports = {
         });
 
         if(bestChoiceSource){
+            console.log(creep+ ' choosing '+bestChoiceSource.id);
             creep.memory.targetSource=bestChoiceSource.id;
             delete creep.memory.targetDropoff; // This will only be for harvesters
         } else {
