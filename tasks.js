@@ -236,11 +236,19 @@ module.exports = {
         }
     },
     repairNearestStructure: function(creep) {
+        // Prioritise towers
         let closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
+                return structure.structureType == STRUCTURE_TOWER && (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
             }
         });
+        if(!closestDamagedStructure) {
+            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
+                }
+            });
+        }
         if(!closestDamagedStructure) {
             // Try again with higher threshold
             closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
