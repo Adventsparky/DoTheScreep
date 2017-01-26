@@ -39,8 +39,8 @@ module.exports.loop = function () {
                     //     console.log(Memory.sources[source.id]);
                     // }
 
-                    if (source.dedicatedMiner === undefined) {
-                        source.dedicatedMiner = {};
+                    if (source.accessibleSpaces === undefined) {
+                        source.accessibleSpaces = 0;
                     }
                     source.accessibleSpaces = Query.countAccessibleSpacesAroundPoint(source.room, source.pos);
                 }
