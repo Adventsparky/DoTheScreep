@@ -39,6 +39,8 @@ module.exports.loop = function () {
                     //     console.log(Memory.sources[source.id]);
                     // }
 
+                    console.log(source.accessibleSpaces);
+
                     if (source.accessibleSpaces === undefined) {
                         source.accessibleSpaces = 0;
                     }
