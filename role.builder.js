@@ -35,7 +35,7 @@ const roleBuilder = {
             } else {
                 // collect energy
                 if (!creep.memory.targetSource) {
-                    Tasks.findNearestEnergy(creep);
+                    Tasks.findNearestOrLeastBusySource(creep);
                 }
                 delete creep.memory.targetDropoff;
                 Tasks.collectEnergy(creep);

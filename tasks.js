@@ -33,6 +33,8 @@ module.exports = {
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         _.each(room.availableSources, function(source) {
+            if(source.)
+
             console.log('check source '+source.id);
             let creepAssignedToSourceCount=0;
             _.each(room.creeps, function(harvestingCreep) {
