@@ -216,7 +216,7 @@ module.exports = {
                 console.log(e);
             }
         } else {
-            creep.say('no builds');
+            // creep.say('no builds');
         }
     },
     buildNearestStructure: function(creep) {
