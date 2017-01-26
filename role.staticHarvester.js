@@ -17,14 +17,15 @@ const roleStaticHarvester = {
             }
         }
 
+        let source = _.find(room.availableSources, function (source) {
+            return source.id == creep.memory.targetSource;
+        });
+
         let canHarvest=creep.harvest(creep.memory.targetSource);
         if (canHarvest == ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.memory.targetSource);
             return;
         } else{
-            let source = _.find(room.availableSources, function (source) {
-                return source.id == creep.memory.targetSource;
-            });
             source.dedicatedMiner=creep.id;
         }
 
@@ -35,7 +36,7 @@ const roleStaticHarvester = {
             if (!closestContainer || closestContainer.pos != creep.pos) {
                 creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
             } else {
-                creep.memory.staticMinerContainer=closestContainer;
+                source.container=closestContainer;
             }
         }
 

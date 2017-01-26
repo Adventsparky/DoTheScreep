@@ -33,39 +33,45 @@ module.exports = {
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         _.each(room.availableSources, function(source) {
-            if(source.)
-
-            console.log('check source '+source.id);
-            let creepAssignedToSourceCount=0;
-            _.each(room.creeps, function(harvestingCreep) {
-                if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == source.id){
-                    creepAssignedToSourceCount++;
+            if(source.dedicatedMiner) {
+                console.log('Miner here, look for container');
+                if (source.container) {
+                   console.log('No container yet, tough shit.');
                 }
-            });
+            } else {
 
-            console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
+                console.log('check source ' + source.id);
+                let creepAssignedToSourceCount = 0;
+                _.each(room.creeps, function (harvestingCreep) {
+                    if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == source.id) {
+                        creepAssignedToSourceCount++;
+                    }
+                });
 
-            let creepAllowanceForSource=source.accessibleSpaces+1;
-            // console.log(creepAllowanceForSource);
-            let creepOverflowForSource=source.accessibleSpaces*1.5;
-            // console.log(creepOverflowForSource);
+                console.log('Total of ' + creepAssignedToSourceCount + ' at ' + source.id);
 
-            // if (creepAssignedToSourceCount <= creepAllowanceForSource) {
-            //     console.log('choosing because there is space');
-            // } else if (creepAssignedToSourceCount <= creepOverflowForSource) {
-            //     console.log('choosing because there is overflowspace');
-            // } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
-            //     console.log('default choice, less creeps waiting');
-            // }
+                let creepAllowanceForSource = source.accessibleSpaces + 1;
+                // console.log(creepAllowanceForSource);
+                let creepOverflowForSource = source.accessibleSpaces * 1.5;
+                // console.log(creepOverflowForSource);
+
+                // if (creepAssignedToSourceCount <= creepAllowanceForSource) {
+                //     console.log('choosing because there is space');
+                // } else if (creepAssignedToSourceCount <= creepOverflowForSource) {
+                //     console.log('choosing because there is overflowspace');
+                // } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
+                //     console.log('default choice, less creeps waiting');
+                // }
 
 
-            if (bestChoiceSource==null ||
-                creepAssignedToSourceCount <= creepAllowanceForSource ||
-                creepAssignedToSourceCount <= creepOverflowForSource ||
-                creepAssignedToSourceCount < assignedToCurrentChoice) {
-                // This will do
-                bestChoiceSource=source;
-                assignedToCurrentChoice=creepAssignedToSourceCount;
+                if (bestChoiceSource == null ||
+                    creepAssignedToSourceCount <= creepAllowanceForSource ||
+                    creepAssignedToSourceCount <= creepOverflowForSource ||
+                    creepAssignedToSourceCount < assignedToCurrentChoice) {
+                    // This will do
+                    bestChoiceSource = source;
+                    assignedToCurrentChoice = creepAssignedToSourceCount;
+                }
             }
         });
 
