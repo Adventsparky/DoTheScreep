@@ -24,21 +24,16 @@ module.exports = {
     },
     findNearestOrLeastBusySource : function(creep) {
         let assignedToCurrentChoice = 0;
-        let room = Memory.roomInfo[creep.room.name]
+        let room = Memory.roomInfo[creep.room.name];
         console.log(room);
 
         // Count how many are heading to this, if it's more than 3, check the next
         _.each(room.availableSources, function(source) {
             console.log('check source '+source.id);
-            console.log(room.creeps);
-
             let creepAssignedToSourceCount=0;
-            _.each(room.creeps, function(creep) {
-                console.log(creep);
-                console.log(creep.memory.targetSource);
-                if (creep.memory.targetSource && creep.memory.targetSource == source.id){
+            _.each(room.creeps, function(harvestingCreep) {
+                if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == source.id){
                     creepAssignedToSourceCount++;
-                    console.log('Another for '+source.id);
                 }
             });
 
