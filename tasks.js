@@ -35,8 +35,8 @@ module.exports = {
             let creepAssignedToSourceCount=0;
             _.each(room.creeps, function(creep) {
                 console.log(creep);
-                console.log(creep.targetSource);
-                if (creep.targetSource && creep.targetSource == source.id){
+                console.log(creep.memory.targetSource);
+                if (creep.memory.targetSource && creep.memory.targetSource == source.id){
                     creepAssignedToSourceCount++;
                     console.log('Another for '+source.id);
                 }
