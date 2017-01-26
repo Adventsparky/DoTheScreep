@@ -27,6 +27,7 @@ module.exports = {
         let room = Memory.roomInfo[creep.room.name];
         console.log(room);
 
+        let bestChoiceSource=null;
         // Count how many are heading to this, if it's more than 3, check the next
         _.each(room.availableSources, function(source) {
             console.log('check source '+source.id);
@@ -39,14 +40,20 @@ module.exports = {
 
             console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
 
-            if (creepAssignedToSourceCount < 3 || creepAssignedToSourceCount < assignedToCurrentChoice) {
+            if (bestChoiceSource==null || creepAssignedToSourceCount < 3 || creepAssignedToSourceCount < assignedToCurrentChoice) {
                 console.log(creep+ ' choosing '+source.id);
                 // This will do
+                bestChoiceSource=source;
                 assignedToCurrentChoice=creepAssignedToSourceCount;
-                creep.memory.targetSource=source.id;
-                delete creep.memory.targetDropoff; // This will only be for harvesters
             }
         });
+
+        if(bestChoiceSource){
+            creep.memory.targetSource=bestChoiceSource.id;
+            delete creep.memory.targetDropoff; // This will only be for harvesters
+        } else {
+            console.log('Could not find a best choice source?? What??');
+        }
     },
     structureHasSpaceForEnergy : function (structure) {
         if(structure.structureType == STRUCTURE_CONTAINER) {
