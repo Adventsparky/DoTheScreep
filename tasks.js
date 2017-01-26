@@ -185,26 +185,22 @@ module.exports = {
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
-    findNearestConstructionTowerExtensionRampartWall : function(creep) {
+    findNearestConstructionTowerContainerExtensionRampartWall : function(creep) {
         let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
         let potentialConstructions = _.filter(sites, function(constructionSite) {
             return constructionSite.structureType == STRUCTURE_TOWER;
         });
         if(potentialConstructions.length == 0) {
             potentialConstructions = _.filter(sites, function(constructionSite) {
-                return constructionSite.structureType == STRUCTURE_EXTENSION;
+                return constructionSite.structureType == STRUCTURE_TOWER ||
+                    constructionSite.structureType == STRUCTURE_CONTAINER && constructionSite.staticHarvester ||
+                    constructionSite.structureType == STRUCTURE_CONTAINER ||
+                    constructionSite.structureType == STRUCTURE_EXTENSION ||
+                    constructionSite.structureType == STRUCTURE_RAMPART ||
+                    constructionSite.structureType == STRUCTURE_WALL;
             });
         }
-        if(potentialConstructions.length == 0) {
-            potentialConstructions = _.filter(sites, function (constructionSite) {
-                return constructionSite.structureType == STRUCTURE_RAMPART;
-            });
-        }
-        if(potentialConstructions.length == 0) {
-            potentialConstructions = _.filter(sites, function (constructionSite) {
-                return constructionSite.structureType == STRUCTURE_WALL;
-            });
-        }
+
         if(potentialConstructions.length == 0) {
             potentialConstructions=sites;
         }

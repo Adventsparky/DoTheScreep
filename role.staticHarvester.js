@@ -34,7 +34,8 @@ const roleStaticHarvester = {
             console.log('Ok we are harvesting away not a bother');
             let closestContainer = creep.pos.findClosestByRange(STRUCTURE_CONTAINER);
             if (!closestContainer || closestContainer.pos != creep.pos) {
-                creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                let site = creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                site.staticHarvester=true;
             } else {
                 source.container=closestContainer;
             }
