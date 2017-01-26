@@ -39,6 +39,7 @@ module.exports.loop = function () {
                     //     console.log(Memory.sources[source.id]);
                     // }
 
+                    source.accessibleSpaces = Query.countAccessibleSpacesAroundPoint(source.room, source.pos);
                 }
             }
 

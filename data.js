@@ -51,23 +51,24 @@ module.exports = {
     /*
      * TERRAIN
      */
-    countAccessibleSpacesAroundStructure(structure) {
+    countAccessibleSpacesAroundPoint(room,pos) {
         // console.log('Check '+structure);
         let spaces=0;
 
         // Checking the immediate spaces so start top right
-        let x=structure.pos.x - 1;
-        let y=structure.pos.y - 1;
+        let x=pos.x - 1;
+        let y=pos.y - 1;
 
         // console.log('Structure xy: '+structure.pos.x+','+structure.pos.y);
         // console.log('Start xy: '+x+','+y);
 
         for(let i=0; i<3; i++) {
-            y=structure.pos.y - 1;
+            y=pos.y - 1;
             for(let j=0; j<3; j++) {
                 // console.log('Check: '+x+','+y);
                 // console.log(Game.map.getTerrainAt(x,y,structure.room.name));
-                if(Game.map.getTerrainAt(x,y,structure.room.name) == 'plain') {
+                if(Game.map.getTerrainAt(x,y,room.name) == 'plain' ||
+                    Game.map.getTerrainAt(x,y,room.name) == 'swamp') {
                     spaces++;
                 }
                 y++;

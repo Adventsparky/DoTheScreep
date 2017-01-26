@@ -28,7 +28,10 @@ module.exports = {
         console.log(room);
 
         let bestChoiceSource=null;
-        // Count how many are heading to this, if it's more than 3, check the next
+        // Count how many are heading to this vs how many slots it has
+        // Allow default of available harvest points +1 to wait
+        // After that, prefer the point with more available slots
+        // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         _.each(room.availableSources, function(source) {
             console.log('check source '+source.id);
             let creepAssignedToSourceCount=0;
@@ -40,7 +43,14 @@ module.exports = {
 
             console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
 
-            if (bestChoiceSource==null || creepAssignedToSourceCount < 3 || creepAssignedToSourceCount < assignedToCurrentChoice) {
+            let creepAllowanceForSource=creepAssignedToSourceCount+1;
+            let creepBacklogForSource=creepAssignedToSourceCount*1.5;
+
+            if (bestChoiceSource==null ||
+                creepAssignedToSourceCount <= source.accessibleSpaces ||
+                creepAssignedToSourceCount <= creepAllowanceForSource ||
+                creepAssignedToSourceCount <= creepBacklogForSource ||
+                creepAssignedToSourceCount < assignedToCurrentChoice) {
                 console.log(creep+ ' choosing '+source.id);
                 // This will do
                 bestChoiceSource=source;
