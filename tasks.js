@@ -317,17 +317,17 @@ module.exports = {
                                     }
 
                                     if (creepleCountForRole < role.targetRoomPopulation) {
-                                        // console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
-                                        // console.log(Game.rooms[roomId].energyCapacityAvailable);
-                                        // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
+                                        console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
+                                        console.log(Game.rooms[roomId].energyCapacityAvailable);
+                                        console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
 
-                                        // if(Game.rooms[roomId].energyCapacityAvailable > Memory.roleBuildCosts[role.role+'Stage2Parts']){
-                                        // console.log('Build big one');
-                                        // room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
-                                        // } else {
-                                        // console.log('Build little one');
-                                        room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
-                                        // }
+                                        if(Game.rooms[roomId].canCreateCreep(role.stage2Parts, undefined)){
+                                            console.log('Build big one');
+                                            room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
+                                        } else {
+                                            console.log('Build little one');
+                                            room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                                        }
                                         return false;
                                     }
                                 }catch(e){
