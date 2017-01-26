@@ -43,16 +43,14 @@ module.exports = {
 
             console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
 
-            let creepAllowanceForSource=creepAssignedToSourceCount+1;
+            let creepAllowanceForSource=source.accessibleSpaces+1;
             console.log(creepAllowanceForSource);
-            let creepBacklogForSource=creepAssignedToSourceCount*1.5;
-            console.log(creepBacklogForSource);
+            let creepOverflowForSource=source.accessibleSpaces*1.5;
+            console.log(creepOverflowForSource);
 
-            if (creepAssignedToSourceCount <= source.accessibleSpaces ) {
+            if (creepAssignedToSourceCount <= creepAllowanceForSource) {
                 console.log('choosing because there is space');
-            } else if (creepAssignedToSourceCount <= creepAllowanceForSource) {
-                console.log('choosing because there is a wait space');
-            } else if (creepAssignedToSourceCount <= creepBacklogForSource) {
+            } else if (creepAssignedToSourceCount <= creepOverflowForSource) {
                 console.log('choosing because there is overflowspace');
             } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
                 console.log('default choice, less creeps waiting');
@@ -60,9 +58,8 @@ module.exports = {
 
 
             if (bestChoiceSource==null ||
-                creepAssignedToSourceCount <= source.accessibleSpaces ||
                 creepAssignedToSourceCount <= creepAllowanceForSource ||
-                creepAssignedToSourceCount <= creepBacklogForSource ||
+                creepAssignedToSourceCount <= creepOverflowForSource ||
                 creepAssignedToSourceCount < assignedToCurrentChoice) {
                 console.log(creep+ ' choosing '+source.id);
                 // This will do
