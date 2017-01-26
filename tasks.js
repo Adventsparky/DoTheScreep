@@ -44,7 +44,9 @@ module.exports = {
             console.log('Total of '+creepAssignedToSourceCount+' at '+source.id);
 
             let creepAllowanceForSource=creepAssignedToSourceCount+1;
+            console.log(creepAllowanceForSource);
             let creepBacklogForSource=creepAssignedToSourceCount*1.5;
+            console.log(creepBacklogForSource);
 
             if (bestChoiceSource==null ||
                 creepAssignedToSourceCount <= source.accessibleSpaces ||
