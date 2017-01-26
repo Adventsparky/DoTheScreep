@@ -48,6 +48,17 @@ module.exports = {
             let creepBacklogForSource=creepAssignedToSourceCount*1.5;
             console.log(creepBacklogForSource);
 
+            if (creepAssignedToSourceCount <= source.accessibleSpaces ) {
+                console.log('choosing because there is space');
+            } else if (creepAssignedToSourceCount <= creepAllowanceForSource) {
+                console.log('choosing because there is a wait space');
+            } else if (creepAssignedToSourceCount <= creepBacklogForSource) {
+                console.log('choosing because there is overflowspace');
+            } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
+                console.log('default choice, less creeps waiting');
+            }
+
+
             if (bestChoiceSource==null ||
                 creepAssignedToSourceCount <= source.accessibleSpaces ||
                 creepAssignedToSourceCount <= creepAllowanceForSource ||
