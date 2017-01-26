@@ -8,7 +8,7 @@ const roleHarvester = {
         let currentlyHarvesting=creep.memory.targetSource;
 
         // Two checks to set up the harvesting flag only get run when it fills, or empties
-        Tasks.findNearestOrLeastBusySource(creep);
+        // Tasks.findNearestOrLeastBusySource(creep);
 
         if(!currentlyHarvesting && creep.carry.energy == 0) {
             // We haven't started harvesting yet and we're out of energy, creep's gotta eat
