@@ -75,5 +75,7 @@ module.exports = {
             }
             x++;
         }
+        console.log('Found '+spaces+' '+pos+' in '+room);
+        return spaces;
     }
 };
