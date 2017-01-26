@@ -354,10 +354,10 @@ module.exports = {
     },
     checkIfWeAreReadyForStaticHarvesters : function(room) {
         // count sources without static harvester flag
-        let sources = Memory.roomInfo[room.name].availableSources;
-        let sourceWithoutStaticHarvester = _.filter(sources, function (structure) {
-            return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
-        });
+        // let sources = Memory.roomInfo[room.name].availableSources;
+        // let sourceWithoutStaticHarvester = _.filter(sources, function (structure) {
+        //     return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
+        // });
 
         console.log(sourceWithoutStaticHarvester+' does not have id');
 
