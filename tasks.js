@@ -51,17 +51,7 @@ module.exports = {
                 console.log('Total of ' + creepAssignedToSourceCount + ' at ' + source.id);
 
                 let creepAllowanceForSource = source.accessibleSpaces + 1;
-                // console.log(creepAllowanceForSource);
                 let creepOverflowForSource = source.accessibleSpaces * 1.5;
-                // console.log(creepOverflowForSource);
-
-                // if (creepAssignedToSourceCount <= creepAllowanceForSource) {
-                //     console.log('choosing because there is space');
-                // } else if (creepAssignedToSourceCount <= creepOverflowForSource) {
-                //     console.log('choosing because there is overflowspace');
-                // } else if (creepAssignedToSourceCount < assignedToCurrentChoice) {
-                //     console.log('default choice, less creeps waiting');
-                // }
 
 
                 if (bestChoiceSource == null) {
@@ -73,6 +63,9 @@ module.exports = {
                 } else {
                     let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
                     // let sourceScore=creepAssignedToSourceCount / creepOverflowForSource;
+                    console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
+                    console.log('Score for '+source.id+': '+sourceScore);
+
                     if (sourceScore < bestChoiceSource.score){
                         bestChoiceSource.source=source;
                         bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
