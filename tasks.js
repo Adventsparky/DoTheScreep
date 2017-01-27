@@ -64,13 +64,19 @@ module.exports = {
                 // }
 
 
-                if (bestChoiceSource == null ||
-                    creepAssignedToSourceCount <= creepAllowanceForSource ||
-                    creepAssignedToSourceCount <= creepOverflowForSource ||
-                    creepAssignedToSourceCount < assignedToCurrentChoice) {
-                    // This will do
-                    bestChoiceSource = source;
-                    assignedToCurrentChoice = creepAssignedToSourceCount;
+                if (bestChoiceSource == null) {
+                    // We have nothing, so ANYTHING is the best choice
+                    bestChoiceSource={};
+                    bestChoiceSource.source=source;
+                    bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
+                    // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
+                } else {
+                    let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
+                    // let sourceScore=creepAssignedToSourceCount / creepOverflowForSource;
+                    if (sourceScore < bestChoiceSource.score){
+                        bestChoiceSource.source=source;
+                        bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
+                    }
                 }
             }
         });
