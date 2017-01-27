@@ -29,15 +29,18 @@ const roleStaticHarvester = {
             source.dedicatedMiner=creep.id;
         }
 
-// TRYING TO MARK CONSTRUCTION SITES TO GET PRIORITY, MAYBE A PUSH QUEUE THAT BUILDERS CHECK FIRST todo
-
         // We got this far check for adjacent container
         if (!creep.memory.staticMinerContainer && canHarvest == OK) {
             console.log('Ok we are harvesting away not a bother');
             let closestContainer = creep.pos.findClosestByRange(STRUCTURE_CONTAINER);
             if (!closestContainer || closestContainer.pos != creep.pos) {
                 let site = creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                site.staticHarvester=true;
+                if(site == OK) {
+                    Memory.priorityConstructions.push(site);
+                    site.staticHarvester = true;
+                } else {
+                    creep.say('ERROR XH33');
+                }
             } else {
                 source.container=closestContainer;
             }

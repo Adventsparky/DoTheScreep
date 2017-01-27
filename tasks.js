@@ -51,7 +51,7 @@ module.exports = {
                 console.log('Total of ' + creepAssignedToSourceCount + ' at ' + source.id);
 
                 let creepAllowanceForSource = source.accessibleSpaces + 1;
-                let creepOverflowForSource = source.accessibleSpaces * 1.5;
+                // let creepOverflowForSource = source.accessibleSpaces * 1.5;
 
 
                 if (bestChoiceSource == null) {
@@ -63,12 +63,13 @@ module.exports = {
                 } else {
                     let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
                     // let sourceScore=creepAssignedToSourceCount / creepOverflowForSource;
-                    console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
-                    console.log('Score for '+source.id+': '+sourceScore);
+                    // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
+                    // console.log('Score for '+source.id+': '+sourceScore);
 
                     if (sourceScore < bestChoiceSource.score){
                         bestChoiceSource.source=source;
                         bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
+                        // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
                     }
                 }
             }
@@ -185,6 +186,11 @@ module.exports = {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
     findNearestConstructionTowerContainerExtensionRampartWall : function(creep) {
+
+        // let potentialConstructions=Memory.priorityConstructions;
+        console.log('-- BUILD --');
+        console.log(Memory.priorityConstructions);
+
         let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
         let potentialConstructions = _.filter(sites, function(constructionSite) {
             return constructionSite.structureType == STRUCTURE_TOWER;
@@ -199,6 +205,8 @@ module.exports = {
                     constructionSite.structureType == STRUCTURE_WALL;
             });
         }
+
+        console.log(potentialConstructions);
 
         if(potentialConstructions.length == 0) {
             potentialConstructions=sites;
