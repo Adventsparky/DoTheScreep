@@ -29,6 +29,8 @@ const roleStaticHarvester = {
             source.dedicatedMiner=creep.id;
         }
 
+// TRYING TO MARK CONSTRUCTION SITES TO GET PRIORITY, MAYBE A PUSH QUEUE THAT BUILDERS CHECK FIRST todo
+
         // We got this far check for adjacent container
         if (!creep.memory.staticMinerContainer && canHarvest == OK) {
             console.log('Ok we are harvesting away not a bother');
