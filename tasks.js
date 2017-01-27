@@ -75,8 +75,8 @@ module.exports = {
         });
 
         if(bestChoiceSource){
-            console.log(creep+ ' choosing '+bestChoiceSource.id);
-            creep.memory.targetSource=bestChoiceSource.id;
+            console.log(creep+ ' choosing '+bestChoiceSource.source.id);
+            creep.memory.targetSource=bestChoiceSource.source.id;
             delete creep.memory.targetDropoff; // This will only be for harvesters
         } else {
             console.log('Could not find a best choice source?? What??');
