@@ -22,6 +22,7 @@ const roleStaticHarvester = {
         });
 
         if (creep.harvest(creep.memory.targetSource) == ERR_NOT_IN_RANGE) {
+            console.log('get closer');
             creep.moveTo(creep.memory.targetSource);
             return;
         } else{
