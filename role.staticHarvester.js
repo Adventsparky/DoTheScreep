@@ -31,7 +31,7 @@ const roleStaticHarvester = {
             source.dedicatedMiner=creep.id;
 
             // We got this far check for adjacent container
-            if (!creep.memory.staticMinerContainer) {
+            if (!creep.memory.staticMinerContainer || !source.container) {
                 console.log('Ok we are harvesting away not a bother');
                 let closestContainer = creep.pos.findClosestByRange(STRUCTURE_CONTAINER);
                 if (!closestContainer || closestContainer.pos != creep.pos) {
@@ -43,6 +43,7 @@ const roleStaticHarvester = {
 
                 } else {
                     source.container=closestContainer;
+                    creep.memory.staticMinerContainer=closestContainer;
                 }
             }
         }
