@@ -31,7 +31,8 @@ module.exports = {
         // Allow default of available harvest points +1 to wait
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
-        _.each(room.availableSources, function(source) {
+        let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
+        _.each(potentialSources, function(source) {
             let sourceContainer=source.container;
 
             let targetSource=sourceContainer ? sourceContainer : source;
