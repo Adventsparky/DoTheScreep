@@ -23,7 +23,6 @@ module.exports = {
         }
     },
     findNearestOrLeastBusySource : function(creep) {
-        let assignedToCurrentChoice = 0;
         let room = Memory.roomInfo[creep.room.name];
         console.log(room);
 
@@ -33,44 +32,39 @@ module.exports = {
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         _.each(room.availableSources, function(source) {
-            if(source.dedicatedMiner && source.dedicatedMiner>0) {
-                console.log('Miner here, look for container');
-                if (source.container) {
-                   console.log('No container yet, tough shit.');
+            let sourceContainer=source.container;
+
+            let targetSource=sourceContainer ? sourceContainer : source;
+            console.log('check source ' + targetSource.id);
+            let creepAssignedToSourceCount = 0;
+            _.each(room.creeps, function (harvestingCreep) {
+                if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
+                    creepAssignedToSourceCount++;
                 }
+            });
+
+            console.log('Total of ' + creepAssignedToSourceCount + ' at ' + targetSource.id);
+
+            let creepAllowanceForSource = Query.countAccessibleSpacesAroundPoint(room, targetSource.pos) + 1;
+            // let creepOverflowForSource = source.accessibleSpaces * 1.5;
+
+
+            if (bestChoiceSource == null) {
+                // We have nothing, so ANYTHING is the best choice
+                bestChoiceSource={};
+                bestChoiceSource.source=targetSource;
+                bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
+                // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
             } else {
+                let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
+                // let sourceScore=creepAssignedToSourceCount / creepOverflowForSource;
+                // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
+                // console.log('Score for '+source.id+': '+sourceScore);
 
-                console.log('check source ' + source.id);
-                let creepAssignedToSourceCount = 0;
-                _.each(room.creeps, function (harvestingCreep) {
-                    if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == source.id) {
-                        creepAssignedToSourceCount++;
-                    }
-                });
-
-                console.log('Total of ' + creepAssignedToSourceCount + ' at ' + source.id);
-
-                let creepAllowanceForSource = source.accessibleSpaces + 1;
-                // let creepOverflowForSource = source.accessibleSpaces * 1.5;
-
-
-                if (bestChoiceSource == null) {
-                    // We have nothing, so ANYTHING is the best choice
-                    bestChoiceSource={};
-                    bestChoiceSource.source=source;
+                if (sourceScore < bestChoiceSource.score){
+                    bestChoiceSource.source=targetSource;
                     bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
                     // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
-                } else {
-                    let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
-                    // let sourceScore=creepAssignedToSourceCount / creepOverflowForSource;
-                    // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
-                    // console.log('Score for '+source.id+': '+sourceScore);
-
-                    if (sourceScore < bestChoiceSource.score){
-                        bestChoiceSource.source=source;
-                        bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
-                        // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
-                    }
                 }
             }
         });
@@ -404,9 +398,8 @@ module.exports = {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
         if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
-            console.log('Pausing spawn system, ready for big bastard harvesters');
+            console.log('Ready for big bastard harvesters');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
-            // then pause all spawning in favour of a static harvester
             // Memory.spawningPaused=true;
             for(let roleName in Memory.creepRoles) {
                 if(Memory.creepRoles.hasOwnProperty(roleName)) {
@@ -420,7 +413,7 @@ module.exports = {
                                 // wa waaaaa
                                 console.log('wa waaaa, have the energy capacity but not the min screeps required, ENABLE SPAWNING AGAIN, damn you '+roleName);
                                 // delete Memory.spawningPaused;
-                                return;
+                                return false;
                             }
                         }
                     }
@@ -430,8 +423,6 @@ module.exports = {
             // we're good to spawn statics
 
             return true;
-        } else{
-            // delete Memory.spawningPaused;
         }
     }
 };
