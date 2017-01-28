@@ -25,6 +25,8 @@ const roleStaticHarvester = {
             creep.moveTo(creep.memory.targetSource);
             return;
         } else{
+            console.log('set source');
+            console.log(creep.id);
             source.dedicatedMiner=creep.id;
 
             // We got this far check for adjacent container
