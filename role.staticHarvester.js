@@ -21,28 +21,26 @@ const roleStaticHarvester = {
             return source.id == creep.memory.targetSource;
         });
 
-        let canHarvest=creep.harvest(creep.memory.targetSource);
-        if (canHarvest == ERR_NOT_IN_RANGE) {
+        if (creep.harvest(creep.memory.targetSource) == ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.memory.targetSource);
             return;
         } else{
             source.dedicatedMiner=creep.id;
-        }
 
-        // We got this far check for adjacent container
-        if (!creep.memory.staticMinerContainer && canHarvest == OK) {
-            console.log('Ok we are harvesting away not a bother');
-            let closestContainer = creep.pos.findClosestByRange(STRUCTURE_CONTAINER);
-            if (!closestContainer || closestContainer.pos != creep.pos) {
-                let site = creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                if(site == OK) {
-                    Memory.priorityConstructions.push(site);
-                    site.staticHarvester = true;
+            // We got this far check for adjacent container
+            if (!creep.memory.staticMinerContainer) {
+                console.log('Ok we are harvesting away not a bother');
+                let closestContainer = creep.pos.findClosestByRange(STRUCTURE_CONTAINER);
+                if (!closestContainer || closestContainer.pos != creep.pos) {
+                    // Is there a site here already?
+                    let nearestSite = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
+                    if (!nearestSite || nearestSite.pos != creep.pos) {
+                        creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                    }
+
                 } else {
-                    creep.say('ERROR XH33');
+                    source.container=closestContainer;
                 }
-            } else {
-                source.container=closestContainer;
             }
         }
 

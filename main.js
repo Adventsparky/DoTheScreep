@@ -82,9 +82,6 @@ module.exports.loop = function () {
                 }
             }
 
-            // PRIORITY BUILDING QUEUE
-            storedRoom.priorityConstructions=[];
-
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
     }
