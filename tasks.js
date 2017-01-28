@@ -33,7 +33,7 @@ module.exports = {
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         _.each(room.availableSources, function(source) {
-            if(source.dedicatedMiner) {
+            if(source.dedicatedMiner && source.dedicatedMiner>0) {
                 console.log('Miner here, look for container');
                 if (source.container) {
                    console.log('No container yet, tough shit.');
