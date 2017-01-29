@@ -192,10 +192,6 @@ module.exports = {
     // },
     findNearestConstructionTowerContainerExtensionRampartWall : function(creep) {
 
-        // let potentialConstructions=Memory.priorityConstructions;
-        console.log('-- BUILD --');
-        console.log(Memory.priorityConstructions);
-
         let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
         let potentialConstructions = _.filter(sites, function(constructionSite) {
             return constructionSite.structureType == STRUCTURE_TOWER;
@@ -210,8 +206,6 @@ module.exports = {
                     constructionSite.structureType == STRUCTURE_WALL;
             });
         }
-
-        console.log(potentialConstructions);
 
         if(potentialConstructions.length == 0) {
             potentialConstructions=sites;
