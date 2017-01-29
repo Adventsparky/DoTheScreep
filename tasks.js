@@ -89,15 +89,17 @@ module.exports = {
         return structure.energy < structure.energyCapacity;
     },
     collectEnergy : function(creep) {
-        // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick
+        let harvestResult=OK;
         if(creep.memory.targetSource) {
             let targetSource = Game.getObjectById(creep.memory.targetSource);
             if(targetSource){
-                if(creep.harvest(targetSource) == ERR_NOT_IN_RANGE) {
+                harvestResult=creep.harvest(targetSource);
+                if(harvestResult == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetSource);
                 }
             }
         }
+        return harvestResult;
     },
     depositEnergy : function(creep) {
         if(creep.memory.targetDropoff) {

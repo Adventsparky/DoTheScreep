@@ -21,22 +21,24 @@ const roleStaticHarvester = {
             return source.id == creep.memory.targetSource;
         });
 
-        if (creep.harvest(creep.memory.targetSource) == ERR_NOT_IN_RANGE) {
-            console.log('get closer');
+        let harvestResult=Tasks.collectEnergy(creep);
+        if (harvestResult == ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.memory.targetSource);
             return;
-        } else{
-            console.log('set source');
-            console.log(creep.id);
+        } else if (harvestResult == OK) {
             source.dedicatedMiner=creep.id;
 
             // We got this far check for adjacent container
             if (!creep.memory.staticMinerContainer || !source.container) {
-                console.log('Ok we are harvesting away not a bother');
-                let closestContainer = creep.pos.findClosestByRange(STRUCTURE_CONTAINER);
-                if (!closestContainer || closestContainer.pos != creep.pos) {
-                    // Is there a site here already?
-                    let nearestSite = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
+                // console.log('Ok we are harvesting away not a bother');
+                let closestContainer = _.filter(Memory.roomInfo[creep.room.name].structures, function (structure) {
+                    return structure.structureType == STRUCTURE_CONTAINER;
+                });
+                // console.log(closestContainer);
+                if (!closestContainer || Game.getObjectById(creep.memory.targetSource).pos != creep.pos) {
+                    let nearestSite = _.filter(Memory.roomInfo[creep.room.name].constructions, function (site) {
+                        return site.structureType == STRUCTURE_CONTAINER;
+                    });
                     if (!nearestSite || nearestSite.pos != creep.pos) {
                         creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
                     }
