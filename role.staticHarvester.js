@@ -35,7 +35,7 @@ const roleStaticHarvester = {
                     return structure.structureType == STRUCTURE_CONTAINER;
                 });
                 // console.log(closestContainer);
-                if (!closestContainer || Game.getObjectById(creep.memory.targetSource).pos != creep.pos) {
+                if (!closestContainer || closestContainer[0].pos.x != creep.pos.x || closestContainer[0].pos.y != creep.pos.y) {
                     let nearestSite = _.filter(Memory.roomInfo[creep.room.name].constructions, function (site) {
                         return site.structureType == STRUCTURE_CONTAINER;
                     });
@@ -44,8 +44,8 @@ const roleStaticHarvester = {
                     }
 
                 } else {
-                    source.container=closestContainer;
-                    creep.memory.staticMinerContainer=closestContainer;
+                    source.container=closestContainer[0];
+                    creep.memory.staticMinerContainer=closestContainer[0];
                 }
             }
         }
