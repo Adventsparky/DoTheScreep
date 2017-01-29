@@ -35,7 +35,7 @@ const roleStaticHarvester = {
                     return structure.structureType == STRUCTURE_CONTAINER;
                 });
                 // console.log(closestContainer);
-                if (!closestContainer || closestContainer[0].pos.x != creep.pos.x || closestContainer[0].pos.y != creep.pos.y) {
+                if (!closestContainer || closestContainer == undefined || closestContainer[0] == undefined || closestContainer[0].pos.x != creep.pos.x || closestContainer[0].pos.y != creep.pos.y) {
                     let nearestSite = _.filter(Memory.roomInfo[creep.room.name].constructions, function (site) {
                         return site.structureType == STRUCTURE_CONTAINER;
                     });
