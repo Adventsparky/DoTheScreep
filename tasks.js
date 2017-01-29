@@ -24,7 +24,7 @@ module.exports = {
     },
     findNearestOrLeastBusySource : function(creep) {
         let room = Memory.roomInfo[creep.room.name];
-        console.log(room);
+        // console.log(room);
 
         let bestChoiceSource=null;
         // Count how many are heading to this vs how many slots it has
@@ -36,7 +36,7 @@ module.exports = {
             let sourceContainer=source.container;
 
             let targetSource=sourceContainer ? sourceContainer : source;
-            console.log('check source ' + targetSource.id);
+            // console.log('check source ' + targetSource.id);
             let creepAssignedToSourceCount = 0;
             _.each(room.creeps, function (harvestingCreep) {
                 if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
