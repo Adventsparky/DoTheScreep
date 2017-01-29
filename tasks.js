@@ -1,7 +1,8 @@
 const Query=require('data');
 const HITS_MIN=5000;
 const HITS_IMPROVED=10000;
-const HITS_NOW_WERE_SUCKIN_DIESEL=40000;
+const HITS_NOW_WERE_COOKING_WITH_GAS=60000;
+const HITS_NOW_WERE_SUCKIN_DIESEL=250000;
 
 module.exports = {
 
@@ -75,6 +76,7 @@ module.exports = {
         });
 
         if(bestChoiceSource){
+            // todo pick container of source with miner
             console.log(creep+ ' choosing '+bestChoiceSource.source.id);
             let setSource=bestChoiceSource.source.id;
             if (bestChoiceSource.container) {
@@ -264,6 +266,14 @@ module.exports = {
             closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.hits < HITS_IMPROVED && structure.hits < structure.hitsMax);
+                }
+            });
+        }
+        if(!closestDamagedStructure) {
+            // Try again with higher threshold
+            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.hits < HITS_NOW_WERE_COOKING_WITH_GAS && structure.hits < structure.hitsMax);
                 }
             });
         }

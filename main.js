@@ -118,7 +118,7 @@ module.exports.loop = function () {
     }
 
     // Basic tower code taken directly from tutorial
-    let tower = Game.getObjectById('TOWER_ID');
+    let tower = Game.getObjectById('58882436acd2c11f4361aab0'); //todo remove hardcoded tower
     if(tower) {
         let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 10000 // todo remove hardcoded hits check for tower repair
