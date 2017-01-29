@@ -53,13 +53,13 @@ module.exports.loop = function () {
             });
 
             // MY STRUCTURES
-            let availableMyStructures=storedRoom.structures=thisRoom.find(FIND_MY_STRUCTURES, {
+            let availableMyStructures=storedRoom.mystructures=thisRoom.find(FIND_MY_STRUCTURES, {
                 filter: (structure) => structure.structureType != STRUCTURE_ROAD &&
                 structure.structureType != STRUCTURE_WALL
             });
 
             // SITES
-            let availableSites=storedRoom.structures=thisRoom.find(FIND_CONSTRUCTION_SITES);
+            let availableSites=storedRoom.constructions=thisRoom.find(FIND_CONSTRUCTION_SITES);
 
             // SPAWN
             storedRoom.spawn=_.filter(availableStructures, function(structure){
