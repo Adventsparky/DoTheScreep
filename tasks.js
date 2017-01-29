@@ -56,7 +56,10 @@ module.exports = {
                 bestChoiceSource.source=targetSource;
                 bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
                 // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
-            } else {
+                bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
+            } else if (bestChoiceSource.spaces <= 0) {
+                // Only come in here if the source we've chosen, is tight on spaces
+
                 let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
                 // let sourceScore=creepAssignedToSourceCount / creepOverflowForSource;
                 // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
@@ -66,6 +69,7 @@ module.exports = {
                     bestChoiceSource.source=targetSource;
                     bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
                     // bestChoiceSource.score=creepAssignedToSourceCount / creepOverflowForSource;
+                    bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
                 }
             }
         });
