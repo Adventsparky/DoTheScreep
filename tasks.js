@@ -431,7 +431,7 @@ module.exports = {
 
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
-        if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
+        if(room.energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
             console.log('Ready for big bastard harvesters');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
             // Memory.spawningPaused=true;
