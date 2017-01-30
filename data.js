@@ -101,7 +101,7 @@ module.exports = {
                     container=structure;
                 }
             }
-        })
+        });
 
         return container;
     }
