@@ -44,43 +44,6 @@ const roleStaticHarvester = {
             } else {
                 // console.log('arrived');
                 source.dedicatedMiner=creep.id;
-                creep.memory.staticMinerContainer=source.container;
-                Tasks.collectEnergy(creep);
-            }
-        } else {
-
-            let harvestResult=Tasks.collectEnergy(creep);
-            if (harvestResult == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.targetSource);
-                return;
-            } else if (harvestResult == OK) {
-                source.dedicatedMiner=creep.id;
-
-                // We got this far check for adjacent container
-                if (!creep.memory.staticMinerContainer || !source.container) {
-                    // console.log('Ok we are harvesting away not a bother');
-                    let closestContainer = _.filter(Memory.roomInfo[creep.room.name].structures, function (structure) {
-                        return structure.structureType == STRUCTURE_CONTAINER;
-                    });
-                    // console.log(closestContainer);
-                    // console.log(closestContainer[0]);
-                    if (!closestContainer || closestContainer == undefined || closestContainer[0] == undefined || closestContainer[0].pos.x != creep.pos.x || closestContainer[0].pos.y != creep.pos.y) {
-                        let nearestSite = _.filter(Memory.roomInfo[creep.room.name].constructions, function (site) {
-                            return site.structureType == STRUCTURE_CONTAINER;
-                        });
-                        if (!nearestSite || nearestSite.pos != creep.pos) {
-                            creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                        }
-
-                    } else {
-                        // console.log('set container stuff');
-                        source.container={}=closestContainer[0];
-                        creep.memory.staticMinerContainer=closestContainer[0];
-                    }
-                } else {
-                    // console.log('dont check');
-                }
-
                 Tasks.collectEnergy(creep);
             }
         }
