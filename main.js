@@ -75,34 +75,38 @@ module.exports.loop = function () {
 
                     if (Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
                         if (!source.container) {
-                            // console.log('Ok we are harvesting away not a bother');
-                            let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
-                            let closestContainer = _.filter(sourcesByDistance, function (structure) {
-                                return structure.structureType == STRUCTURE_CONTAINER;
-                            });
-                            // console.log(closestContainer);
-                            // console.log(closestContainer[0]);
-                            if (!closestContainer ||
-                                closestContainer == undefined ||
-                                closestContainer[0] == undefined ||
-                                closestContainer[0].pos.x < (source.pos.x-1) || closestContainer[0].pos.x > (source.pos.x+1) ||
-                                closestContainer[0].pos.y < (source.pos.y-1) || closestContainer[0].pos.y > (source.pos.y+1)) {
-
-                                let nearestSite = _.filter(Memory.roomInfo[thisRoom.name].constructions, function (site) {
-                                    return site.structureType == STRUCTURE_CONTAINER;
+                            try {
+                                // console.log('Ok we are harvesting away not a bother');
+                                let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
+                                let closestContainer = _.filter(sourcesByDistance, function (structure) {
+                                    return structure.structureType == STRUCTURE_CONTAINER;
                                 });
-                                if (!nearestSite ||
-                                    nearestSite == undefined ||
-                                    nearestSite.pos.x < (source.pos.x-1) || nearestSite.pos.x > (source.pos.x+1) ||
-                                    nearestSite.pos.y < (source.pos.y-1) || nearestSite.pos.y > (source.pos.y+1)) {
+                                // console.log(closestContainer);
+                                // console.log(closestContainer[0]);
+                                if (!closestContainer ||
+                                    closestContainer == undefined ||
+                                    closestContainer[0] == undefined ||
+                                    closestContainer[0].pos.x < (source.pos.x-1) || closestContainer[0].pos.x > (source.pos.x+1) ||
+                                    closestContainer[0].pos.y < (source.pos.y-1) || closestContainer[0].pos.y > (source.pos.y+1)) {
 
-                                    // todo make up a "closest to spawn" function for the  passible xy at a source
-                                    // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                                    let nearestSite = _.filter(Memory.roomInfo[thisRoom.name].constructions, function (site) {
+                                        return site.structureType == STRUCTURE_CONTAINER;
+                                    });
+                                    if (!nearestSite ||
+                                        nearestSite == undefined ||
+                                        nearestSite.pos.x < (source.pos.x-1) || nearestSite.pos.x > (source.pos.x+1) ||
+                                        nearestSite.pos.y < (source.pos.y-1) || nearestSite.pos.y > (source.pos.y+1)) {
+
+                                        // todo make up a "closest to spawn" function for the  passible xy at a source
+                                        // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                                    }
+
+                                } else {
+                                    // console.log('set container stuff');
+                                    source.container={}=closestContainer[0];
                                 }
-
-                            } else {
-                                // console.log('set container stuff');
-                                source.container={}=closestContainer[0];
+                            } catch (e) {
+                                console.log(e);
                             }
                         }
                     }
