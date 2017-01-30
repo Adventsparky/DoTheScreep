@@ -166,9 +166,12 @@ module.exports = {
         }
         if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-                return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity) ||
-                    // (structure.structureType == STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity) ||
-                    (structure.structureType == STRUCTURE_CONTROLLER)
+                return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity)
+            });
+        }
+        if(dropOffStructures.length == 0) {
+            dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
+                return structure.structureType == STRUCTURE_CONTROLLER
             });
         }
 
