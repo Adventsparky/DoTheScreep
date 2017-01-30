@@ -98,8 +98,9 @@ module.exports.loop = function () {
                                     console.log(nearestSite);
                                     if (!nearestSite ||
                                         nearestSite == undefined ||
-                                        nearestSite.pos.x < (source.pos.x-1) || nearestSite.pos.x > (source.pos.x+1) ||
-                                        nearestSite.pos.y < (source.pos.y-1) || nearestSite.pos.y > (source.pos.y+1)) {
+                                        closestContainer[0] == undefined ||
+                                        nearestSite[0].pos.x < (source.pos.x-1) || nearestSite[0].pos.x > (source.pos.x+1) ||
+                                        nearestSite[0].pos.y < (source.pos.y-1) || nearestSite[0].pos.y > (source.pos.y+1)) {
 
                                         // todo make up a "closest to spawn" function for the  passable xy at a source
                                         // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
