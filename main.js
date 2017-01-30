@@ -81,7 +81,8 @@ module.exports.loop = function () {
                                 let closestContainer = _.filter(sourcesByDistance, function (structure) {
                                     return structure.structureType == STRUCTURE_CONTAINER;
                                 });
-                                // console.log(closestContainer);
+
+                                console.log(closestContainer);
                                 // console.log(closestContainer[0]);
                                 if (!closestContainer ||
                                     closestContainer == undefined ||
@@ -92,12 +93,14 @@ module.exports.loop = function () {
                                     let nearestSite = _.filter(Memory.roomInfo[thisRoom.name].constructions, function (site) {
                                         return site.structureType == STRUCTURE_CONTAINER;
                                     });
+
+                                    console.log(nearestSite);
                                     if (!nearestSite ||
                                         nearestSite == undefined ||
                                         nearestSite.pos.x < (source.pos.x-1) || nearestSite.pos.x > (source.pos.x+1) ||
                                         nearestSite.pos.y < (source.pos.y-1) || nearestSite.pos.y > (source.pos.y+1)) {
 
-                                        // todo make up a "closest to spawn" function for the  passible xy at a source
+                                        // todo make up a "closest to spawn" function for the  passable xy at a source
                                         // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
                                     }
 
