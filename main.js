@@ -37,7 +37,7 @@ module.exports.loop = function () {
             });
 
             // SITES
-            let availableSites=storedRoom.constructions=thisRoom.find(FIND_CONSTRUCTION_SITES);
+            let availableConstructions=storedRoom.constructions=thisRoom.find(FIND_CONSTRUCTION_SITES);
 
             // SPAWN
             storedRoom.spawn=_.filter(availableStructures, function(structure){
@@ -90,7 +90,8 @@ module.exports.loop = function () {
                                     closestContainer[0].pos.x < (source.pos.x-1) || closestContainer[0].pos.x > (source.pos.x+1) ||
                                     closestContainer[0].pos.y < (source.pos.y-1) || closestContainer[0].pos.y > (source.pos.y+1)) {
 
-                                    let nearestSite = _.filter(Memory.roomInfo[thisRoom.name].constructions, function (site) {
+                                    let constructionsByDistance = _.sortBy(availableConstructions, c => source.pos.getRangeTo(c));
+                                    let nearestSite = _.filter(constructionsByDistance, function (site) {
                                         return site.structureType == STRUCTURE_CONTAINER;
                                     });
 
