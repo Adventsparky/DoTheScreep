@@ -5,7 +5,7 @@ const roleHarvester = {
     /** @param {Creep} creep **/
     run: function(creep) {
         // creep.say('h');
-        let currentlyHarvesting=creep.memory.targetSource;
+        let currentlyHarvesting=creep.memory.targetSource || creep.memory.targetStorageSource;
 
         // Two checks to set up the harvesting flag only get run when it fills, or empties
         // Tasks.findNearestOrLeastBusySource(creep);
@@ -20,12 +20,12 @@ const roleHarvester = {
             // We were harvesting and now we're full, time to dump
             creep.memory.targetDropoff = Tasks.findBestEnergyDump(creep);
             delete creep.memory.targetSource;
-
+            delete creep.memory.targetStorageSource;
         }
 
         // Fallback for aimless creeps (like when this code went live, might be able to remove later)
         // console.log(JSON.stringify(creep));
-        if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
+        if(!creep.memory.targetSource && !creep.memory.targetStorageSource && !creep.memory.targetDropoff) {
             // console.log('aimless harvester: '+creep.name);
             if(creep.carry.energy < creep.carryCapacity) {
                 // Find fresh source

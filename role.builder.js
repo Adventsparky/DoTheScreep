@@ -14,6 +14,7 @@ const roleBuilder = {
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
             delete creep.memory.targetSource;
+            delete creep.memory.targetStorageSource;
             creep.say('Building');
         }
 
@@ -31,6 +32,7 @@ const roleBuilder = {
                     Tasks.findBestEnergyDump(creep);
                 }
                 delete creep.memory.targetSource;
+                delete creep.memory.targetStorageSource;
                 Tasks.depositEnergy(creep);
             } else {
                 // collect energy

@@ -34,9 +34,7 @@ module.exports = {
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
         _.each(potentialSources, function(source) {
-            let sourceContainer=source.container;
-
-            let targetSource=sourceContainer ? sourceContainer : source;
+            let targetSource=source;
             // console.log('check source ' + targetSource.id);
             let creepAssignedToSourceCount = 0;
             _.each(room.creeps, function (harvestingCreep) {
@@ -44,8 +42,6 @@ module.exports = {
                     creepAssignedToSourceCount++;
                 }
             });
-
-            console.log('Total of ' + creepAssignedToSourceCount + ' at ' + targetSource.id);
 
             let creepAllowanceForSource = Query.countAccessibleSpacesAroundPoint(room, targetSource.pos) + 1;
             // let creepOverflowForSource = source.accessibleSpaces * 1.5;
@@ -77,12 +73,19 @@ module.exports = {
 
         if(bestChoiceSource){
             // todo pick container of source with miner
-            console.log(creep+ ' choosing '+bestChoiceSource.source.id);
-            let setSource=bestChoiceSource.source.id;
-            if (bestChoiceSource.container) {
-                setSource=bestChoiceSource.container;
+            // console.log(creep+ ' choosing '+bestChoiceSource.source.id);
+            // console.log(JSON.stringify(bestChoiceSource.source));
+            // console.log(bestChoiceSource.source.container);
+
+            if (bestChoiceSource.source.container) {
+                //     console.log('set container on '+creep.name);
+                creep.memory.targetStorageSource=bestChoiceSource.source.container.id;
+                delete creep.memory.targetSource;
+            } else {
+                creep.memory.targetSource=bestChoiceSource.source.id;
+                delete creep.memory.targetStorageSource;
             }
-            creep.memory.targetSource=setSource;
+
             delete creep.memory.targetDropoff; // This will only be for harvesters
         } else {
             console.log('Could not find a best choice source?? What??');
@@ -96,12 +99,20 @@ module.exports = {
     },
     collectEnergy : function(creep) {
         let harvestResult=OK;
-        if(creep.memory.targetSource) {
+        if (creep.memory.targetSource) {
             let targetSource = Game.getObjectById(creep.memory.targetSource);
             if(targetSource){
                 harvestResult=creep.harvest(targetSource);
                 if(harvestResult == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetSource);
+                }
+            }
+        } else if (creep.memory.targetStorageSource) {
+            let targetStorage = Game.getObjectById(creep.memory.targetStorageSource);
+            if(targetStorage){
+                harvestResult=creep.withdraw(targetStorage, RESOURCE_ENERGY);
+                if(harvestResult == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targetStorage);
                 }
             }
         }
@@ -186,28 +197,32 @@ module.exports = {
      */
     buildingTypeAvailable: function(type, room) {
         return _.filter(Memory.structures, function(structure){
-            return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][room.controller.level];
+                return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][room.controller.level];
     },
     // Pointless check, it's not paid from spawn, it's filled
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
     findNearestConstructionTowerContainerExtensionRampartWall : function(creep) {
-
         let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+
         let potentialConstructions = _.filter(sites, function(constructionSite) {
             return constructionSite.structureType == STRUCTURE_TOWER;
         });
         if(potentialConstructions.length == 0) {
             potentialConstructions = _.filter(sites, function(constructionSite) {
-                return constructionSite.structureType == STRUCTURE_TOWER ||
-                    constructionSite.structureType == STRUCTURE_CONTAINER && constructionSite.staticHarvester ||
-                    constructionSite.structureType == STRUCTURE_CONTAINER ||
-                    constructionSite.structureType == STRUCTURE_EXTENSION ||
+                return constructionSite.structureType == STRUCTURE_CONTAINER;
+            });
+        }
+
+        if(potentialConstructions.length == 0) {
+            potentialConstructions = _.filter(sites, function(constructionSite) {
+                return constructionSite.structureType == STRUCTURE_EXTENSION ||
                     constructionSite.structureType == STRUCTURE_RAMPART ||
                     constructionSite.structureType == STRUCTURE_WALL;
             });
         }
+        // console.log(potentialConstructions);
 
         if(potentialConstructions.length == 0) {
             potentialConstructions=sites;
@@ -344,7 +359,11 @@ module.exports = {
                 let room = Memory.roomInfo[roomId];
                 if(room.spawn != undefined && room.spawn.length) {
 
-                    this.checkIfWeAreReadyForStaticHarvesters(roomId);
+                    if (this.checkIfWeAreReadyForStaticHarvesters(roomId)) {
+                        room.staticHarvesterLimit=room.availableSources.length;
+                    } else{
+                        room.staticHarvesterLimit=0;
+                    }
 
                     if(!Memory.spawningPaused) {
                         for(let roleName in Memory.creepRoles) {
@@ -412,7 +431,7 @@ module.exports = {
 
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
-        if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester']){
+        if(Game.rooms[room].energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
             console.log('Ready for big bastard harvesters');
             // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
             // Memory.spawningPaused=true;

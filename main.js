@@ -24,28 +24,6 @@ module.exports.loop = function () {
             // NAME
             storedRoom.name=roomId;
 
-            // SOURCES
-            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
-            for(let sourceNum in availableSources) {
-                if(availableSources.hasOwnProperty(sourceNum)){
-                    let source=availableSources[sourceNum];
-
-                    // Query.countAccessibleSpacesAroundStructure(source);
-
-                    if (source.dedicatedMiner === undefined) {
-                        source.dedicatedMiner = 0;
-                    }
-                    // if (Memory.sources && Memory.sources[source.id]){
-                    //     console.log(Memory.sources[source.id]);
-                    // }
-
-                    if (source.accessibleSpaces === undefined) {
-                        source.accessibleSpaces = 0;
-                    }
-                    source.accessibleSpaces = Query.countAccessibleSpacesAroundPoint(source.room, source.pos);
-                }
-            }
-
             // STRUCTURES
             let availableStructures=storedRoom.structures=thisRoom.find(FIND_STRUCTURES, {
                 filter: (structure) => structure.structureType != STRUCTURE_ROAD &&
@@ -75,6 +53,33 @@ module.exports.loop = function () {
                 }
             });
 
+            // SOURCES
+            let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
+            for(let sourceNum in availableSources) {
+                if(availableSources.hasOwnProperty(sourceNum)){
+                    let source=availableSources[sourceNum];
+
+                    // Query.countAccessibleSpacesAroundStructure(source);
+
+                    if (source.dedicatedMiner === undefined) {
+                        source.dedicatedMiner = 0;
+                    }
+                    // if (Memory.sources && Memory.sources[source.id]){
+                    //     console.log(Memory.sources[source.id]);
+                    // }
+
+                    if (source.accessibleSpaces === undefined) {
+                        source.accessibleSpaces = 0;
+                    }
+                    source.accessibleSpaces = Query.countAccessibleSpacesAroundPoint(source.room, source.pos);
+
+                    let sourceContainer = Query.locateContainersAtPoint(source.pos, availableStructures);
+                    if (sourceContainer) {
+                        source.container={}=sourceContainer;
+                    }
+                }
+            }
+
             // CREEPS
             storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
 
@@ -97,7 +102,6 @@ module.exports.loop = function () {
 
     // Calculate role build costs
     if(Memory.roleBuildCosts === undefined){
-        console.log('lets work out creep costs');
         Memory.roleBuildCosts={};
         for(let roleName in Memory.creepRoles) {
             if(Memory.creepRoles.hasOwnProperty(roleName)) {
