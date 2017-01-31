@@ -180,46 +180,46 @@ module.exports.loop = function () {
             }
 
             // BUILD ROADS AND EXTENSIONS AROUND SPAWN
-            if (Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
-                console.log('Extensions lads, have ya planning permission?');
-                // We should have roads right beside the spawn, extensions will be diagonal
-                // todo
-
-                // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
-                // ring one is special, extension at 3 corners (one reserved for grave)
-                let emergencyCounter=1;
-                let loopCounter=1;
-                while(Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
-                    let allowOnSameXY = loopCounter % 2 == 0;
-                    console.log('Loop level: '+loopCounter);
-                    console.log('allow on same XY: '+ allowOnSameXY);
-                    let loopRange=2+loopCounter;
-
-                    for(let i=0; i<loopRange; i++) {
-                        let startX=storedRoom.spawn.pos.x - loopCounter;
-                        let startY=storedRoom.spawn.pos.y - loopCounter;
-
-                        console.log('Start xy for loop '+loopCounter+': '+x+','+y);
-
-                        let x=startX;
-                        for(let i=0; i<loopRange; i++) {
-                            let y=startY;
-
-                            for(let j=0; j<loopRange; j++) {
-                                console.log('checking '+x+','+y);
-                                y++;
-                            }
-                            x++;
-                        }
-                    }
-
-                    loopCounter++;
-                    emergencyCounter++;
-                    if(emergencyCounter>5){
-                        break;
-                    }
-                }
-            }
+            // if (Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+            //     console.log('Extensions lads, have ya planning permission?');
+            //     // We should have roads right beside the spawn, extensions will be diagonal
+            //     // todo
+            //
+            //     // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
+            //     // ring one is special, extension at 3 corners (one reserved for grave)
+            //     let emergencyCounter=1;
+            //     let loopCounter=1;
+            //     while(Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+            //         let allowOnSameXY = loopCounter % 2 == 0;
+            //         console.log('Loop level: '+loopCounter);
+            //         console.log('allow on same XY: '+ allowOnSameXY);
+            //         let loopRange=2+loopCounter;
+            //
+            //         for(let i=0; i<loopRange; i++) {
+            //             let startX=storedRoom.spawn.pos.x - loopCounter;
+            //             let startY=storedRoom.spawn.pos.y - loopCounter;
+            //
+            //             console.log('Start xy for loop '+loopCounter+': '+x+','+y);
+            //
+            //             let x=startX;
+            //             for(let i=0; i<loopRange; i++) {
+            //                 let y=startY;
+            //
+            //                 for(let j=0; j<loopRange; j++) {
+            //                     console.log('checking '+x+','+y);
+            //                     y++;
+            //                 }
+            //                 x++;
+            //             }
+            //         }
+            //
+            //         loopCounter++;
+            //         emergencyCounter++;
+            //         if(emergencyCounter>5){
+            //             break;
+            //         }
+            //     }
+            // }
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
