@@ -67,37 +67,6 @@ module.exports.loop = function () {
                 }
             });
 
-            // GRAVE POS
-            storedRoom.gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
-
-            // GRAVE
-            if(!storedRoom.grave || !Game.getObjectById[storedRoom.grave.id]) {
-                // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
-                let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, storedRoom.gravePos);
-                if (!structuresInGraveSpot) {
-                    let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, storedRoom.gravePos);
-                    if (!constructionsInGraveSpot) {
-                        storedRoom.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
-                    } else if(constructionsInGraveSpot[0].structureType == STRUCTURE_CONTAINER) {
-                        // all good
-                    } else {
-                        // can't put the grave here
-                    }
-                } else {
-                    let grave;
-                    _.each(structuresInGraveSpot, function(structure) {
-                        if (!grave && structure.structureType == STRUCTURE_CONTAINER) {
-                            grave=structure;
-                        }
-                    });
-                    if (grave) {
-                        storedRoom.grave={}=structuresInGraveSpot[0];
-                    } else {
-                        storedRoom.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
-                    }
-                }
-            }
-
             // CONTROLLER
             storedRoom.controller = _.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_CONTROLLER){
@@ -196,6 +165,38 @@ module.exports.loop = function () {
                     let role=RoleManager[roleName];
                     if(role != undefined) {
                         Memory.creepRoles[role.role] = role;
+                    }
+                }
+            }
+
+            // GRAVE POS
+            storedRoom.gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
+
+            // GRAVE
+            // Use energy capacity as a marker for how advanced the room is, let's not care about graves early on
+            if(storedRoom.energyCapacity > 500 && !storedRoom.grave || !Game.getObjectById[storedRoom.grave.id]) {
+                // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
+                let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, storedRoom.gravePos);
+                if (!structuresInGraveSpot) {
+                    let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, storedRoom.gravePos);
+                    if (!constructionsInGraveSpot) {
+                        storedRoom.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
+                    } else if(constructionsInGraveSpot[0].structureType == STRUCTURE_CONTAINER) {
+                        // all good
+                    } else {
+                        // can't put the grave here
+                    }
+                } else {
+                    let grave;
+                    _.each(structuresInGraveSpot, function(structure) {
+                        if (!grave && structure.structureType == STRUCTURE_CONTAINER) {
+                            grave=structure;
+                        }
+                    });
+                    if (grave) {
+                        storedRoom.grave={}=structuresInGraveSpot[0];
+                    } else {
+                        storedRoom.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
                     }
                 }
             }
