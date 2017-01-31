@@ -174,7 +174,7 @@ module.exports.loop = function () {
 
             // GRAVE
             // Use energy capacity as a marker for how advanced the room is, let's not care about graves early on
-            if(storedRoom.energyCapacity > 500 && !storedRoom.grave || !Game.getObjectById[storedRoom.grave.id]) {
+            if(storedRoom.energyCapacity > 500 && (!storedRoom.grave || !Game.getObjectById[storedRoom.grave.id])) {
                 // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
                 let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, storedRoom.gravePos);
                 if (!structuresInGraveSpot) {
