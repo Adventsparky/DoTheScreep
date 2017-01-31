@@ -152,7 +152,8 @@ module.exports = {
             console.log(transferResult);
             if(transferResult == ERR_NOT_IN_RANGE) {
                 creep.moveTo(targetDropoff);
-            } else if(transferResult == ERR_INVALID_TARGET) {
+            } else if(transferResult == ERR_INVALID_TARGET ||
+                transferResult == ERR_FULL) {
                 delete creep.targetDropoff;
             }
         }
