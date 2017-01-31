@@ -46,15 +46,17 @@ module.exports.loop = function () {
                 }
             });
 
+            // GRAVE POS
+            storedRoom.gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
+
             // GRAVE
             if(!storedRoom.grave || !Game.getObjectById[storedRoom.grave.id]) {
                 // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
-                let gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
-                let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, gravePos);
+                let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, storedRoom.gravePos);
                 if (!structuresInGraveSpot) {
-                    let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, gravePos);
+                    let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, storedRoom.gravePos);
                     if (!constructionsInGraveSpot) {
-                        gravePos.createConstructionSite(STRUCTURE_CONTAINER);
+                        storedRoom.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
                     } else if(constructionsInGraveSpot[0].structureType == STRUCTURE_CONTAINER) {
                         // all good
                     } else {
@@ -70,7 +72,7 @@ module.exports.loop = function () {
                     if (grave) {
                         storedRoom.grave={}=structuresInGraveSpot[0];
                     } else {
-                        gravePos.createConstructionSite(STRUCTURE_CONTAINER);
+                        storedRoom.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
                     }
                 }
             }
@@ -173,6 +175,48 @@ module.exports.loop = function () {
                     let role=RoleManager[roleName];
                     if(role != undefined) {
                         Memory.creepRoles[role.role] = role;
+                    }
+                }
+            }
+
+            // BUILD ROADS AND EXTENSIONS AROUND SPAWN
+            if (Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+                console.log('Extensions lads, have ya planning permission?');
+                // We should have roads right beside the spawn, extensions will be diagonal
+                // todo
+
+                // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
+                // ring one is special, extension at 3 corners (one reserved for grave)
+                let emergencyCounter=1;
+                let loopCounter=1;
+                while(Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+                    let allowOnSameXY = loopCounter % 2 == 0;
+                    console.log('Loop level: '+loopCounter);
+                    console.log('allow on same XY: '+ allowOnSameXY);
+                    let loopRange=2+loopCounter;
+
+                    for(let i=0; i<loopRange; i++) {
+                        let startX=storedRoom.spawn.pos.x - loopCounter;
+                        let startY=storedRoom.spawn.pos.y - loopCounter;
+
+                        console.log('Start xy for loop '+loopCounter+': '+x+','+y);
+
+                        let x=startX;
+                        for(let i=0; i<loopRange; i++) {
+                            let y=startY;
+
+                            for(let j=0; j<loopRange; j++) {
+                                console.log('checking '+x+','+y);
+                                y++;
+                            }
+                            x++;
+                        }
+                    }
+
+                    loopCounter++;
+                    emergencyCounter++;
+                    if(emergencyCounter>10){
+                        break;
                     }
                 }
             }

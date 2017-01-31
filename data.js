@@ -49,6 +49,14 @@ module.exports = {
     },
 
     /*
+     * CONSTRUCTION
+     */
+    buildingTypeAvailable: function(type, room) {
+        return _.filter(room.structures, function(structure){
+                return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][room.controller.level];
+    },
+
+    /*
      * TERRAIN
      */
     countAccessibleSpacesAroundPoint(room,pos) {

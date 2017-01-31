@@ -51,7 +51,7 @@ module.exports = {
             });
 
             let creepAllowanceForSource = Query.countAccessibleSpacesAroundPoint(room, targetSource.pos) + 1;
-            let creepOverflowForSource = source.accessibleSpaces * 1.5;
+            let creepOverflowForSource = source.acce * 1.5;
 
 
             if (bestChoiceSource == null) {
@@ -218,10 +218,6 @@ module.exports = {
     /*
      * CONSTRUCTION
      */
-    buildingTypeAvailable: function(type, room) {
-        return _.filter(Memory.structures, function(structure){
-                return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][room.controller.level];
-    },
     // Pointless check, it's not paid from spawn, it's filled
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
