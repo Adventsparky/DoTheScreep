@@ -31,7 +31,7 @@ module.exports.loop = function () {
             });
 
             // MY STRUCTURES
-            let availableMyStructures=storedRoom.mystructures=thisRoom.find(FIND_MY_STRUCTURES, {
+            let myAvailableStructures=storedRoom.mystructures=thisRoom.find(FIND_MY_STRUCTURES, {
                 filter: (structure) => structure.structureType != STRUCTURE_ROAD &&
                 structure.structureType != STRUCTURE_WALL
             });
@@ -47,33 +47,36 @@ module.exports.loop = function () {
             });
 
             // GRAVE
-            // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
-            let gravePos=new RoomPosition(storedRoom.spawn.pos.x+1, storedRoom.spawn.pos.y+1, thisRoom.name);
-            let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, gravePos);
-            if (!structuresInGraveSpot) {
-                let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, gravePos);
-                if (!constructionsInGraveSpot) {
-                    gravePos.createConstructionSite(STRUCTURE_CONTAINER);
-                } else if(constructionsInGraveSpot[0].structureType == STRUCTURE_CONTAINER) {
-                    // all good
-                } else {
-                    // can't put the grave here
-                }
-            } else {
-                let grave;
-                _.each(structuresInGraveSpot, function(structure) {
-                    if (!grave && structure.structureType == STRUCTURE_CONTAINER) {
-                        grave=structure;
+            if(!storedRoom.grave || !Game.getObjectById[storedRoom.grave.id]) {
+                // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
+                let gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
+                let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, gravePos);
+                if (!structuresInGraveSpot) {
+                    let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, gravePos);
+                    if (!constructionsInGraveSpot) {
+                        gravePos.createConstructionSite(STRUCTURE_CONTAINER);
+                    } else if(constructionsInGraveSpot[0].structureType == STRUCTURE_CONTAINER) {
+                        // all good
+                    } else {
+                        // can't put the grave here
                     }
-                });
-                if (grave) {
-                    storedRoom.grave={}=structuresInGraveSpot[0];
+                } else {
+                    let grave;
+                    _.each(structuresInGraveSpot, function(structure) {
+                        if (!grave && structure.structureType == STRUCTURE_CONTAINER) {
+                            grave=structure;
+                        }
+                    });
+                    if (grave) {
+                        storedRoom.grave={}=structuresInGraveSpot[0];
+                    } else {
+                        gravePos.createConstructionSite(STRUCTURE_CONTAINER);
+                    }
                 }
             }
-            console.log(storedRoom.grave);
 
             // CONTROLLER
-            storedRoom.controller=_.filter(availableStructures, function(structure){
+            storedRoom.controller = _.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_CONTROLLER){
                     return structure;
                 }
@@ -108,7 +111,6 @@ module.exports.loop = function () {
                                     return structure.structureType == STRUCTURE_CONTAINER;
                                 });
 
-                                console.log(closestContainer);
                                 // console.log(closestContainer[0]);
                                 if (!closestContainer ||
                                     closestContainer == undefined ||
@@ -121,7 +123,6 @@ module.exports.loop = function () {
                                         return site.structureType == STRUCTURE_CONTAINER;
                                     });
 
-                                    console.log(nearestSite);
                                     if (!nearestSite ||
                                         nearestSite == undefined ||
                                         closestContainer[0] == undefined ||
@@ -149,8 +150,19 @@ module.exports.loop = function () {
                 }
             }
 
+            // FULL EXTENSIONS
+            storedRoom.fullExtensions = {} = _.filter(myAvailableStructures, function(structure){
+                return structure.structureType == STRUCTURE_EXTENSION && structure.energy == structure.energyCapacity
+            });
+
+            // ENERGY CAPACITY
+            storedRoom.energyCapacity = thisRoom.energyCapacityAvailable;
+
+            // ENERGY AVAILABLE
+            storedRoom.energyAvailable = thisRoom.energyAvailable;
+
             // CREEPS
-            storedRoom.creeps=thisRoom.find(FIND_MY_CREEPS);
+            storedRoom.creeps = thisRoom.find(FIND_MY_CREEPS);
 
             // ROLES
             if(Memory.creepRoles == undefined){
