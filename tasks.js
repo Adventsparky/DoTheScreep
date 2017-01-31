@@ -33,7 +33,8 @@ module.exports = {
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         let allSources;
-        if (creep.memory.role == 'builder' && room.fullExtensions && room.energyAvailable > 500) {
+        // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 60% of that
+        if (creep.memory.role == 'builder' && room.fullExtensions && room.energyCapacityAvailable >= 700 && room.energyAvailable > room.energyCapacityAvailable*.6) {
             allSources = _.sortBy(_.union(room.availableSources, room.fullExtensions), s => creep.pos.getRangeTo(s));
         } else {
             allSources = _.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
