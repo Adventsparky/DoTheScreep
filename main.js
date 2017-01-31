@@ -215,7 +215,7 @@ module.exports.loop = function () {
 
                     loopCounter++;
                     emergencyCounter++;
-                    if(emergencyCounter>10){
+                    if(emergencyCounter>5){
                         break;
                     }
                 }
