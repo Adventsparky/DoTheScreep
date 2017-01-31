@@ -205,38 +205,60 @@ module.exports.loop = function () {
             //     console.log('Extensions lads, have ya planning permission?');
             //     // We should have roads right beside the spawn, extensions will be diagonal
             //     // todo
-            //
+
             //     // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
             //     // ring one is special, extension at 3 corners (one reserved for grave)
             //     let emergencyCounter=1;
             //     let loopCounter=1;
             //     while(Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
-            //         let allowOnSameXY = loopCounter % 2 == 0;
+            //         let allowOnForbidden = loopCounter % 2 == 0;
             //         console.log('Loop level: '+loopCounter);
-            //         console.log('allow on same XY: '+ allowOnSameXY);
+            //         console.log('allow on forbidden: '+ allowOnForbidden);
             //         let loopRange=2+loopCounter;
-            //
+            //         console.log('Loop range: '+loopRange);
+
+            //         let spawnPos=storedRoom.spawn[0].pos;
+            //         let forbiddenXs=[spawnPos.x];
+            //         let forbiddenYs=[spawnPos.y];
+
+            //         let startX=spawnPos.x - loopCounter;
+            //         let startY=spawnPos.y - loopCounter;
+
             //         for(let i=0; i<loopRange; i++) {
-            //             let startX=storedRoom.spawn.pos.x - loopCounter;
-            //             let startY=storedRoom.spawn.pos.y - loopCounter;
-            //
-            //             console.log('Start xy for loop '+loopCounter+': '+x+','+y);
-            //
+
+            //             let newForbiddenXs=[];
+            //             let newForbiddenYs=[];
+            //             console.log('Start xy for loop '+loopCounter+': '+startX+','+startY);
+
             //             let x=startX;
             //             for(let i=0; i<loopRange; i++) {
             //                 let y=startY;
-            //
+
             //                 for(let j=0; j<loopRange; j++) {
-            //                     console.log('checking '+x+','+y);
+
+            //                     if (!_.contains(forbiddenXs, x) && !_.contains(forbiddenYs,y)) {
+            //                         console.log('Found a site at '+x+','+y);
+            //                         newForbiddenXs.push(x);
+            //                         newForbiddenYs.push(y);
+
+            //                         // todo trying to make the loop mark which x and y's we can't hit in the next row
+            //                     }
+
             //                     y++;
             //                 }
             //                 x++;
             //             }
+
+            //             forbiddenXs=_.uniq(newForbiddenXs);
+            //             forbiddenYs=_.uniq(newForbiddenYs);
+
+            //             console.log(forbiddenXs);
+            //             console.log(forbiddenYs);
             //         }
-            //
+
             //         loopCounter++;
             //         emergencyCounter++;
-            //         if(emergencyCounter>5){
+            //         if(emergencyCounter>1){
             //             break;
             //         }
             //     }
