@@ -4,10 +4,31 @@ const Query=require('data');
 
 module.exports.loop = function () {
 
-    console.log('- - - NEW TICK - - -');
+    console.log('- - - TICK - - -');
 
     // RIP in pieces
     Tasks.clearMemoryOfDeadCreeples();
+
+    // Calculate role build costs
+    if(Memory.roleBuildCosts === undefined){
+        Memory.roleBuildCosts={};
+        for(let roleName in Memory.creepRoles) {
+            if(Memory.creepRoles.hasOwnProperty(roleName)) {
+                let role=RoleManager[roleName];
+                let cost=0;
+                _.each(role.parts, function(part){
+                    cost+=Query.creepBodyPartCost()[part];
+                });
+                Memory.roleBuildCosts[roleName]=cost;
+
+                let improvedCost=0;
+                _.each(role.stage2Parts, function(part){
+                    improvedCost+=Query.creepBodyPartCost()[part];
+                });
+                Memory.roleBuildCosts[roleName+'Stage2Parts']=improvedCost;
+            }
+        }
+    }
 
     // Set up some lists of things we might use more than once per tick
     if(Memory.roomInfo == undefined) {
@@ -222,27 +243,6 @@ module.exports.loop = function () {
             // }
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
-        }
-    }
-
-    // Calculate role build costs
-    if(Memory.roleBuildCosts === undefined){
-        Memory.roleBuildCosts={};
-        for(let roleName in Memory.creepRoles) {
-            if(Memory.creepRoles.hasOwnProperty(roleName)) {
-                let role=RoleManager[roleName];
-                let cost=0;
-                _.each(role.parts, function(part){
-                    cost+=Query.creepBodyPartCost()[part];
-                });
-                Memory.roleBuildCosts[roleName]=cost;
-
-                let improvedCost=0;
-                _.each(role.stage2Parts, function(part){
-                    improvedCost+=Query.creepBodyPartCost()[part];
-                });
-                Memory.roleBuildCosts[roleName+'Stage2Parts']=improvedCost;
-            }
         }
     }
 
