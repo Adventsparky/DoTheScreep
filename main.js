@@ -289,11 +289,12 @@ module.exports.loop = function () {
 
                             y++;
                         }
-                        console.log('End Y: '+y);
+                        console.log(rowStuff);
+                        // console.log('End Y: '+y);
 
                         x++;
                     }
-                    console.log('End X: '+x);
+                    // console.log('End X: '+x);
 
                     // console.log(newForbiddenXs);
                     // console.log(newForbiddenYs);
