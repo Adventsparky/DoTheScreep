@@ -251,6 +251,7 @@ module.exports.loop = function () {
                     for(let i=0; i < loopRange; i++) {
                         // console.log('check column '+x);
                         let y=startY;
+                        let rowStuff=[];
 
                         // ROW LOOP
                         for (let j = 0; j < loopRange; j++) {
@@ -271,7 +272,7 @@ module.exports.loop = function () {
                                 // console.log('Found a site at ' + x + ',' + y);
                                 //     // console.log(forbiddenXs);
 
-                                thisRoom.createFlag(x,y,''+x+y);
+                                // thisRoom.createFlag(x,y,''+x+y);
 
                                 //  let flag=Game.flags[''+x+y];
                                 //  if (flag){
@@ -281,8 +282,10 @@ module.exports.loop = function () {
                                 newForbiddenXs.push(checkPos.x);
                                 newForbiddenYs.push(checkPos.y);
 
+                                rowStuff.push('o');
+
                                 //     // todo trying to make the loop mark which x and y's we can't hit in the next row
-                            }
+                            } else{ rowStuff.push('x'); }
 
                             y++;
                         }
