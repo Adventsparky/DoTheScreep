@@ -209,7 +209,7 @@ module.exports.loop = function () {
 
                 // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
                 // ring one is special, extension at 3 corners (one reserved for grave)
-                let loopCounter=1;
+                let loopCounter=2;
 
                 let spawnPos=storedRoom.spawn[0].pos;
                 let forbiddenXs=[spawnPos.x];
@@ -303,15 +303,15 @@ module.exports.loop = function () {
                     forbiddenXs=_.uniq(newForbiddenXs);
                     forbiddenYs=_.uniq(newForbiddenYs);
 
-                    console.log('ring done, forbidden for next ring (Start:'+(spawnPos.x - (i+1))+','+(spawnPos.y - (i+1)));
-                    console.log(forbiddenXs);
-                    console.log(forbiddenYs);
+                    // console.log('ring done, forbidden for next ring (Start:'+(spawnPos.x - (i+1))+','+(spawnPos.y - (i+1)));
+                    // console.log(forbiddenXs);
+                    // console.log(forbiddenYs);
                 }
 
                 // keepLooping=false;
                 // }
 
-                console.log(checked+' spots checked');
+                // console.log(checked+' spots checked');
             }
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
