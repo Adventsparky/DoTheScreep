@@ -249,27 +249,26 @@ module.exports.loop = function () {
 
                         // COLUMN LOOP
                         for(let i=0; i < loopRange; i++) {
-                            console.log('check column '+x);
+                            // console.log('check column '+x);
                             let y=startY;
 
                             // ROW LOOP
                             for (let j = 0; j < loopRange; j++) {
                                 let checkPos=new RoomPosition(x, y, thisRoom.name);
                                 // console.log('checking '+checkPos);
-                                checked++;
 
                                 // Only loop down the whole column, if it's the first or last X, otherwise we only need the top and bottom
-                                // if (x != startX && x != (startX + loopRange - 1)) {
-                                //     if(y > startY && y < (startY + loopRange - 1)) {
-                                //         //  console.log('this is a centre location, skip: '+x+','+y);
-
-                                //         continue;
-                                //     }
-                                // }
-
+                                if (x != startX && x != (startX + loopRange - 1)) {
+                                    if(y > startY && y < (startY + loopRange - 1)) {
+                                        //  console.log('this is a centre location, skip: '+x+','+y);
+                                        y++
+                                        continue;
+                                    }
+                                }
+                                checked++;
                                 if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y)) {
                                     //     // !(x == storedRoom.gravePos.x && y == storedRoom.gravePos.y)) {
-                                    console.log('Found a site at ' + x + ',' + y);
+                                    // console.log('Found a site at ' + x + ',' + y);
                                     //     // console.log(forbiddenXs);
                                     newForbiddenXs.push(checkPos.x);
                                     newForbiddenYs.push(checkPos.y);
