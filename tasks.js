@@ -336,6 +336,132 @@ module.exports = {
             // this.findBestEnergyDump(creep);
         }
     },
+    checkForExtensionsAndRoadConstruction : function (room) {
+        if (Query.buildingTypeAvailable(STRUCTURE_EXTENSION,room.name)) {
+            console.log('Extensions lads, have ya planning permission?');
+            // We should have roads right beside the spawn, extensions will be diagonal
+            // todo exit if we have no spawn somehow
+
+            // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
+            // ring one is special, extension at 3 corners only (one reserved for grave)
+
+            // It's ALIVE!!
+            // [11:33:46 PM]  o,x,o
+            // [11:33:46 PM]  x,-,x
+            // [11:33:46 PM]  o,x,x
+            // [11:33:46 PM]o,x,o,x,o
+            // [11:33:46 PM]x,-,-,-,x
+            // [11:33:46 PM]o,-,-,-,o
+            // [11:33:46 PM]x,-,-,-,x
+            // [11:33:46 PM]o,x,o,x,o
+
+            let loopCounter=5;
+
+            let spawnPos=room.spawn[0].pos;
+            let forbiddenXs=[spawnPos.x];
+            let forbiddenYs=[spawnPos.y];
+
+            let startX=spawnPos.x;
+            let startY=spawnPos.y;
+
+            let loopRange=1;
+
+            let checked=0;
+
+            // while(Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom) && keepLooping) {
+            let allowOnForbidden = loopCounter % 2 == 0;
+            console.log('Loop level: '+loopCounter);
+            console.log('allow on forbidden: '+ allowOnForbidden);
+
+            loopRange=loopRange+2;
+            console.log('Loop range: '+loopRange);
+
+            // RING LOOP
+            for(let i=1; i <= loopCounter; i++) {
+
+                startX=spawnPos.x - i;
+                startY=spawnPos.y - i;
+
+                let newForbiddenXs=[];
+                let newForbiddenYs=[];
+
+                let x=startX;
+
+                // COLUMN LOOP
+                for(let i=0; i < loopRange; i++) {
+                    let y=startY;
+                    let rowStuff=[];
+
+                    // ROW LOOP
+                    for (let j = 0; j < loopRange; j++) {
+                        let checkPos=new RoomPosition(x, y, room.name);
+                        // console.log('checking '+checkPos);
+
+                        // Only loop down the whole column, if it's the first or last X, otherwise we only need the top and bottom
+                        if (checkPos.x != startX && checkPos.x != (startX + loopRange - 1)) {
+                            if(checkPos.y > startY && checkPos.y < (startY + loopRange - 1)) {
+                                //  console.log('this is a centre location, skip: '+x+','+y);
+                                y++;
+                                rowStuff.push('-');
+
+                                continue;
+                            }
+                        }
+                        checked++;
+                        if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
+                            (!room.gravePos || !(checkPos.x == room.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
+                            // console.log('Found a site at ' + x + ',' + y);
+
+                            // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
+
+                            //  let flag=Game.flags[''+x+y];
+                            //  if (flag){
+                            //      flag.remove();
+                            //  }
+
+                            newForbiddenXs.push(checkPos.x);
+                            newForbiddenYs.push(checkPos.y);
+
+                            rowStuff.push('o');
+
+                            //     // todo trying to make the loop mark which x and y's we can't hit in the next row
+                        } else{
+                            rowStuff.push('x');
+
+                            // room.createFlag(x,y,''+x+y, COLOR_CYAN);
+
+                            // let flag=Game.flags[''+x+y];
+                            // if (flag){
+                            //     flag.remove();
+                            // }
+                        }
+
+                        y++;
+                    }
+                    // console.log(rowStuff);
+
+                    x++;
+                }
+
+                // console.log(newForbiddenXs);
+                // console.log(newForbiddenYs);
+
+                forbiddenXs=_.uniq(newForbiddenXs);
+                forbiddenYs=_.uniq(newForbiddenYs);
+
+                // console.log('ring done, forbidden for next ring (Start:'+(spawnPos.x - (i+1))+','+(spawnPos.y - (i+1)));
+                // console.log(forbiddenXs);
+                // console.log(forbiddenYs);
+
+                loopRange=loopRange+2;
+            }
+
+            // keepLooping=false;
+            // }
+
+            // console.log(checked+' spots checked');
+        }
+    },
 
     /*
      * UTILS

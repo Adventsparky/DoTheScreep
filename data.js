@@ -52,8 +52,12 @@ module.exports = {
      * CONSTRUCTION
      */
     buildingTypeAvailable: function(type, room) {
-        return _.filter(room.structures, function(structure){
-                return structure.structureType == type; }).length < CONTROLLER_STRUCTURES[type][room.controller.level];
+        let alreadyConstructed = _.filter(room.structures, function(structure){
+                return structure.structureType == type; }).length;
+        let alreadyPlanned = _.filter(room.constructions, function(site){
+                return site.structureType == type; }).length;
+
+        return (alreadyConstructed+alreadyPlanned) < CONTROLLER_STRUCTURES[type][room.controller.level];
     },
 
     /*
