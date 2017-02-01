@@ -263,6 +263,7 @@ module.exports.loop = function () {
                                 if(y > startY && y < (startY + loopRange - 1)) {
                                     //  console.log('this is a centre location, skip: '+x+','+y);
                                     y++;
+                                    rowStuff.push('-');
                                     continue;
                                 }
                             }
