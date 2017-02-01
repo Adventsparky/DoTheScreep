@@ -301,7 +301,7 @@ module.exports.loop = function () {
                     }
                 }
 
-                console.log(checked);
+                console.log(checked+' spots checked');
             }
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
