@@ -83,6 +83,7 @@ module.exports = {
             // console.log('We found '+scanResults.length+' things around '+pos);
             _.each(scanResults, function(thing){
                 let type=thing.type;
+                console.log(JSON.stringify(thing));
                 console.log(thing[type]);
             });
         }
