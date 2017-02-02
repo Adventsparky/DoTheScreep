@@ -85,7 +85,7 @@ module.exports = {
                 let type=thing.type;
                 let typeOfThing = thing[type];
 
-                console.log(typeOfThing);
+                // console.log(typeOfThing);
 
                 switch (type){
                     case LOOK_TERRAIN :
