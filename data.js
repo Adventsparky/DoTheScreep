@@ -83,8 +83,30 @@ module.exports = {
             // console.log('We found '+scanResults.length+' things around '+pos);
             _.each(scanResults, function(thing){
                 let type=thing.type;
-                console.log(JSON.stringify(thing));
-                console.log(thing[type]);
+                let typeOfThing = thing[type];
+
+                switch (type){
+                    case LOOK_TERRAIN :
+                        if (typeOfThing == 'wall'){
+                            canBuildHere=false;
+                        }
+                        break;
+                    case LOOK_STRUCTURES :
+                        if (typeOfThing.structureType != STRUCTURE_EXTENSION ||
+                            typeOfThing.structureType != STRUCTURE_SPAWN ||
+                            typeOfThing.structureType != STRUCTURE_ROAD) {
+                            canBuildHere=false;
+                        }
+                        break;
+                    case LOOK_CONSTRUCTION_SITES :
+                        if (typeOfThing.structureType != STRUCTURE_EXTENSION ||
+                            typeOfThing.structureType != STRUCTURE_SPAWN ||
+                            typeOfThing.structureType != STRUCTURE_ROAD) {
+                            canBuildHere=false;
+                        }
+                        break;
+
+                }
             });
         }
     },
