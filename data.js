@@ -76,6 +76,7 @@ module.exports = {
         let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
         let endPos = new RoomPosition(pos.x+1, pos.y+1, room.name);
 
+        console.log('check around '+(pos));
         let scanResults = Game.rooms[room.name].lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1);
         if (scanResults) {
             // console.log('We found '+scanResults.length+' things around '+pos);
