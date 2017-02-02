@@ -419,34 +419,41 @@ module.exports = {
 
                     // checked++;
 
+                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,storedRoom);
+
                     if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
                         (!storedRoom.gravePos || !(checkPos.x == storedRoom.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
                         // console.log('Found a site at ' + x + ',' + y);
 
-                        // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
+                        if(canWeBuildHere){
+                            // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
 
-                        //  let flag=Game.flags[''+x+y];
-                        //  if (flag){
-                        //      flag.remove();
-                        //  }
+                            //  let flag=Game.flags[''+x+y];
+                            //  if (flag){
+                            //      flag.remove();
+                            //  }
 
-                        newForbiddenXs.push(checkPos.x);
-                        newForbiddenYs.push(checkPos.y);
+                            newForbiddenXs.push(checkPos.x);
+                            newForbiddenYs.push(checkPos.y);
 
-                        rowStuff.push('o');
+                            rowStuff.push('o');
 
-                        Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,storedRoom);
+                            room.createConstructionSite(checkPos,STRUCTURE_EXTENSION);
+                        }
 
-                        //     // todo trying to make the loop mark which x and y's we can't hit in the next row
                     } else{
+
+                        if (canWeBuildHere) {
+                            room.createConstructionSite(checkPos,STRUCTURE_ROAD);
+
+                            // room.createFlag(x,y,''+x+y, COLOR_CYAN);
+
+                            // let flag=Game.flags[''+x+y];
+                            // if (flag){
+                            //     flag.remove();
+                            // }
+                        }
                         rowStuff.push('x');
-
-                        // room.createFlag(x,y,''+x+y, COLOR_CYAN);
-
-                        // let flag=Game.flags[''+x+y];
-                        // if (flag){
-                        //     flag.remove();
-                        // }
                     }
 
                     y++;
