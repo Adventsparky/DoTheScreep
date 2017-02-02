@@ -337,38 +337,45 @@ module.exports = {
         }
     },
     checkForExtensionsAndRoadConstruction : function (room) {
-        if (Query.buildingTypeAvailable(STRUCTURE_EXTENSION,room.name)) {
-            console.log('Extensions lads, have ya planning permission?');
-            // We should have roads right beside the spawn, extensions will be diagonal
-            // todo exit if we have no spawn somehow
+        console.log('Extensions lads, have ya planning permission?');
+        // We should have roads right beside the spawn, extensions will be diagonal
+        // todo exit if we have no spawn somehow
 
-            // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
-            // ring one is special, extension at 3 corners only (one reserved for grave)
+        // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
+        // ring one is special, extension at 3 corners only (one reserved for grave)
 
-            // It's ALIVE!!
-            // [11:33:46 PM]  o,x,o
-            // [11:33:46 PM]  x,-,x
-            // [11:33:46 PM]  o,x,x
-            // [11:33:46 PM]o,x,o,x,o
-            // [11:33:46 PM]x,-,-,-,x
-            // [11:33:46 PM]o,-,-,-,o
-            // [11:33:46 PM]x,-,-,-,x
-            // [11:33:46 PM]o,x,o,x,o
+        // It's ALIVE!!
+        // [11:33:46 PM]  o,x,o
+        // [11:33:46 PM]  x,-,x
+        // [11:33:46 PM]  o,x,x
+        // [11:33:46 PM]o,x,o,x,o
+        // [11:33:46 PM]x,-,-,-,x
+        // [11:33:46 PM]o,-,-,-,o
+        // [11:33:46 PM]x,-,-,-,x
+        // [11:33:46 PM]o,x,o,x,o
 
-            let loopCounter=5;
+        // This is the total number of extensions we are ready to build
+        let availableExtensions=Query.structuresTotalInPlayInRoom(STRUCTURE_EXTENSION, room);
 
-            let spawnPos=room.spawn[0].pos;
-            let forbiddenXs=[spawnPos.x];
-            let forbiddenYs=[spawnPos.y];
+        // This is a limiter for how far out we should spin
+        let loopCounter=1;
+        let loopRange=1;
 
-            let startX=spawnPos.x;
-            let startY=spawnPos.y;
+        // Initial forbidden xy is the spawn itself
+        let spawnPos=room.spawn[0].pos;
+        let forbiddenXs=[spawnPos.x];
+        let forbiddenYs=[spawnPos.y];
 
-            let loopRange=1;
+        // Kick off point is always the spawn
+        let startX=spawnPos.x;
+        let startY=spawnPos.y;
 
-            let checked=0;
+        // 10 ring spins is too many, something went wrong
+        let emergencyLoopStop=10;
 
-            // while(Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom) && keepLooping) {
+        // let checked=0;
+
+        while(availableExtensions > 0 && emergencyLoopStop>0) {
             let allowOnForbidden = loopCounter % 2 == 0;
             console.log('Loop level: '+loopCounter);
             console.log('allow on forbidden: '+ allowOnForbidden);
@@ -376,7 +383,7 @@ module.exports = {
             loopRange=loopRange+2;
             console.log('Loop range: '+loopRange);
 
-            // RING LOOP
+            // RING
             for(let i=1; i <= loopCounter; i++) {
 
                 startX=spawnPos.x - i;
@@ -387,12 +394,12 @@ module.exports = {
 
                 let x=startX;
 
-                // COLUMN LOOP
+                // COLUMN
                 for(let i=0; i < loopRange; i++) {
                     let y=startY;
                     let rowStuff=[];
 
-                    // ROW LOOP
+                    // ROW
                     for (let j = 0; j < loopRange; j++) {
                         let checkPos=new RoomPosition(x, y, room.name);
                         // console.log('checking '+checkPos);
@@ -403,11 +410,12 @@ module.exports = {
                                 //  console.log('this is a centre location, skip: '+x+','+y);
                                 y++;
                                 rowStuff.push('-');
-
                                 continue;
                             }
                         }
-                        checked++;
+
+                        // checked++;
+
                         if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
                             (!room.gravePos || !(checkPos.x == room.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
                             // console.log('Found a site at ' + x + ',' + y);
@@ -423,6 +431,8 @@ module.exports = {
                             newForbiddenYs.push(checkPos.y);
 
                             rowStuff.push('o');
+
+                            Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
 
                             //     // todo trying to make the loop mark which x and y's we can't hit in the next row
                         } else{
@@ -456,11 +466,10 @@ module.exports = {
                 loopRange=loopRange+2;
             }
 
-            // keepLooping=false;
-            // }
-
-            // console.log(checked+' spots checked');
+            emergencyLoopStop--;
         }
+
+        // console.log(checked+' spots checked');
     },
 
     /*

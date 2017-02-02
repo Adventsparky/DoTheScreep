@@ -51,13 +51,29 @@ module.exports = {
     /*
      * CONSTRUCTION
      */
-    buildingTypeAvailable: function(type, room) {
-        let alreadyConstructed = _.filter(room.structures, function(structure){
-                return structure.structureType == type; }).length;
-        let alreadyPlanned = _.filter(room.constructions, function(site){
-                return site.structureType == type; }).length;
+    structuresOfTypeAlreadyBuilt : function(type,room){
+        return _.filter(room.structures, function(structure){
+            return structure.structureType == type; });
+    },
+    structuresOfTypeAlreadyPlanned : function(type,room){
+        return _.filter(room.constructions, function(site){
+            return site.structureType == type; });
+    },
+    structuresTotalInPlayInRoom : function(type, room) {
+        return this.structuresOfTypeAlreadyBuilt(type, room) + this.structuresOfTypeAlreadyPlanned(type, room);
+    },
+    buildingTypeAvailable : function(type, room) {
+        return this.structuresTotalInPlayInRoom(type, room) < CONTROLLER_STRUCTURES[type][room.controller.level];
+    },
+    checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
+        // If there's anything within 1 square (ie 3x3 grid) play it safe
+        let startPos = new RoomPosition(pos.x-1, pos.y-1, room);
+        let endPos = new RoomPosition(pos.x+1, pos.y+1, room);
 
-        return (alreadyConstructed+alreadyPlanned) < CONTROLLER_STRUCTURES[type][room.controller.level];
+        let scanResults = room.lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1);
+        if (scanResults) {
+            console.log('We found '+scanResults.length+' things around '+pos);
+        }
     },
 
     /*
