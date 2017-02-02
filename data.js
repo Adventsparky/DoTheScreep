@@ -123,6 +123,7 @@ module.exports = {
                         case LOOK_STRUCTURES :
                             if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
                                 typeOfThing.structureType != STRUCTURE_SPAWN &&
+                                typeOfThing.structureType != STRUCTURE_CONTAINER &&
                                 typeOfThing.structureType != STRUCTURE_ROAD) {
                                 canBuildHere = false;
                             }
@@ -130,6 +131,7 @@ module.exports = {
                         case LOOK_CONSTRUCTION_SITES :
                             if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
                                 typeOfThing.structureType != STRUCTURE_SPAWN &&
+                                typeOfThing.structureType != STRUCTURE_CONTAINER &&
                                 typeOfThing.structureType != STRUCTURE_ROAD) {
                                 canBuildHere = false;
                             }
