@@ -94,15 +94,15 @@ module.exports = {
                         }
                         break;
                     case LOOK_STRUCTURES :
-                        if (typeOfThing.structureType != STRUCTURE_EXTENSION ||
-                            typeOfThing.structureType != STRUCTURE_SPAWN ||
+                        if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
+                            typeOfThing.structureType != STRUCTURE_SPAWN &&
                             typeOfThing.structureType != STRUCTURE_ROAD) {
                             canBuildHere=false;
                         }
                         break;
                     case LOOK_CONSTRUCTION_SITES :
-                        if (typeOfThing.structureType != STRUCTURE_EXTENSION ||
-                            typeOfThing.structureType != STRUCTURE_SPAWN ||
+                        if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
+                            typeOfThing.structureType != STRUCTURE_SPAWN &&
                             typeOfThing.structureType != STRUCTURE_ROAD) {
                             canBuildHere=false;
                         }
