@@ -52,10 +52,16 @@ module.exports = {
      * CONSTRUCTION
      */
     structuresOfTypeAlreadyBuilt : function(type,room){
+        if (!room || !room.structures) {
+            return 0;
+        }
         return _.filter(room.structures, function(structure){
             return structure.structureType == type; });
     },
     structuresOfTypeAlreadyPlanned : function(type,room){
+        if (!room || !room.constructions) {
+            return 0;
+        }
         return _.filter(room.constructions, function(site){
             return site.structureType == type; });
     },
