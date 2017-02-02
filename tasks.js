@@ -35,6 +35,7 @@ module.exports = {
         let allSources;
         // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 60% of that
         if (creep.memory.role == 'builder' && room.fullExtensions && room.energyCapacityAvailable >= 700 && room.energyAvailable > room.energyCapacityAvailable*.6) {
+            console.log('this is a builder');
             allSources = _.sortBy(_.union(room.availableSources, room.fullExtensions), s => creep.pos.getRangeTo(s));
         } else {
             allSources = _.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
@@ -354,19 +355,22 @@ module.exports = {
         // [11:33:46 PM]x,-,-,-,x
         // [11:33:46 PM]o,x,o,x,o
 
-        // This is the total number of extensions we are ready to build
-        let availableExtensions=Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION, room);
-        console.log(availableExtensions.length+' available extensions');
-
-        // This is a limiter for how far out we should spin
-        let loopCounter=1;
-        let loopRange=3;
-
         // Initial forbidden xy is the spawn itself
         let storedRoom=Memory.roomInfo[room.name];
         let spawnPos=storedRoom.spawn[0].pos;
         let forbiddenXs=[spawnPos.x];
         let forbiddenYs=[spawnPos.y];
+
+        // This is the total number of extensions we are ready to build
+        let availableExtensionsCount=Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION, room);
+        if (availableExtensionsCount == 0) {
+            return;
+        }
+        console.log(availableExtensionsCount+' available extensions');
+
+        // This is a limiter for how far out we should spin
+        let loopCounter=0;
+        let loopRange=3;
 
         // Kick off point is always the spawn
         let startX=spawnPos.x;
@@ -379,18 +383,20 @@ module.exports = {
 
         // while(availableExtensions > 0 && emergencyLoopStop>0) {
         let allowOnForbidden = true;
-        console.log('Loop level: '+loopCounter);
-        console.log('allow on forbidden: '+ allowOnForbidden);
+        // console.log('Loop level: '+loopCounter);
+        // console.log('allow on forbidden: '+ allowOnForbidden);
 
-        console.log('Loop range: '+loopRange);
+        // console.log('Loop range: '+loopRange);
 
         // RING
-        for(let i=1; i <= loopCounter; i++) {
+        while (availableExtensionsCount > 0) {
+
+            loopCounter++;
 
             allowOnForbidden=!allowOnForbidden;
 
-            startX=spawnPos.x - i;
-            startY=spawnPos.y - i;
+            startX=spawnPos.x - loopCounter;
+            startY=spawnPos.y - loopCounter;
 
             let newForbiddenXs=[];
             let newForbiddenYs=[];
@@ -439,6 +445,7 @@ module.exports = {
                             rowStuff.push('o');
 
                             room.createConstructionSite(checkPos,STRUCTURE_EXTENSION);
+                            availableExtensionsCount--;
                         }
 
                     } else{

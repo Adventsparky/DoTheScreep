@@ -60,13 +60,18 @@ module.exports = {
             return site.structureType == type; });
     },
     structuresTotalInPlayInRoom : function(type, room) {
+        // console.log(this.structuresOfTypeAlreadyBuilt(type, room).length);
+        // console.log(this.structuresOfTypeAlreadyPlanned(type, room).length);
+        // console.log(this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length);
         return this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length;
     },
     numberOfBuildingTypeAvailable : function(type, room) {
-        console.log(room);
+        // console.log(room);
+        let storedRoom = Memory.roomInfo[room.name];
         // console.log(CONTROLLER_STRUCTURES[type][room.controller.level]);
-        // console.log(this.structuresTotalInPlayInRoom(type, room));
-        return CONTROLLER_STRUCTURES[type][room.controller.level] - this.structuresTotalInPlayInRoom(type, room);
+        // console.log(this.structuresTotalInPlayInRoom(type, storedRoom));
+
+        return CONTROLLER_STRUCTURES[type][room.controller.level] - this.structuresTotalInPlayInRoom(type, storedRoom);
     },
     isBuildingTypeAvailable : function(type, room) {
         return this.numberOfBuildingTypeAvailable(type, room) > 0;
