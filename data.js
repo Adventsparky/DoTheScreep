@@ -90,29 +90,52 @@ module.exports = {
                 let type=thing.type;
                 let typeOfThing = thing[type];
 
-                // console.log(typeOfThing);
+                if (thing.x == pos.x && thing.y == pos.y) {
+                    // Special check for the actual square we want to build on
 
-                switch (type){
-                    case LOOK_TERRAIN :
-                        if (typeOfThing == 'wall'){
-                            canBuildHere=false;
-                        }
-                        break;
-                    case LOOK_STRUCTURES :
-                        if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
-                            typeOfThing.structureType != STRUCTURE_SPAWN &&
-                            typeOfThing.structureType != STRUCTURE_ROAD) {
-                            canBuildHere=false;
-                        }
-                        break;
-                    case LOOK_CONSTRUCTION_SITES :
-                        if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
-                            typeOfThing.structureType != STRUCTURE_SPAWN &&
-                            typeOfThing.structureType != STRUCTURE_ROAD) {
-                            canBuildHere=false;
-                        }
-                        break;
+                    switch (type) {
+                        case LOOK_TERRAIN :
+                            if (typeOfThing == 'wall') {
+                                canBuildHere = false;
+                            }
+                            break;
+                        case LOOK_STRUCTURES :
+                            if (typeOfThing.structureType == STRUCTURE_EXTENSION) {
+                                canBuildHere = false;
+                            }
+                            break;
+                        case LOOK_CONSTRUCTION_SITES :
+                            if (typeOfThing.structureType == STRUCTURE_EXTENSION) {
+                                canBuildHere = false;
+                            }
+                            break;
 
+                    }
+                } else {
+                    // console.log(typeOfThing);
+
+                    switch (type) {
+                        case LOOK_TERRAIN :
+                            if (typeOfThing == 'wall') {
+                                canBuildHere = false;
+                            }
+                            break;
+                        case LOOK_STRUCTURES :
+                            if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
+                                typeOfThing.structureType != STRUCTURE_SPAWN &&
+                                typeOfThing.structureType != STRUCTURE_ROAD) {
+                                canBuildHere = false;
+                            }
+                            break;
+                        case LOOK_CONSTRUCTION_SITES :
+                            if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
+                                typeOfThing.structureType != STRUCTURE_SPAWN &&
+                                typeOfThing.structureType != STRUCTURE_ROAD) {
+                                canBuildHere = false;
+                            }
+                            break;
+
+                    }
                 }
             });
 
