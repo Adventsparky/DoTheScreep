@@ -355,14 +355,16 @@ module.exports = {
         // [11:33:46 PM]o,x,o,x,o
 
         // This is the total number of extensions we are ready to build
-        let availableExtensions=Query.structuresTotalInPlayInRoom(STRUCTURE_EXTENSION, room);
+        let availableExtensions=Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION, room);
+        console.log(availableExtensions.length+' available extensions');
 
         // This is a limiter for how far out we should spin
-        let loopCounter=1;
-        let loopRange=1;
+        let loopCounter=2;
+        let loopRange=3;
 
         // Initial forbidden xy is the spawn itself
-        let spawnPos=room.spawn[0].pos;
+        let storedRoom=Memory.roomInfo[room.name];
+        let spawnPos=storedRoom.spawn[0].pos;
         let forbiddenXs=[spawnPos.x];
         let forbiddenYs=[spawnPos.y];
 
@@ -371,103 +373,104 @@ module.exports = {
         let startY=spawnPos.y;
 
         // 10 ring spins is too many, something went wrong
-        let emergencyLoopStop=10;
+        // let emergencyLoopStop=2;
 
         // let checked=0;
 
-        while(availableExtensions > 0 && emergencyLoopStop>0) {
-            let allowOnForbidden = loopCounter % 2 == 0;
-            console.log('Loop level: '+loopCounter);
-            console.log('allow on forbidden: '+ allowOnForbidden);
+        // while(availableExtensions > 0 && emergencyLoopStop>0) {
+        let allowOnForbidden = true;
+        console.log('Loop level: '+loopCounter);
+        console.log('allow on forbidden: '+ allowOnForbidden);
 
-            loopRange=loopRange+2;
-            console.log('Loop range: '+loopRange);
+        console.log('Loop range: '+loopRange);
 
-            // RING
-            for(let i=1; i <= loopCounter; i++) {
+        // RING
+        for(let i=1; i <= loopCounter; i++) {
 
-                startX=spawnPos.x - i;
-                startY=spawnPos.y - i;
+            allowOnForbidden=!allowOnForbidden;
 
-                let newForbiddenXs=[];
-                let newForbiddenYs=[];
+            startX=spawnPos.x - i;
+            startY=spawnPos.y - i;
 
-                let x=startX;
+            let newForbiddenXs=[];
+            let newForbiddenYs=[];
 
-                // COLUMN
-                for(let i=0; i < loopRange; i++) {
-                    let y=startY;
-                    let rowStuff=[];
+            let x=startX;
 
-                    // ROW
-                    for (let j = 0; j < loopRange; j++) {
-                        let checkPos=new RoomPosition(x, y, room.name);
-                        // console.log('checking '+checkPos);
+            // COLUMN
+            for(let i=0; i < loopRange; i++) {
+                let y=startY;
+                let rowStuff=[];
 
-                        // Only loop down the whole column, if it's the first or last X, otherwise we only need the top and bottom
-                        if (checkPos.x != startX && checkPos.x != (startX + loopRange - 1)) {
-                            if(checkPos.y > startY && checkPos.y < (startY + loopRange - 1)) {
-                                //  console.log('this is a centre location, skip: '+x+','+y);
-                                y++;
-                                rowStuff.push('-');
-                                continue;
-                            }
+                // ROW
+                for (let j = 0; j < loopRange; j++) {
+                    let checkPos=new RoomPosition(x, y, storedRoom.name);
+                    // console.log('checking '+checkPos);
+
+                    // Only loop down the whole column, if it's the first or last X, otherwise we only need the top and bottom
+                    if (checkPos.x != startX && checkPos.x != (startX + loopRange - 1)) {
+                        if(checkPos.y > startY && checkPos.y < (startY + loopRange - 1)) {
+                            //  console.log('this is a centre location, skip: '+x+','+y);
+                            y++;
+                            rowStuff.push('-');
+                            continue;
                         }
-
-                        // checked++;
-
-                        if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
-                            (!room.gravePos || !(checkPos.x == room.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
-                            // console.log('Found a site at ' + x + ',' + y);
-
-                            // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
-
-                            //  let flag=Game.flags[''+x+y];
-                            //  if (flag){
-                            //      flag.remove();
-                            //  }
-
-                            newForbiddenXs.push(checkPos.x);
-                            newForbiddenYs.push(checkPos.y);
-
-                            rowStuff.push('o');
-
-                            Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
-
-                            //     // todo trying to make the loop mark which x and y's we can't hit in the next row
-                        } else{
-                            rowStuff.push('x');
-
-                            // room.createFlag(x,y,''+x+y, COLOR_CYAN);
-
-                            // let flag=Game.flags[''+x+y];
-                            // if (flag){
-                            //     flag.remove();
-                            // }
-                        }
-
-                        y++;
                     }
-                    // console.log(rowStuff);
 
-                    x++;
+                    // checked++;
+
+                    if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
+                        (!storedRoom.gravePos || !(checkPos.x == storedRoom.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
+                        // console.log('Found a site at ' + x + ',' + y);
+
+                        // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
+
+                        //  let flag=Game.flags[''+x+y];
+                        //  if (flag){
+                        //      flag.remove();
+                        //  }
+
+                        newForbiddenXs.push(checkPos.x);
+                        newForbiddenYs.push(checkPos.y);
+
+                        rowStuff.push('o');
+
+                        Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,storedRoom);
+
+                        //     // todo trying to make the loop mark which x and y's we can't hit in the next row
+                    } else{
+                        rowStuff.push('x');
+
+                        // room.createFlag(x,y,''+x+y, COLOR_CYAN);
+
+                        // let flag=Game.flags[''+x+y];
+                        // if (flag){
+                        //     flag.remove();
+                        // }
+                    }
+
+                    y++;
                 }
+                console.log(rowStuff);
 
-                // console.log(newForbiddenXs);
-                // console.log(newForbiddenYs);
-
-                forbiddenXs=_.uniq(newForbiddenXs);
-                forbiddenYs=_.uniq(newForbiddenYs);
-
-                // console.log('ring done, forbidden for next ring (Start:'+(spawnPos.x - (i+1))+','+(spawnPos.y - (i+1)));
-                // console.log(forbiddenXs);
-                // console.log(forbiddenYs);
-
-                loopRange=loopRange+2;
+                x++;
             }
 
-            emergencyLoopStop--;
+            // console.log(newForbiddenXs);
+            // console.log(newForbiddenYs);
+
+            forbiddenXs=_.uniq(newForbiddenXs);
+            forbiddenYs=_.uniq(newForbiddenYs);
+
+            // console.log('ring done, forbidden for next ring (Start:'+(spawnPos.x - (i+1))+','+(spawnPos.y - (i+1)));
+            // console.log(forbiddenXs);
+            // console.log(forbiddenYs);
+
+            loopRange=loopRange+2;
         }
+
+        // emergencyLoopStop--;
+        // }
 
         // console.log(checked+' spots checked');
     },

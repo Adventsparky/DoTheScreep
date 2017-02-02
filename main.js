@@ -202,8 +202,8 @@ module.exports.loop = function () {
             }
 
             // BUILD ROADS AND EXTENSIONS AROUND SPAWN
-            if (Query.buildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
-                Tasks.checkForExtensionsAndRoadConstruction(storedRoom);
+            if (Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+                Tasks.checkForExtensionsAndRoadConstruction(thisRoom);
             }
 
             Memory.roomInfo[thisRoom.name]=storedRoom;

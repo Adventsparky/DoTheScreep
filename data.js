@@ -60,26 +60,32 @@ module.exports = {
             return site.structureType == type; });
     },
     structuresTotalInPlayInRoom : function(type, room) {
-        return this.structuresOfTypeAlreadyBuilt(type, room) + this.structuresOfTypeAlreadyPlanned(type, room);
+        return this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length;
     },
-    buildingTypeAvailable : function(type, room) {
-        return this.structuresTotalInPlayInRoom(type, room) < CONTROLLER_STRUCTURES[type][room.controller.level];
+    numberOfBuildingTypeAvailable : function(type, room) {
+        console.log(room);
+        // console.log(CONTROLLER_STRUCTURES[type][room.controller.level]);
+        // console.log(this.structuresTotalInPlayInRoom(type, room));
+        return CONTROLLER_STRUCTURES[type][room.controller.level] - this.structuresTotalInPlayInRoom(type, room);
+    },
+    isBuildingTypeAvailable : function(type, room) {
+        return this.numberOfBuildingTypeAvailable(type, room) > 0;
     },
     checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
         // If there's anything within 1 square (ie 3x3 grid) play it safe
-        let startPos = new RoomPosition(pos.x-1, pos.y-1, room);
-        let endPos = new RoomPosition(pos.x+1, pos.y+1, room);
+        let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
+        let endPos = new RoomPosition(pos.x+1, pos.y+1, room.name);
 
-        let scanResults = room.lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1);
+        let scanResults = Game.rooms[room.name].lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1);
         if (scanResults) {
-            console.log('We found '+scanResults.length+' things around '+pos);
+            // console.log('We found '+scanResults.length+' things around '+pos);
         }
     },
 
     /*
      * TERRAIN
      */
-    countAccessibleSpacesAroundPoint(room,pos) {
+    countAccessibleSpacesAroundPoint : function(room,pos) {
         // console.log('Check '+pos+' in '+room);
         let spaces=0;
 
@@ -106,7 +112,7 @@ module.exports = {
         // console.log('Found '+spaces+' '+pos+' in '+room);
         return spaces;
     },
-    locateContainersAtPoint(pos,availableStructures) {
+    locateContainersAtPoint : function(pos,availableStructures) {
         // console.log('Check '+pos+' in '+room);
         let container;
 
