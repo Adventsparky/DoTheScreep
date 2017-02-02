@@ -359,7 +359,7 @@ module.exports = {
         console.log(availableExtensions.length+' available extensions');
 
         // This is a limiter for how far out we should spin
-        let loopCounter=2;
+        let loopCounter=1;
         let loopRange=3;
 
         // Initial forbidden xy is the spawn itself
