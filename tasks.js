@@ -385,7 +385,7 @@ module.exports = {
         console.log('Loop range: '+loopRange);
 
         // RING
-        while(availableExtensions > 0) {
+        for(let i=1; i <= loopCounter; i++) {
 
             allowOnForbidden=!allowOnForbidden;
 
@@ -439,7 +439,6 @@ module.exports = {
                             rowStuff.push('o');
 
                             room.createConstructionSite(checkPos,STRUCTURE_EXTENSION);
-                            availableExtensions--;
                         }
 
                     } else{
