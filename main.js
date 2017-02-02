@@ -204,7 +204,7 @@ module.exports.loop = function () {
             // BUILD ROADS AND EXTENSIONS AROUND SPAWN
             console.log('Extensions available: '+Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
             console.log('Is available? '+Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
-            if (Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+            if (storedRoom.name = 'sim' && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
                 Tasks.checkForExtensionsAndRoadConstruction(thisRoom);
             }
 

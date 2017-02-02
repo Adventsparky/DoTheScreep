@@ -1,3 +1,23 @@
+const nonBuildableTypes = ['wall', STRUCTURE_EXTENSION, STRUCTURE_TOWER, STRUCTURE_CONTAINER, STRUCTURE_SPAWN, STRUCTURE_EXTRACTOR, STRUCTURE_LAB,
+    STRUCTURE_LINK, STRUCTURE_NUKER, STRUCTURE_STORAGE, LOOK_SOURCES, STRUCTURE_OBSERVER, STRUCTURE_TERMINAL, STRUCTURE_POWER_BANK, STRUCTURE_POWER_SPAWN,
+    STRUCTURE_PORTAL, STRUCTURE_RAMPART];
+const typesAllowedBesideExtension = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_CONTAINER, STRUCTURE_ROAD];
+const typesRequiredBesideExtension = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN]; // One of, is ok, doesn't need to match ALL
+
+function getTypeFromLookAtAreaResult(result) {
+    let type=result.type;
+
+    if (type == 'terrain') {
+        return result[type];
+    }
+
+    if (type == 'structure') {
+        let typeOfThing = result[type];
+        return typeOfThing.structureType;
+    }
+
+}
+
 module.exports = {
     /*
      * ENERGY
@@ -92,62 +112,31 @@ module.exports = {
         let scanResults = Game.rooms[room.name].lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1, true);
         if (scanResults) {
             // console.log('We found '+scanResults.length+' things around '+pos);
+
+            let foundOneOfTheRequiredTypesNearby = false;
             _.each(scanResults, function(thing){
-                let type=thing.type;
-                let typeOfThing = thing[type];
+
+                let type=getTypeFromLookAtAreaResult(thing);
 
                 if (thing.x == pos.x && thing.y == pos.y) {
                     // Special check for the actual square we want to build on
 
-                    switch (type) {
-                        case LOOK_TERRAIN :
-                            if (typeOfThing == 'wall') {
-                                canBuildHere = false;
-                            }
-                            break;
-                        case LOOK_STRUCTURES :
-                            if (typeOfThing.structureType == STRUCTURE_EXTENSION) {
-                                canBuildHere = false;
-                            }
-                            break;
-                        case LOOK_CONSTRUCTION_SITES :
-                            if (typeOfThing.structureType == STRUCTURE_EXTENSION) {
-                                canBuildHere = false;
-                            }
-                            break;
-
+                    if (_.contains(nonBuildableTypes, type)) {
+                        canBuildHere=false;
                     }
                 } else {
                     // console.log(typeOfThing);
 
-                    switch (type) {
-                        case LOOK_TERRAIN :
-                            if (typeOfThing == 'wall') {
-                                canBuildHere = false;
-                            }
-                            break;
-                        case LOOK_STRUCTURES :
-                            if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
-                                typeOfThing.structureType != STRUCTURE_SPAWN &&
-                                typeOfThing.structureType != STRUCTURE_CONTAINER &&
-                                typeOfThing.structureType != STRUCTURE_ROAD) {
-                                canBuildHere = false;
-                            }
-                            break;
-                        case LOOK_CONSTRUCTION_SITES :
-                            if (typeOfThing.structureType != STRUCTURE_EXTENSION &&
-                                typeOfThing.structureType != STRUCTURE_SPAWN &&
-                                typeOfThing.structureType != STRUCTURE_CONTAINER &&
-                                typeOfThing.structureType != STRUCTURE_ROAD) {
-                                canBuildHere = false;
-                            }
-                            break;
-
+                    if (type == 'wall' ||
+                        !_.contains(typesAllowedBesideExtension, type)) {
+                        canBuildHere=false;
+                    } else if (_.contains(typesRequiredBesideExtension, type)) {
+                        foundOneOfTheRequiredTypesNearby=true;
                     }
                 }
             });
 
-            return canBuildHere;
+            return canBuildHere && foundOneOfTheRequiredTypesNearby;
         }
     },
 
