@@ -190,7 +190,7 @@ module.exports = {
         });
         if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-                return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < (structure.energyCapacity*.4))
+                return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < (structure.energyCapacity*.3))
             });
         }
         if(dropOffStructures.length == 0) {
