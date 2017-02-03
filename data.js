@@ -113,7 +113,7 @@ module.exports = {
         c = c > (49-b) ? c=(49-b) : c;
         return c;
     },
-    checkIfSiteIsSuitableForExtensionConstruction : function(pos, room, attachedConstructionOnly) {
+    checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
         // If there's anything within 1 square (ie 3x3 grid) play it safe
         // let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
         // let endPos = new RoomPosition(pos.x+1, pos.y+1, room.name);
@@ -151,7 +151,7 @@ module.exports = {
                             }
                         }
 
-                        if (attachedConstructionOnly && _.contains(typesRequiredBesideExtension, type)) {
+                        if (_.contains(typesRequiredBesideExtension, type)) {
                             foundOneOfTheRequiredTypesNearby = true;
                         }
                     }

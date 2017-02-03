@@ -391,7 +391,6 @@ module.exports = {
 
         // while(availableExtensions > 0 && emergencyLoopStop>0) {
         let allowOnForbidden = true;
-        let builtInLastRing=true;
         // console.log('Loop level: '+loopCounter);
         // console.log('allow on forbidden: '+ allowOnForbidden);
 
@@ -412,11 +411,6 @@ module.exports = {
             let newForbiddenYs=[];
 
             let x=startX;
-
-            // This is for when the terrain wouldn't allow us to expand out without blocking a passage, so we might have
-            // cycles where we can't build, use this to pass into our "can build" bit
-            // When we do manage to build again, we need to set that as the new extensionBuilderSource on Memory for this room
-            let builtInThisRing=false;
 
             // COLUMN
             for(let i=0; i < loopRange; i++) {
@@ -446,7 +440,8 @@ module.exports = {
 
                     // checked++;
 
-                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room,builtInLastRing);
+                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
+                    // console.log(canWeBuildHere);
 
                     if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
                         (!storedRoom.gravePos || !(checkPos.x == storedRoom.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
@@ -462,12 +457,6 @@ module.exports = {
 
                             if (room.createConstructionSite(checkPos,STRUCTURE_EXTENSION) == OK) {
                                 availableExtensionsCount--;
-                                if (!builtInLastRing && !builtInThisRing && innerLoopCounter > 1) {
-                                    // We didn't build anything on the last loop, and this isn't our first time through
-                                    // We need to set this building as the new extensionBuilderSource
-                                    storedRoom.extensionBuilderSource=checkPos;
-                                }
-                                builtInThisRing=true;
                             }
                         }
 
@@ -508,7 +497,6 @@ module.exports = {
             // console.log(forbiddenXs);
             // console.log(forbiddenYs);
 
-            builtInLastRing=builtInThisRing;
             loopRange=loopRange+2;
         }
 
