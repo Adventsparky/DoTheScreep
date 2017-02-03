@@ -1,7 +1,7 @@
 const nonBuildableTypes = ['wall', STRUCTURE_EXTENSION, STRUCTURE_TOWER, STRUCTURE_CONTAINER, STRUCTURE_SPAWN, STRUCTURE_EXTRACTOR, STRUCTURE_LAB,
     STRUCTURE_LINK, STRUCTURE_NUKER, STRUCTURE_STORAGE, LOOK_SOURCES, STRUCTURE_OBSERVER, STRUCTURE_TERMINAL, STRUCTURE_POWER_BANK, STRUCTURE_POWER_SPAWN,
     STRUCTURE_PORTAL, STRUCTURE_RAMPART];
-const typesAllowedBesideExtension = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_CONTAINER, STRUCTURE_ROAD];
+const typesAllowedBesideExtension = ['plain', 'swamp', STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_CONTAINER, STRUCTURE_ROAD];
 const typesRequiredBesideExtension = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN]; // One of, is ok, doesn't need to match ALL
 
 function getTypeFromLookAtAreaResult(result) {
@@ -12,6 +12,11 @@ function getTypeFromLookAtAreaResult(result) {
     }
 
     if (type == 'structure') {
+        let typeOfThing = result[type];
+        return typeOfThing.structureType;
+    }
+
+    if (type == 'constructionSite') {
         let typeOfThing = result[type];
         return typeOfThing.structureType;
     }
@@ -104,40 +109,46 @@ module.exports = {
     },
     checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
         // If there's anything within 1 square (ie 3x3 grid) play it safe
-        let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
-        let endPos = new RoomPosition(pos.x+1, pos.y+1, room.name);
+        // let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
+        // let endPos = new RoomPosition(pos.x+1, pos.y+1, room.name);
 
         // console.log('check around '+(pos));
         let canBuildHere=true;
         let scanResults = Game.rooms[room.name].lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1, true);
         if (scanResults) {
-            // console.log('We found '+scanResults.length+' things around '+pos);
+            //     // console.log('We found '+scanResults.length+' things around '+pos);
 
             let foundOneOfTheRequiredTypesNearby = false;
             _.each(scanResults, function(thing){
 
                 let type=getTypeFromLookAtAreaResult(thing);
 
-                if (thing.x == pos.x && thing.y == pos.y) {
-                    // Special check for the actual square we want to build on
+                if (type) {
+                    if (thing.x == pos.x && thing.y == pos.y) {
+                        //             // Special check for the actual square we want to build on
 
-                    if (_.contains(nonBuildableTypes, type)) {
-                        canBuildHere=false;
+                        if (_.contains(nonBuildableTypes, type)) {
+                            canBuildHere=false;
+                        }
+                    } else {
+                        // console.log(type);
+
+                        if (type == 'wall' ||
+                            !_.contains(typesAllowedBesideExtension, type)) {
+                            canBuildHere=false;
+                        }
                     }
-                } else {
-                    // console.log(typeOfThing);
 
-                    if (type == 'wall' ||
-                        !_.contains(typesAllowedBesideExtension, type)) {
-                        canBuildHere=false;
-                    } else if (_.contains(typesRequiredBesideExtension, type)) {
+                    if (_.contains(typesRequiredBesideExtension, type)) {
                         foundOneOfTheRequiredTypesNearby=true;
                     }
                 }
             });
 
+            // console.log(canBuildHere && foundOneOfTheRequiredTypesNearby);
             return canBuildHere && foundOneOfTheRequiredTypesNearby;
         }
+        return true;
     },
 
     /*

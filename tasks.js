@@ -373,8 +373,10 @@ module.exports = {
         console.log(availableExtensionsCount+' available extensions');
 
         // This is a limiter for how far out we should spin
-        let loopCounter=0;
+        let masterLoopCounter=0;
+        let innerLoopCounter=0;
         let loopRange=3;
+        let placedExtension=0;
 
         // Kick off point is always the spawn
         let startX=spawnPos.x;
@@ -393,14 +395,21 @@ module.exports = {
         // console.log('Loop range: '+loopRange);
 
         // RING
-        while (availableExtensionsCount > 0) {
+        while (availableExtensionsCount > 0 && masterLoopCounter<15) {
 
-            loopCounter++;
+            innerLoopCounter++;
+            masterLoopCounter++;
+
+            // if(masterLoopCounter%5 == 0) {
+            //     innerLoopCounter=innerLoopCounter-1;
+            // }
+
+            console.log(innerLoopCounter);
 
             allowOnForbidden=!allowOnForbidden;
 
-            startX=spawnPos.x - loopCounter;
-            startY=spawnPos.y - loopCounter;
+            startX=spawnPos.x - innerLoopCounter;
+            startY=spawnPos.y - innerLoopCounter;
 
             let newForbiddenXs=[];
             let newForbiddenYs=[];
@@ -414,7 +423,7 @@ module.exports = {
 
                 // ROW
                 for (let j = 0; j < loopRange; j++) {
-                    let checkPos=new RoomPosition(x, y, storedRoom.name);
+                    let checkPos=new RoomPosition(x, y, room.name);
                     // console.log('checking '+checkPos);
 
                     // Only loop down the whole column, if it's the first or last X, otherwise we only need the top and bottom
@@ -429,7 +438,7 @@ module.exports = {
 
                     // checked++;
 
-                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,storedRoom);
+                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
 
                     if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
                         (!storedRoom.gravePos || !(checkPos.x == storedRoom.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
@@ -445,8 +454,9 @@ module.exports = {
 
 
 
-                            room.createConstructionSite(checkPos,STRUCTURE_EXTENSION);
-                            availableExtensionsCount--;
+                            if (room.createConstructionSite(checkPos,STRUCTURE_EXTENSION) == OK) {
+                                availableExtensionsCount--;
+                            }
                         }
 
                         newForbiddenXs.push(checkPos.x);
@@ -471,7 +481,7 @@ module.exports = {
 
                     y++;
                 }
-                console.log(rowStuff);
+                // console.log(rowStuff);
 
                 x++;
             }
