@@ -456,8 +456,8 @@ module.exports = {
                             //  }
 
                             if (room.createConstructionSite(checkPos,STRUCTURE_EXTENSION) == OK) {
-                                let existingRoad = room.lookForAt(STRUCTURE_ROAD, checkPos.x, checkPos.y);
-                                if (existingRoad) {
+                                let existingRoad = room.lookForAt(LOOK_STRUCTURES, checkPos.x, checkPos.y);
+                                if (existingRoad && existingRoad.structureType == STRUCTURE_ROAD) {
                                     existingRoad.destroy();
                                 }
                                 availableExtensionsCount--;
