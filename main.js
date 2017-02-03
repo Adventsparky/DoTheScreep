@@ -79,7 +79,8 @@ module.exports.loop = function () {
 
             // EXTENSION BUILDER SOURCE
             if (!storedRoom.extensionBuilderSource && storedRoom.spawn) {
-                storedRoom.extensionBuilderSource = storedRoom.spawn.pos;
+                // We only want one extension builder source. OR DO WE.... todo, maybe. Might check second source instead of allowed the "broken" pattern.
+                storedRoom.extensionBuilderSource = storedRoom.spawn[0].pos;
             }
 
             // SOURCES
