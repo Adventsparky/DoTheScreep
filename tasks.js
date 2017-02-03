@@ -366,9 +366,13 @@ module.exports = {
 
         // Initial forbidden xy is the spawn itself
         let storedRoom=Memory.roomInfo[room.name];
-        let spawnPos=storedRoom.spawn[0].pos;
-        let forbiddenXs=[spawnPos.x];
-        let forbiddenYs=[spawnPos.y];
+
+        if (!storedRoom.extensionBuilderSource) {
+            return;
+        }
+        let extensionBuilderSource=storedRoom.extensionBuilderSource;
+        let forbiddenXs=[extensionBuilderSource.x];
+        let forbiddenYs=[extensionBuilderSource.y];
 
         // This is the total number of extensions we are ready to build
         let availableExtensionsCount=Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION, room);
@@ -381,11 +385,10 @@ module.exports = {
         let emergencyLoopCounter=0;
         let innerLoopCounter=0;
         let loopRange=3;
-        let placedExtension=0;
 
         // Kick off point is always the spawn
-        let startX=spawnPos.x;
-        let startY=spawnPos.y;
+        let startX=extensionBuilderSource.x;
+        let startY=extensionBuilderSource.y;
 
         // 10 ring spins is too many, something went wrong
         // let emergencyLoopStop=2;
@@ -394,6 +397,7 @@ module.exports = {
 
         // while(availableExtensions > 0 && emergencyLoopStop>0) {
         let allowOnForbidden = true;
+        let builtInLastRing=true;
         // console.log('Loop level: '+loopCounter);
         // console.log('allow on forbidden: '+ allowOnForbidden);
 
@@ -407,18 +411,23 @@ module.exports = {
 
             allowOnForbidden=!allowOnForbidden;
 
-            startX=spawnPos.x - innerLoopCounter;
-            startY=spawnPos.y - innerLoopCounter;
+            startX=extensionBuilderSource.x - innerLoopCounter;
+            startY=extensionBuilderSource.y - innerLoopCounter;
 
             let newForbiddenXs=[];
             let newForbiddenYs=[];
 
             let x=startX;
 
+            // This is for when the terrain wouldn't allow us to expand out without blocking a passage, so we might have
+            // cycles where we can't build, use this to pass into our "can build" bit
+            // When we do manage to build again, we need to set that as the new extensionBuilderSource on Memory for this room
+            let builtInThisRing=false;
+
             // COLUMN
             for(let i=0; i < loopRange; i++) {
 
-                x = Query.safeCoord(x);
+                x = Query.safeCoord(x, 2);
 
                 let y=startY;
                 let rowStuff=[];
@@ -426,7 +435,7 @@ module.exports = {
                 // ROW
                 for (let j = 0; j < loopRange; j++) {
 
-                    y = Query.safeCoord(y);
+                    y = Query.safeCoord(y, 2);
 
                     let checkPos=new RoomPosition(x, y, room.name);
                     // console.log('checking '+checkPos);
@@ -443,7 +452,7 @@ module.exports = {
 
                     // checked++;
 
-                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
+                    let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room,builtInLastRing);
 
                     if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
                         (!storedRoom.gravePos || !(checkPos.x == storedRoom.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
@@ -457,10 +466,14 @@ module.exports = {
                             //      flag.remove();
                             //  }
 
-
-
                             if (room.createConstructionSite(checkPos,STRUCTURE_EXTENSION) == OK) {
                                 availableExtensionsCount--;
+                                if (!builtInLastRing && !builtInThisRing && innerLoopCounter > 1) {
+                                    // We didn't build anything on the last loop, and this isn't our first time through
+                                    // We need to set this building as the new extensionBuilderSource
+                                    storedRoom.extensionBuilderSource=checkPos;
+                                }
+                                builtInThisRing=true;
                             }
                         }
 
@@ -501,6 +514,7 @@ module.exports = {
             // console.log(forbiddenXs);
             // console.log(forbiddenYs);
 
+            builtInLastRing=builtInThisRing;
             loopRange=loopRange+2;
         }
 

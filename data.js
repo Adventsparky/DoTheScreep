@@ -107,34 +107,25 @@ module.exports = {
     isBuildingTypeAvailable : function(type, room) {
         return this.numberOfBuildingTypeAvailable(type, room) > 0;
     },
-    safeCoord : function(c) {
-        c = c < 0 ? c=0 : c;
-        c = c > 49 ? c=49 : c;
+    safeCoord : function(c, buffer) {
+        let b=buffer ? buffer : 0;
+        c = c < b ? c=b : c;
+        c = c > (49-b) ? c=(49-b) : c;
         return c;
     },
-    checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
+    checkIfSiteIsSuitableForExtensionConstruction : function(pos, room, attachedConstructionOnly) {
         // If there's anything within 1 square (ie 3x3 grid) play it safe
         // let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
         // let endPos = new RoomPosition(pos.x+1, pos.y+1, room.name);
 
+        // attachedConstructionOnly is to ensure building only continues where extensions are near other extensions,
+        // but we might need to override this sometimes depending on bad terrain
+
         // console.log('check around '+(pos));
         let canBuildHere=true;
-        let wallPositionsX=[];
-        let wallPositionsY=[];
-        let wallSandwich=false;
 
-        // todo squeeze extensions out the top of sim room
-        let wallResults = Game.rooms[room.name].lookAtArea('wall',this.safeCoord(pos.y-1), this.safeCoord(pos.x-1),
-            this.safeCoord(pos.y+1), this.safeCoord(pos.x+1), true);
-        if (wallResults && wallResults.length>1) {
-            _.each(wallResults, function(wall) {
-                wallPositionsX.push(thing.x);
-                wallPositionsY.push(thing.y);
-            });
-        }
-
-        let scanResults = Game.rooms[room.name].lookAtArea(this.safeCoord(pos.y-1), this.safeCoord(pos.x-1),
-            this.safeCoord(pos.y+1), this.safeCoord(pos.x+1), true);
+        let scanResults = Game.rooms[room.name].lookAtArea(this.safeCoord(pos.y-1, 2), this.safeCoord(pos.x-1, 2),
+            this.safeCoord(pos.y+1, 2), this.safeCoord(pos.x+1, 2), true);
         if (scanResults) {
             //     // console.log('We found '+scanResults.length+' things around '+pos);
 
@@ -155,41 +146,15 @@ module.exports = {
                         } else {
                             // console.log(type);
 
-                            // If it's a valid spot, check for wall sambo
-                            if (wallPositionsX.length>1 && wallPositionsY.length>1) {
-                                if (type != 'wall' && _.contains(typesAllowedBesideExtension, type)) {
-                                    if (!wallSandwich) { // Don't need to keep doing it if it's a sambo already
-                                        // console.log('Check wall sandwich');
-                                        // console.log(wallPositionsX);
-                                        // console.log(wallPositionsY);
-                                        // console.log('thing : '+thing.x+','+thing.y);
-                                        // console.log('pos : '+pos.x+','+pos.y);
-                                        // If a piece of wall matches the pos x OR y, AND matches the same plane in wall positions, SAAAAANDWICH
-                                        if (thing.x == pos.x && _.contains(wallPositionsX, thing.x)) {
-                                            // console.log('detected X sambo: '+thing.x+','+thing.y);
-                                            wallSandwich = true;
-                                        }
-                                        if (thing.y == pos.y && _.contains(wallPositionsY, thing.y)) {
-                                            // console.log('detected Y sambo for: '+thing.x+','+thing.y);
-                                            wallSandwich = true;
-                                        }
-                                    }
-                                }
-                            }
-
                             if(!_.contains(typesAllowedBesideExtension, type)) {
                                 canBuildHere = false;
                             }
                         }
 
-                        if (_.contains(typesRequiredBesideExtension, type)) {
+                        if (attachedConstructionOnly && _.contains(typesRequiredBesideExtension, type)) {
                             foundOneOfTheRequiredTypesNearby = true;
                         }
                     }
-                }
-
-                if (wallSandwich) {
-                    canBuildHere = false;
                 }
             });
 

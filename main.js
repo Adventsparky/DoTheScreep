@@ -60,7 +60,7 @@ module.exports.loop = function () {
             // SITES
             let availableConstructions=storedRoom.constructions=thisRoom.find(FIND_CONSTRUCTION_SITES);
 
-            // SPAWN
+            // SPAWNS
             storedRoom.spawn=_.filter(availableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_SPAWN){
                     return structure;
@@ -73,6 +73,14 @@ module.exports.loop = function () {
                     return structure;
                 }
             });
+
+            // GRAVE POS
+            storedRoom.gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
+
+            // EXTENSION BUILDER SOURCE
+            if (!storedRoom.extensionBuilderSource && storedRoom.spawn) {
+                storedRoom.extensionBuilderSource = storedRoom.spawn.pos;
+            }
 
             // SOURCES
             let availableSources=storedRoom.availableSources=thisRoom.find(FIND_SOURCES);
@@ -169,12 +177,9 @@ module.exports.loop = function () {
                 }
             }
 
-            // GRAVE POS
-            storedRoom.gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
-
             // GRAVE
             // Use energy capacity as a marker for how advanced the room is, let's not care about graves early on
-            if(storedRoom.energyCapacity > 500 && (!storedRoom.grave || !Game.getObjectById[storedRoom.grave.id])) {
+            if(storedRoom.spawn && storedRoom.energyCapacity > 500 && (!storedRoom.grave || !Game.getObjectById[storedRoom.grave.id])) {
                 // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
                 let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, storedRoom.gravePos);
                 if (!structuresInGraveSpot) {
@@ -204,7 +209,7 @@ module.exports.loop = function () {
             // BUILD ROADS AND EXTENSIONS AROUND SPAWN
             console.log('Extensions available: '+Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
             // console.log('Is available? '+Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
-            if (storedRoom.name = 'sim' && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
+            if (storedRoom.spawn && (storedRoom.name = 'sim') && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom)) {
                 Tasks.checkForExtensionsAndRoadConstruction(thisRoom);
             }
 
