@@ -34,12 +34,8 @@ module.exports = {
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
         let allSources;
         // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 60% of that
-        // console.log(creep.memory.role);
-        // console.log(room.energyCapacity);
-        // console.log(room.energyAvailable);
-        // console.log(room.energyCapacity*.6);
-        if (creep.memory.role == 'builder' && room.fullExtensions && room.energyCapacity >= 700 && room.energyAvailable > 400) {
-            console.log('this is a builder');
+        if (creep.memory.role == 'builder' && room.fullExtensions && room.energyCapacity >= 700 && room.energyAvailable > room.energyAvailable >= 600) {
+            console.log('this is a builder, allow extensions as sources');
             allSources = _.sortBy(_.union(room.availableSources, room.fullExtensions), s => creep.pos.getRangeTo(s));
         } else {
             allSources = _.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
