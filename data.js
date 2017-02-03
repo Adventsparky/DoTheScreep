@@ -107,6 +107,11 @@ module.exports = {
     isBuildingTypeAvailable : function(type, room) {
         return this.numberOfBuildingTypeAvailable(type, room) > 0;
     },
+    safeCoord : function(c) {
+        c = c < 0 ? c=0 : c;
+        c = c > 49 ? c=49 : c;
+        return c;
+    },
     checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
         // If there's anything within 1 square (ie 3x3 grid) play it safe
         // let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
@@ -114,7 +119,8 @@ module.exports = {
 
         // console.log('check around '+(pos));
         let canBuildHere=true;
-        let scanResults = Game.rooms[room.name].lookAtArea(pos.y-1, pos.x-1, pos.y+1, pos.x+1, true);
+        let scanResults = Game.rooms[room.name].lookAtArea(this.safeCoord(pos.y-1), this.safeCoord(pos.x-1),
+            this.safeCoord(pos.y+1), this.safeCoord(pos.x+1), true);
         if (scanResults) {
             //     // console.log('We found '+scanResults.length+' things around '+pos);
 

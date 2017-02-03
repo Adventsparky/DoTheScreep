@@ -373,7 +373,7 @@ module.exports = {
         console.log(availableExtensionsCount+' available extensions');
 
         // This is a limiter for how far out we should spin
-        let masterLoopCounter=0;
+        let emergencyLoopCounter=0;
         let innerLoopCounter=0;
         let loopRange=3;
         let placedExtension=0;
@@ -395,16 +395,10 @@ module.exports = {
         // console.log('Loop range: '+loopRange);
 
         // RING
-        while (availableExtensionsCount > 0 && masterLoopCounter<15) {
+        while (availableExtensionsCount > 0 && emergencyLoopCounter<15) {
 
             innerLoopCounter++;
-            masterLoopCounter++;
-
-            // if(masterLoopCounter%5 == 0) {
-            //     innerLoopCounter=innerLoopCounter-1;
-            // }
-
-            console.log(innerLoopCounter);
+            emergencyLoopCounter++;
 
             allowOnForbidden=!allowOnForbidden;
 
@@ -418,11 +412,17 @@ module.exports = {
 
             // COLUMN
             for(let i=0; i < loopRange; i++) {
+
+                x = Query.safeCoord(x);
+
                 let y=startY;
                 let rowStuff=[];
 
                 // ROW
                 for (let j = 0; j < loopRange; j++) {
+
+                    y = Query.safeCoord(y);
+
                     let checkPos=new RoomPosition(x, y, room.name);
                     // console.log('checking '+checkPos);
 
