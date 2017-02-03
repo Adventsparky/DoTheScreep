@@ -343,9 +343,7 @@ module.exports = {
         }
     },
     checkForExtensionsAndRoadConstruction : function (room) {
-        console.log('Extensions lads, have ya planning permission?');
         // We should have roads right beside the spawn, extensions will be diagonal
-        // todo exit if we have no spawn somehow
 
         // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
         // ring one is special, extension at 3 corners only (one reserved for grave)
