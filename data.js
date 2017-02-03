@@ -119,35 +119,77 @@ module.exports = {
 
         // console.log('check around '+(pos));
         let canBuildHere=true;
+        let wallPositionsX=[];
+        let wallPositionsY=[];
+        let wallSandwich=false;
+
+        // todo squeeze extensions out the top of sim room
+        let wallResults = Game.rooms[room.name].lookAtArea('wall',this.safeCoord(pos.y-1), this.safeCoord(pos.x-1),
+            this.safeCoord(pos.y+1), this.safeCoord(pos.x+1), true);
+        if (wallResults && wallResults.length>1) {
+            _.each(wallResults, function(wall) {
+                wallPositionsX.push(thing.x);
+                wallPositionsY.push(thing.y);
+            });
+        }
+
         let scanResults = Game.rooms[room.name].lookAtArea(this.safeCoord(pos.y-1), this.safeCoord(pos.x-1),
             this.safeCoord(pos.y+1), this.safeCoord(pos.x+1), true);
         if (scanResults) {
             //     // console.log('We found '+scanResults.length+' things around '+pos);
 
             let foundOneOfTheRequiredTypesNearby = false;
+            // console.log(scanResults);
+
             _.each(scanResults, function(thing){
+                if (thing) {
+                    let type=getTypeFromLookAtAreaResult(thing);
 
-                let type=getTypeFromLookAtAreaResult(thing);
+                    if (thing && type) {
+                        if (thing.x == pos.x && thing.y == pos.y) {
+                            //             // Special check for the actual square we want to build on
 
-                if (type) {
-                    if (thing.x == pos.x && thing.y == pos.y) {
-                        //             // Special check for the actual square we want to build on
+                            if (_.contains(nonBuildableTypes, type)) {
+                                canBuildHere=false;
+                            }
+                        } else {
+                            // console.log(type);
 
-                        if (_.contains(nonBuildableTypes, type)) {
-                            canBuildHere=false;
+                            // If it's a valid spot, check for wall sambo
+                            if (wallPositionsX.length>1 && wallPositionsY.length>1) {
+                                if (type != 'wall' && _.contains(typesAllowedBesideExtension, type)) {
+                                    if (!wallSandwich) { // Don't need to keep doing it if it's a sambo already
+                                        // console.log('Check wall sandwich');
+                                        // console.log(wallPositionsX);
+                                        // console.log(wallPositionsY);
+                                        // console.log('thing : '+thing.x+','+thing.y);
+                                        // console.log('pos : '+pos.x+','+pos.y);
+                                        // If a piece of wall matches the pos x OR y, AND matches the same plane in wall positions, SAAAAANDWICH
+                                        if (thing.x == pos.x && _.contains(wallPositionsX, thing.x)) {
+                                            // console.log('detected X sambo: '+thing.x+','+thing.y);
+                                            wallSandwich = true;
+                                        }
+                                        if (thing.y == pos.y && _.contains(wallPositionsY, thing.y)) {
+                                            // console.log('detected Y sambo for: '+thing.x+','+thing.y);
+                                            wallSandwich = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if(!_.contains(typesAllowedBesideExtension, type)) {
+                                canBuildHere = false;
+                            }
                         }
-                    } else {
-                        // console.log(type);
 
-                        if (type == 'wall' ||
-                            !_.contains(typesAllowedBesideExtension, type)) {
-                            canBuildHere=false;
+                        if (_.contains(typesRequiredBesideExtension, type)) {
+                            foundOneOfTheRequiredTypesNearby = true;
                         }
                     }
+                }
 
-                    if (_.contains(typesRequiredBesideExtension, type)) {
-                        foundOneOfTheRequiredTypesNearby=true;
-                    }
+                if (wallSandwich) {
+                    canBuildHere = false;
                 }
             });
 
