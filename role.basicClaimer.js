@@ -20,9 +20,9 @@ const roleBasicClaimer = {
                         }
                     });
 
-                    if (closestUnclaimedController) {
-                        creep.moveTo(closestUnclaimedController);
-                        creep.claimController(closestUnclaimedController);
+                    if (closestUnclaimedController[0]) {
+                        creep.moveTo(closestUnclaimedController[0]);
+                        creep.claimController(closestUnclaimedController[0]);
                     }
                 }
             } else {

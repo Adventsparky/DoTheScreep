@@ -16,10 +16,10 @@ const roleBasicSoldier = {
                 } else {
                     let simpleClosestTarget = null;
                     // Time to kick some ass and chew bubble gum
-                    if (enemyData.enemyCreeps) {
+                    if (enemyData.enemyCreeps[0]) {
                         // Might need to handle towers
                         simpleClosestTarget = creep.pos.findClosestByPath((FIND_HOSTILE_CREEPS));
-                    } else if (enemyData.enemyStructures) {
+                    } else if (enemyData.enemyStructures[0]) {
                         simpleClosestTarget = creep.pos.findClosestByPath((FIND_HOSTILE_SPAWNS));
                     }
 
