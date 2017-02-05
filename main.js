@@ -61,15 +61,22 @@ module.exports.loop = function () {
             let availableConstructions=storedRoom.constructions=thisRoom.find(FIND_CONSTRUCTION_SITES);
 
             // SPAWNS
-            storedRoom.spawn=_.filter(availableStructures, function(structure){
+            storedRoom.spawn=_.filter(myAvailableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_SPAWN){
                     return structure;
                 }
             });
 
             // CONTROLLER
-            storedRoom.controller = _.filter(availableStructures, function(structure){
+            storedRoom.controller = _.filter(myAvailableStructures, function(structure){
                 if(structure.structureType == STRUCTURE_CONTROLLER){
+                    return structure;
+                }
+            });
+
+            // TOWERS
+            storedRoom.towers=_.filter(myAvailableStructures, function(structure){
+                if(structure.structureType == STRUCTURE_TOWER){
                     return structure;
                 }
             });
@@ -81,6 +88,23 @@ module.exports.loop = function () {
             if (!storedRoom.extensionBuilderSource && storedRoom.spawn) {
                 // We only want one extension builder source. OR DO WE.... todo, maybe. Might check second source instead of allowed the "broken" pattern.
                 storedRoom.extensionBuilderSource = storedRoom.spawn[0].pos;
+            }
+
+            // Basic tower code taken directly from tutorial
+            if(storedRoom.towers) {
+                _.each(storedRoom.towers, function(tower) {
+                    let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 50000 // todo remove hardcoded hits check for tower repair
+                    });
+                    if(closestDamagedStructure) {
+                        tower.repair(closestDamagedStructure);
+                    }
+
+                    let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+                    if(closestHostile) {
+                        tower.attack(closestHostile);
+                    }
+                });
             }
 
             // SOURCES
@@ -215,22 +239,6 @@ module.exports.loop = function () {
             }
 
             Memory.roomInfo[thisRoom.name]=storedRoom;
-        }
-    }
-
-    // Basic tower code taken directly from tutorial
-    let tower = Game.getObjectById('58882436acd2c11f4361aab0'); //todo remove hardcoded tower
-    if(tower) {
-        let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 10000 // todo remove hardcoded hits check for tower repair
-        });
-        if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
-
-        let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
         }
     }
 
