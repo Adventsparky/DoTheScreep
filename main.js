@@ -238,6 +238,26 @@ module.exports.loop = function () {
                 Tasks.checkForExtensionsAndRoadConstruction(thisRoom);
             }
 
+            // ENEMY DATA
+            storedRoom.enemyData={};
+
+            // ENEMY CREEPS
+            storedRoom.enemyData.enemyCreeps=thisRoom.find(FIND_HOSTILE_CREEPS);
+
+            // ENEMY STRUCTURES
+            storedRoom.enemyData.enemyStructures=thisRoom.find(FIND_HOSTILE_STRUCTURES);
+
+            // ENEMY STRUCTURES
+            storedRoom.enemyData.enemyConstructions=thisRoom.find(FIND_HOSTILE_CONSTRUCTION_SITES);
+
+            // ENEMY STRUCTURES
+            storedRoom.enemyData.enemySpawns=thisRoom.find(FIND_HOSTILE_SPAWNS);
+
+            // If we have no enemy data, remove the whole node
+            if(!storedRoom.enemyData.enemyCreeps && !storedRoom.enemyData.enemyStructures && !storedRoom.enemyData.enemyConstructions && !storedRoom.enemyData.enemySpawns) {
+                delete storedRoom.enemyData;
+            }
+
             Memory.roomInfo[thisRoom.name]=storedRoom;
         }
     }
