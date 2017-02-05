@@ -82,7 +82,7 @@ module.exports.loop = function () {
             });
 
             // GRAVE POS
-            if(storedRoom.spawn) {
+            if(storedRoom.spawn && storedRoom.spawn[0]) {
                 storedRoom.gravePos = new RoomPosition(storedRoom.spawn[0].pos.x + 1, storedRoom.spawn[0].pos.y + 1, thisRoom.name);
             }
 
