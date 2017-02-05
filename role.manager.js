@@ -3,6 +3,8 @@ const roleStaticHarvester = require('role.staticHarvester');
 const roleHauler = require('role.hauler');
 const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
+const roleBasicSoldier = require('role.basicSoldier');
+const roleBasicClaimer = require('role.basicClaimer');
 
 module.exports = {
     harvester: {
@@ -42,5 +44,18 @@ module.exports = {
         targetRoomPopulation: 4,
         minRoomPopulation: 1,
         run: roleUpgrader.run
+    },
+    basicSoldier: {
+        parts: [ATTACK,ATTACK,MOVE,MOVE],
+        stage2Parts: [ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE],
+        role: 'basicSoldier',
+        targetRoomPopulation: 0,
+        run: roleBasicSoldier.run
+    },
+    basicClaimer: {
+        parts: [CLAIM,CLAIM,MOVE,MOVE],
+        role: 'basicClaimer',
+        targetRoomPopulation: 0,
+        run: roleBasicClaimer.run
     }
 };

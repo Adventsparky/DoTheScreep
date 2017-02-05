@@ -561,50 +561,60 @@ module.exports = {
                         room.staticHarvesterLimit=0;
                     }
 
-                    if(!Memory.spawningPaused) {
-                        for(let roleName in Memory.creepRoles) {
-                            if(Memory.creepRoles.hasOwnProperty(roleName)) {
-                                let role=Memory.creepRoles[roleName];
+                    // Check if we need a soldier
+                    let prepAttackFlag = Game.flags['prep-attack'];
+                    if (prepAttackFlag) {
+                        let soldierRole = Memory.creepRoles['basicSoldier'];
+                        room.spawn[0].createCreep(soldierRole.parts, undefined, {role: soldierRole.role});
+                    }
+                    let prepClaimFlag = Game.flags['prep-claim'];
+                    if (prepClaimFlag) {
+                        let soldierRole = Memory.creepRoles['basicSoldier'];
+                        room.spawn[0].createCreep(soldierRole.parts, undefined, {role: soldierRole.role});
+                    }
 
-                                try {
-                                    let creepleCountForRole = 0;
+                    for(let roleName in Memory.creepRoles) {
+                        if(Memory.creepRoles.hasOwnProperty(roleName)) {
+                            let role=Memory.creepRoles[roleName];
 
-                                    if (room.creeps !== undefined && room.creeps.length) {
-                                        creepleCountForRole = _.filter(room.creeps, function (creep) {
-                                            return creep.memory.role == role.role;
-                                        }).length;
+                            try {
+                                let creepleCountForRole = 0;
+
+                                if (room.creeps !== undefined && room.creeps.length) {
+                                    creepleCountForRole = _.filter(room.creeps, function (creep) {
+                                        return creep.memory.role == role.role;
+                                    }).length;
+                                }
+
+                                if (creepleCountForRole === undefined) {
+                                    creepleCountForRole = 0;
+                                }
+
+                                if (creepleCountForRole < role.targetRoomPopulation) {
+                                    // console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
+                                    // console.log(room.spawn[0].canCreateCreep(role.stage2Parts, undefined));
+                                    // console.log(Game.rooms[roomId].energyCapacityAvailable);
+                                    // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
+
+                                    if(room.spawn[0].canCreateCreep(role.stage2Parts, undefined) == OK){
+                                        // console.log('Build big one');
+                                        room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
+                                    } else {
+                                        // console.log('Build little one');
+                                        room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
                                     }
+                                    return false;
+                                }
+                            }catch(e){
+                                console.log(e);
 
-                                    if (creepleCountForRole === undefined) {
-                                        creepleCountForRole = 0;
-                                    }
-
-                                    if (creepleCountForRole < role.targetRoomPopulation) {
-                                        // console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
-                                        // console.log(room.spawn[0].canCreateCreep(role.stage2Parts, undefined));
-                                        // console.log(Game.rooms[roomId].energyCapacityAvailable);
-                                        // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
-
-                                        if(room.spawn[0].canCreateCreep(role.stage2Parts, undefined) == OK){
-                                            // console.log('Build big one');
-                                            room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
-                                        } else {
-                                            // console.log('Build little one');
-                                            room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
-                                        }
-                                        return false;
-                                    }
-                                }catch(e){
-                                    console.log(e);
-
-                                    // Fall back to this non cache based stuff if we murder the census
-                                    let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-                                    // console.log('ST: '+creeps.length+' '+role.role);
-                                    if(creeps.length < role.targetRoomPopulation) {
-                                        console.log('ST: '+'need to spawn a '+role.role);
-                                        room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
-                                        return false;
-                                    }
+                                // Fall back to this non cache based stuff if we murder the census
+                                let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+                                // console.log('ST: '+creeps.length+' '+role.role);
+                                if(creeps.length < role.targetRoomPopulation) {
+                                    console.log('ST: '+'need to spawn a '+role.role);
+                                    room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
+                                    return false;
                                 }
                             }
                         }
@@ -629,8 +639,6 @@ module.exports = {
 
         if(room.energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
             // console.log('Ready for big bastard harvesters');
-            // OK now we're onto something, lets check if we have enough regular creeps using an absolute minimum
-            // Memory.spawningPaused=true;
             for(let roleName in Memory.creepRoles) {
                 if(Memory.creepRoles.hasOwnProperty(roleName)) {
                     let role=Memory.creepRoles[roleName];
@@ -641,8 +649,7 @@ module.exports = {
                             }).length;
                             if(creepsOfRole < role.minRoomPopulation){
                                 // wa waaaaa
-                                console.log('wa waaaa, have the energy capacity but not the min screeps required, ENABLE SPAWNING AGAIN, damn you '+roleName);
-                                // delete Memory.spawningPaused;
+                                console.log('wa waaaa, have the energy capacity but not the min screeps required damn you '+roleName);
                                 return false;
                             }
                         }
