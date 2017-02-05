@@ -82,7 +82,9 @@ module.exports.loop = function () {
             });
 
             // GRAVE POS
-            storedRoom.gravePos=new RoomPosition(storedRoom.spawn[0].pos.x+1, storedRoom.spawn[0].pos.y+1, thisRoom.name);
+            if(storedRoom.spawn) {
+                storedRoom.gravePos = new RoomPosition(storedRoom.spawn[0].pos.x + 1, storedRoom.spawn[0].pos.y + 1, thisRoom.name);
+            }
 
             // EXTENSION BUILDER SOURCE
             if (!storedRoom.extensionBuilderSource && storedRoom.spawn) {
