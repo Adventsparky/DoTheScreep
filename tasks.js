@@ -36,7 +36,7 @@ module.exports = {
         // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 600 of that
 
         if (creep.memory.role == 'builder' && room.energyCapacity >= 800 && room.energyAvailable >=  600 && room.fullExtensions && room.fullExtensions[0]) {
-            console.log('this is a builder, allow extensions as sources');
+            // console.log('this is a builder, allow extensions as sources');
             allSources = _.sortBy(_.union(room.availableSources, room.fullExtensions), s => creep.pos.getRangeTo(s));
         }
 
@@ -81,7 +81,7 @@ module.exports = {
                 }
             }
 
-            if (source.structureType  && source.structureType == STRUCTURE_EXTENSION) {
+            if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
                 bestChoiceSource.source.extension = true;
             }
         });
