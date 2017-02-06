@@ -177,7 +177,7 @@ module.exports.loop = function () {
                                         source.container = {} = closestContainer[0];
                                     }
                                 } catch (e) {
-                                    console.log(e);
+                                    console.log('static check'+e);
                                 }
                             }
                         }

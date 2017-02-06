@@ -210,19 +210,15 @@ module.exports = {
 
 
         if(dropOffStructures.length > 0) {
-            try {
-                let target = _.reduce(dropOffStructures, function(result, structure) {
-                    let range=creep.pos.getRangeTo(structure);
-                    if(result && result.range < range) {
-                        return result;
-                    }
-                    return {range: range, structure: structure}
-                },{range: 99999});
-                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-                creep.memory.targetDropoff=target.structure.id
-            }catch(e) {
-                console.log(e);
-            }
+            let target = _.reduce(dropOffStructures, function(result, structure) {
+                let range=creep.pos.getRangeTo(structure);
+                if(result && result.range < range) {
+                    return result;
+                }
+                return {range: range, structure: structure}
+            },{range: 99999});
+            // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+            creep.memory.targetDropoff=target.structure.id
         } else{
             creep.say('no dumps');
         }
@@ -261,19 +257,15 @@ module.exports = {
         }
 
         if(potentialConstructions.length > 0) {
-            try {
-                let target = _.reduce(potentialConstructions, function(result, site) {
-                    let range=creep.pos.getRangeTo(site);
-                    if(result && result.range < range) {
-                        return result;
-                    }
-                    return {range: range, site: site}
-                },{range: 99999});
-                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-                creep.memory.targetConstruction=target.site.id
-            }catch(e) {
-                console.log(e);
-            }
+            let target = _.reduce(potentialConstructions, function(result, site) {
+                let range=creep.pos.getRangeTo(site);
+                if(result && result.range < range) {
+                    return result;
+                }
+                return {range: range, site: site}
+            },{range: 99999});
+            // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+            creep.memory.targetConstruction=target.site.id
         } else {
             // creep.say('no builds');
         }
@@ -534,24 +526,20 @@ module.exports = {
      * CREEPLE MANAGEMENT
      */
     outputPopulationInfoPerRoom: function() {
-        try {
-            if(Game.time % 5 == 0) {
-                let roomPopSummary = 'No cached rooms found!!';
-                for(let roomName in Memory.roomInfo) {
-                    if (Memory.roomInfo.hasOwnProperty(roomName)) {
-                        let room=Memory.roomInfo[roomName];
-                        roomPopSummary = roomName+': ';
-                        for(let roleName in Memory.creepRoles) {
-                            if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                                roomPopSummary+=(roleName+': '+Query.countRolesInRoom(room, roleName)+',');
-                            }
+        if(Game.time % 5 == 0) {
+            let roomPopSummary = 'No cached rooms found!!';
+            for(let roomName in Memory.roomInfo) {
+                if (Memory.roomInfo.hasOwnProperty(roomName)) {
+                    let room=Memory.roomInfo[roomName];
+                    roomPopSummary = roomName+': ';
+                    for(let roleName in Memory.creepRoles) {
+                        if (Memory.creepRoles.hasOwnProperty(roleName)) {
+                            roomPopSummary+=(roleName+': '+Query.countRolesInRoom(room, roleName)+',');
                         }
                     }
-                    console.log(roomPopSummary);
                 }
+                console.log(roomPopSummary);
             }
-        } catch(e){
-            console.log(e);
         }
     },
     performCreepleCensusByRole: function() {
@@ -628,7 +616,7 @@ module.exports = {
                                     return false;
                                 }
                             }catch(e){
-                                console.log(e);
+                                console.log('census: '+e);
 
                                 // Fall back to this non cache based stuff if we murder the census
                                 let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
