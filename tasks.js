@@ -587,12 +587,12 @@ module.exports = {
                     let prepAttackFlag = Game.flags['prep-attack'];
                     if (prepAttackFlag) {
                         let soldierRole = Memory.creepRoles['basicSoldier'];
-                        room.spawn[0].createCreep(soldierRole.parts, undefined, {role: soldierRole.role});
+                        room.spawn[0].createCreep(soldierRole.parts, soldierRole.name, {role: soldierRole.role});
                     }
                     let prepClaimFlag = Game.flags['prep-claim'];
                     if (prepClaimFlag) {
                         let claimerRole = Memory.creepRoles['basicClaimer'];
-                        room.spawn[0].createCreep(claimerRole.parts, undefined, {role: claimerRole.role});
+                        room.spawn[0].createCreep(claimerRole.parts, claimerRole.name, {role: claimerRole.role});
                     }
 
                     for(let roleName in Memory.creepRoles) {

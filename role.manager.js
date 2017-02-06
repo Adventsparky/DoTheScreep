@@ -13,21 +13,24 @@ module.exports = {
         role: 'harvester',
         targetRoomPopulation: 4,
         minRoomPopulation: 2,
-        run: roleHarvester.run
+        run: roleHarvester.run,
+        name: function() { return this.role+Game.time.toString(); }
     },
     staticHarvester: {
         parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
         stage2Parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
         role: 'staticHarvester',
         targetRoomPopulation: 0,
-        run: roleStaticHarvester.run
+        run: roleStaticHarvester.run,
+        name: function() { return this.role+Game.time.toString(); }
     },
     hauler: {
         parts: [CARRY,CARRY,MOVE,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'hauler',
         targetRoomPopulation: 0,
-        run: roleHauler.run
+        run: roleHauler.run,
+        name: function() { return this.role+Game.time.toString(); }
     },
     builder: {
         parts: [WORK,CARRY,MOVE],
@@ -35,7 +38,8 @@ module.exports = {
         role: 'builder',
         targetRoomPopulation: 3,
         minRoomPopulation: 1,
-        run: roleBuilder.run
+        run: roleBuilder.run,
+        name: function() { return this.role+Game.time.toString(); }
     },
     upgrader: {
         parts: [WORK,CARRY,MOVE],
@@ -43,19 +47,22 @@ module.exports = {
         role: 'upgrader',
         targetRoomPopulation: 4,
         minRoomPopulation: 1,
-        run: roleUpgrader.run
+        run: roleUpgrader.run,
+        name: function() { return this.role+Game.time.toString(); }
     },
     basicSoldier: {
         parts: [ATTACK,ATTACK,MOVE,MOVE],
         stage2Parts: [ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE],
         role: 'basicSoldier',
         targetRoomPopulation: 0,
-        run: roleBasicSoldier.run
+        run: roleBasicSoldier.run,
+        name: function() { return this.role+Game.time.toString(); }
     },
     basicClaimer: {
         parts: [CLAIM,CLAIM,MOVE,MOVE],
         role: 'basicClaimer',
         targetRoomPopulation: 0,
-        run: roleBasicClaimer.run
+        run: roleBasicClaimer.run,
+        name: function() { return this.role+Game.time.toString(); }
     }
 };
