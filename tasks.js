@@ -288,7 +288,10 @@ module.exports = {
             }
         } else{
             delete creep.memory.building;
-            this.repairNearestStructure(creep);
+            // If we've no towers, repair
+            if (!Memory.roomInfo[creep.room.name].towers) {
+                this.repairNearestStructure(creep);
+            }
         }
     },
     repairNearestStructure: function(creep) {
