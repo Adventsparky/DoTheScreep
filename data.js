@@ -194,7 +194,7 @@ module.exports = {
         // console.log('Found '+spaces+' '+pos+' in '+room);
         return spaces;
     },
-    locateContainersAtPoint : function(pos,availableStructures) {
+    locateContainersAroundPoint : function(pos) {
         // console.log('Check '+pos+' in '+room);
         let container;
 
@@ -205,7 +205,8 @@ module.exports = {
         let maxY=pos.y + 1;
 
         // We have min and max xy to check, load the containers and check if we have one here
-        _.each(availableStructures, function(structure) {
+        // todo fix to use lookAtArea
+        _.each(Memory.roomInfo[pos.room.name].structures, function(structure) {
             if (!container && structure.structureType == STRUCTURE_CONTAINER) {
                 // console.log('checking')
                 // Check is in pos Range
@@ -220,5 +221,41 @@ module.exports = {
         });
 
         return container;
+    },
+    locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos) {
+        // console.log('Check '+pos+' in '+room);
+        let emptySpacePosition;
+
+        // Checking the immediate spaces so start top right
+        let minX=pos.x - 1;
+        let maxX=pos.x + 1;
+        let minY=pos.y - 1;
+        let maxY=pos.y + 1;
+
+        let scanResults = Game.rooms[pos.room.name].lookAtArea(this.safeCoord(minY, 2), this.safeCoord(minX, 2),
+            this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
+
+        if (scanResults) {
+            let potentialEmptySpace=null;
+            _.each(scanResults, function(thing){
+                if (thing) {
+                    let type=getTypeFromLookAtAreaResult(thing);
+
+                    if (thing && type) {
+                        if (thing.x == pos.x && thing.y == pos.y) {
+                            if (!_.contains(nonBuildableTypes, type)) {
+                                potentialEmptySpace=thing;
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (potentialEmptySpace) {
+                emptySpacePosition = new RoomPosition(potentialEmptySpace.x, potentialEmptySpace.y, pos.room.name);
+            }
+        }
+
+        return emptySpacePosition;
     }
 };

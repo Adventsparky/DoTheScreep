@@ -157,7 +157,12 @@ module.exports.loop = function () {
                                         nearestSite[0].pos.y < (source.pos.y-1) || nearestSite[0].pos.y > (source.pos.y+1)) {
 
                                         // todo make up a "closest to spawn" function for the  passable xy at a source
-                                        // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                                        let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
+
+                                        if (buildPos) {
+                                            console.log('WE CAN BUILD CONTAINER AT '+buildPos);
+                                            // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+                                        }
                                     }
 
                                 } else {
@@ -170,7 +175,7 @@ module.exports.loop = function () {
                         }
                     }
 
-                    let sourceContainer = Query.locateContainersAtPoint(source.pos, availableStructures);
+                    let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
                     if (sourceContainer) {
                         source.container={}=sourceContainer;
                     }
