@@ -12,6 +12,7 @@ const roleUpgrader = {
         if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
             creep.memory.upgrading = true;
             delete creep.memory.targetSource;
+            delete creep.memory.targetStorageSource;
         }
 
         if(creep.memory.upgrading) {

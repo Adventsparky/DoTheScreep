@@ -36,6 +36,7 @@ const roleHarvester = {
                 // Find new drop off
                 Tasks.findBestEnergyDump(creep);
                 delete creep.memory.targetSource;
+                delete creep.memory.targetStorageSource;
             }
         } else {
             // console.log('grand harvester : '+creep.name);
