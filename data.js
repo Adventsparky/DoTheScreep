@@ -208,7 +208,7 @@ module.exports = {
         // todo fix to use lookAtArea
         console.log(pos);
         console.log(JSON.stringify(pos));
-        console.log(pos.name);
+        console.log(pos.roomName);
         console.log(pos.room);
         console.log(pos.room.name);
         _.each(Memory.roomInfo[pos.room.name].structures, function(structure) {
