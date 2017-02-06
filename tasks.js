@@ -32,12 +32,14 @@ module.exports = {
         // Allow default of available harvest points +1 to wait
         // After that, prefer the point with more available slots
         // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
-        let allSources;
+        let allSources = null;
         // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 600 of that
         if (creep.memory.role == 'builder' && room.fullExtensions && room.energyCapacity >= 800 && room.energyAvailable >=  600) {
             console.log('this is a builder, allow extensions as sources');
             allSources = _.sortBy(_.union(room.availableSources, room.fullExtensions), s => creep.pos.getRangeTo(s));
-        } else {
+        }
+
+        if (!allSources || !allSources[0]) {
             allSources = _.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
         }
 
