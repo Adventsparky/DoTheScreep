@@ -5,13 +5,15 @@ const roleBuilder = {
     /** @param {Creep} creep **/
     run: function(creep) {
         // creep.say('b');
+        Tasks.findNearestOrLeastBusySource(creep);
+        let buildingSites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             delete creep.memory.targetDropoff;
             delete creep.memory.targetConstruction;
             creep.say('Gathering');
         }
-        if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
+        if(!creep.memory.building && creep.carry.energy == creep.carryCapacity && buildingSites && buildingSites[0]) {
             creep.memory.building = true;
             delete creep.memory.targetSource;
             delete creep.memory.targetStorageSource;
