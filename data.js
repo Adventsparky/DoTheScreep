@@ -68,7 +68,7 @@ module.exports = {
         if(checkRoom){
             return _.filter(checkRoom.creeps, function(creep) {
                 if (!creep || !creep.memory || !creep.memory.role) {
-                    console.log(creep+' has no memory or role or something');
+                    console.log(JSON.stringify(creep)+': has no memory or role or something');
                 }
                 return creep.memory.role && creep.memory.role == checkRole;
             }).length;
