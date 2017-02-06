@@ -65,7 +65,7 @@ module.exports = {
         };
     },
     countRolesInRoom: function(checkRoom, checkRole) {
-        if(checkRoom){
+        if(checkRoom && checkRoom.creeps){
             return _.filter(checkRoom.creeps, function(creep) {
                 if (!creep || !creep.memory || !creep.memory.role) {
                     console.log(JSON.stringify(creep)+': has no memory or role or something');
