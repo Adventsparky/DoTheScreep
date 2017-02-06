@@ -206,6 +206,9 @@ module.exports = {
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
+        console.log(pos);
+        console.log(pos.room);
+        console.log(pos.room.name);
         _.each(Memory.roomInfo[pos.room.name].structures, function(structure) {
             if (!container && structure.structureType == STRUCTURE_CONTAINER) {
                 // console.log('checking')
