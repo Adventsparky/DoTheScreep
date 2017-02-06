@@ -206,12 +206,7 @@ module.exports = {
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
-        console.log(pos);
-        console.log(JSON.stringify(pos));
-        console.log(pos.roomName);
-        console.log(pos.room);
-        console.log(pos.room.name);
-        _.each(Memory.roomInfo[pos.room.name].structures, function(structure) {
+        _.each(Memory.roomInfo[pos.roomName].structures, function(structure) {
             if (!container && structure.structureType == STRUCTURE_CONTAINER) {
                 // console.log('checking')
                 // Check is in pos Range
@@ -237,7 +232,7 @@ module.exports = {
         let minY=pos.y - 1;
         let maxY=pos.y + 1;
 
-        let scanResults = Game.rooms[pos.room.name].lookAtArea(this.safeCoord(minY, 2), this.safeCoord(minX, 2),
+        let scanResults = Game.rooms[pos.roomName].lookAtArea(this.safeCoord(minY, 2), this.safeCoord(minX, 2),
             this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
 
         if (scanResults) {
@@ -257,7 +252,7 @@ module.exports = {
             });
 
             if (potentialEmptySpace) {
-                emptySpacePosition = new RoomPosition(potentialEmptySpace.x, potentialEmptySpace.y, pos.room.name);
+                emptySpacePosition = new RoomPosition(potentialEmptySpace.x, potentialEmptySpace.y, pos.roomName);
             }
         }
 
