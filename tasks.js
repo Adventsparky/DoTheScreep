@@ -590,6 +590,7 @@ module.exports = {
                     for(let roleName in Memory.creepRoles) {
                         if(Memory.creepRoles.hasOwnProperty(roleName)) {
                             let role=Memory.creepRoles[roleName];
+                            let roleName=role.name();
 
                             try {
                                 let creepleCountForRole = 0;
@@ -610,12 +611,12 @@ module.exports = {
                                     // console.log(Game.rooms[roomId].energyCapacityAvailable);
                                     // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
 
-                                    if(room.spawn[0].canCreateCreep(role.stage2Parts, undefined) == OK){
+                                    if(room.spawn[0].canCreateCreep(role.stage2Parts, roleName) == OK){
                                         // console.log('Build big one');
-                                        room.spawn[0].createCreep(role.stage2Parts, undefined, {role: role.role});
+                                        room.spawn[0].createCreep(role.stage2Parts, roleName, {role: role.role});
                                     } else {
                                         // console.log('Build little one');
-                                        room.spawn[0].createCreep(role.parts, undefined, {role: role.role});
+                                        room.spawn[0].createCreep(role.parts, roleName, {role: role.role});
                                     }
                                     return false;
                                 }
@@ -627,7 +628,7 @@ module.exports = {
                                 // console.log('ST: '+creeps.length+' '+role.role);
                                 if(creeps.length < role.targetRoomPopulation) {
                                     console.log('ST: '+'need to spawn a '+role.role);
-                                    room.spawn[0].createCreep(role.parts,undefined, {role: role.role});
+                                    room.spawn[0].createCreep(role.parts, roleName, {role: role.role});
                                     return false;
                                 }
                             }

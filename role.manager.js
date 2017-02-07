@@ -14,7 +14,7 @@ module.exports = {
         targetRoomPopulation: 4,
         minRoomPopulation: 2,
         run: roleHarvester.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     staticHarvester: {
         parts: [WORK,WORK,WORK,WORK,WORK,MOVE],
@@ -22,7 +22,7 @@ module.exports = {
         role: 'staticHarvester',
         targetRoomPopulation: 0,
         run: roleStaticHarvester.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     hauler: {
         parts: [CARRY,CARRY,MOVE,MOVE],
@@ -30,7 +30,7 @@ module.exports = {
         role: 'hauler',
         targetRoomPopulation: 0,
         run: roleHauler.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     builder: {
         parts: [WORK,CARRY,MOVE],
@@ -39,7 +39,7 @@ module.exports = {
         targetRoomPopulation: 3,
         minRoomPopulation: 1,
         run: roleBuilder.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     upgrader: {
         parts: [WORK,CARRY,MOVE],
@@ -48,7 +48,7 @@ module.exports = {
         targetRoomPopulation: 4,
         minRoomPopulation: 1,
         run: roleUpgrader.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     basicSoldier: {
         parts: [ATTACK,ATTACK,MOVE,MOVE],
@@ -56,20 +56,20 @@ module.exports = {
         role: 'basicSoldier',
         targetRoomPopulation: 0,
         run: roleBasicSoldier.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     basicClaimer: {
         parts: [CLAIM,CLAIM,MOVE,MOVE],
         role: 'basicClaimer',
         targetRoomPopulation: 0,
         run: roleBasicClaimer.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     },
     bigClaimer: {
         parts: [CLAIM,CLAIM,CLAIM,CLAIM,CLAIM,CLAIM,MOVE,MOVE],
         role: 'bigClaimer',
         targetRoomPopulation: 0,
         run: roleBasicClaimer.run,
-        name: function() { return this.role+Game.time.toString(); }
+        name: function() { return this.role+'-'+Game.time.toString(); }
     }
 };
