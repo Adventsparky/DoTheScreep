@@ -36,7 +36,7 @@ module.exports = {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
         role: 'builder',
-        targetRoomPopulation: 3,
+        targetRoomPopulation: 1,
         minRoomPopulation: 1,
         run: roleBuilder.run,
         name: function() { return this.role+'-'+Game.time.toString(); }
