@@ -81,6 +81,8 @@ module.exports = {
                 }
             }
 
+            console.log(bestChoiceSource);
+            console.log(JSON.stringify(bestChoiceSource));
             // if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
                 bestChoiceSource.source.extension = false;
             // }
