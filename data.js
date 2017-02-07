@@ -208,19 +208,21 @@ module.exports = {
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
-        _.each(Memory.roomInfo[pos.roomName].structures, function(structure) {
-            if (!container && structure.structureType == STRUCTURE_CONTAINER) {
-                // console.log('checking')
-                // Check is in pos Range
-                if (structure.pos.x >= minX &&
-                    structure.pos.x <= maxX &&
-                    structure.pos.y >= minY &&
-                    structure.pos.y <= maxY) {
-                    // we have a container
-                    container=structure;
+        if (Memory.roomInfo[pos.roomName].structures) {
+            _.each(Memory.roomInfo[pos.roomName].structures, function (structure) {
+                if (!container && structure.structureType == STRUCTURE_CONTAINER) {
+                    // console.log('checking')
+                    // Check is in pos Range
+                    if (structure.pos.x >= minX &&
+                        structure.pos.x <= maxX &&
+                        structure.pos.y >= minY &&
+                        structure.pos.y <= maxY) {
+                        // we have a container
+                        container = structure;
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return container;
     },
