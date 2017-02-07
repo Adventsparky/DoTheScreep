@@ -55,7 +55,7 @@ module.exports = {
             });
 
             let creepAllowanceForSource = Query.countAccessibleSpacesAroundPoint(room, targetSource.pos) + 1;
-            let creepOverflowForSource = source.acce * 1.5;
+            let creepOverflowForSource = source.accessibleSpaces * 1.5;
 
 
             if (bestChoiceSource == null) {
@@ -81,8 +81,10 @@ module.exports = {
                 }
             }
 
-            console.log(bestChoiceSource);
-            console.log(JSON.stringify(bestChoiceSource));
+            console.log(source);
+            console.log(JSON.stringify(source));
+            console.log(source.structureType);
+            console.log(source.structureType == STRUCTURE_EXTENSION);
             // if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
                 bestChoiceSource.source.extension = false;
             // }

@@ -64,5 +64,12 @@ module.exports = {
         targetRoomPopulation: 0,
         run: roleBasicClaimer.run,
         name: function() { return this.role+Game.time.toString(); }
+    },
+    bigClaimer: {
+        parts: [CLAIM,CLAIM,CLAIM,CLAIM,CLAIM,CLAIM,MOVE,MOVE],
+        role: 'bigClaimer',
+        targetRoomPopulation: 0,
+        run: roleBasicClaimer.run,
+        name: function() { return this.role+Game.time.toString(); }
     }
 };
