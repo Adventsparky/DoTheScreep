@@ -167,7 +167,7 @@ module.exports.loop = function () {
                                             let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
 
                                             if (buildPos) {
-                                                console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
+                                                // console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
                                                 // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
                                             }
                                         }
@@ -177,7 +177,7 @@ module.exports.loop = function () {
                                         source.container = {} = closestContainer[0];
                                     }
                                 } catch (e) {
-                                    console.log('static check'+e);
+                                    // console.log('static check'+e);
                                 }
                             }
                         }

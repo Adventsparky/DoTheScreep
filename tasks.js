@@ -375,7 +375,7 @@ module.exports = {
         if (availableExtensionsCount == 0) {
             return;
         }
-        console.log(availableExtensionsCount+' available extensions');
+        // console.log(availableExtensionsCount+' available extensions');
 
         // This is a limiter for how far out we should spin
         let emergencyLoopCounter=0;
@@ -520,7 +520,7 @@ module.exports = {
             if(Memory.creeps.hasOwnProperty(name)) {
                 if (!Game.creeps[name]) {
                     delete Memory.creeps[name];
-                    console.log('Clearing non-existing creep memory:', name);
+                    // console.log('Clearing non-existing creep memory:', name);
                 }
             }
         }
@@ -542,7 +542,7 @@ module.exports = {
                         }
                     }
                 }
-                console.log(roomPopSummary);
+                // console.log(roomPopSummary);
             }
         }
     },
@@ -621,13 +621,13 @@ module.exports = {
                                     return false;
                                 }
                             }catch(e){
-                                console.log('census: '+e);
+                                // console.log('census: '+e);
 
                                 // Fall back to this non cache based stuff if we murder the census
                                 let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
                                 // console.log('ST: '+creeps.length+' '+role.role);
                                 if(creeps.length < role.targetRoomPopulation) {
-                                    console.log('ST: '+'need to spawn a '+role.role);
+                                    // console.log('ST: '+'need to spawn a '+role.role);
                                     room.spawn[0].createCreep(role.parts, creepName, {role: role.role});
                                     return false;
                                 }
@@ -664,7 +664,7 @@ module.exports = {
                             }).length;
                             if(creepsOfRole < role.minRoomPopulation){
                                 // wa waaaaa
-                                console.log('wa waaaa, have the energy capacity but not the min screeps required damn you '+roleName);
+                                // console.log('wa waaaa, have the energy capacity but not the min screeps required damn you '+roleName);
                                 return false;
                             }
                         }
