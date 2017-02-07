@@ -81,10 +81,10 @@ module.exports = {
                 }
             }
 
-            console.log(source);
-            console.log(JSON.stringify(source));
-            console.log(source.structureType);
-            console.log(source.structureType == STRUCTURE_EXTENSION);
+            // console.log(source);
+            // console.log(JSON.stringify(source));
+            // console.log(source.structureType);
+            // console.log(source.structureType == STRUCTURE_EXTENSION);
             // if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
                 bestChoiceSource.source.extension = false;
             // }
