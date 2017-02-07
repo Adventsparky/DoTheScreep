@@ -81,9 +81,9 @@ module.exports = {
                 }
             }
 
-            if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
+            // if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
                 bestChoiceSource.source.extension = false;
-            }
+            // }
         });
 
         if(bestChoiceSource){
