@@ -595,7 +595,7 @@ module.exports = {
                             if (!role) {
                                 continue;
                             }
-                            if (!role.name()) {
+                            if (!role.name) {
                                 console.log(role);
                                 console.log(role.name);
                                 continue;
