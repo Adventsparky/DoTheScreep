@@ -73,7 +73,7 @@ module.exports = {
         name: function() { return this.role+'-'+Game.time.toString(); }
     },
     basicClaimer: {
-        parts: [CLAIM,CLAIM,MOVE,MOVE],
+        parts: [CLAIM,MOVE],
         role: 'basicClaimer',
         targetRoomPopulation: 0,
         run: roleBasicClaimer.run,
