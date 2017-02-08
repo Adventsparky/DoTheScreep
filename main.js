@@ -45,9 +45,6 @@ module.exports.loop = function () {
             if (Game.rooms.hasOwnProperty(roomId)) {
                 let thisRoom = Game.rooms[roomId];
                 let storedRoom = {};
-                if (storedRoom == undefined) {
-                    storedRoom = Memory.roomInfo[thisRoom.name] = {};
-                }
 
                 // NAME
                 storedRoom.name = roomId;
