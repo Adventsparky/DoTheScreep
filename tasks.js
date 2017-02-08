@@ -595,6 +595,11 @@ module.exports = {
                             if (!role) {
                                 continue;
                             }
+                            if (!role.name()) {
+                                console.log(role);
+                                console.log(role.name);
+                                continue;
+                            }
                             let creepName=role.name();
 
                             try {
