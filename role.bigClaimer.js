@@ -1,6 +1,3 @@
-const Tasks=require('tasks');
-const Query=require('data');
-
 const roleBasicClaimer = {
 
     /** @param {Creep} creep **/
