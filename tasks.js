@@ -592,14 +592,6 @@ module.exports = {
                     for(let roleName in CreepManager) {
                         if(CreepManager.hasOwnProperty(roleName)) {
                             let role=CreepManager[roleName];
-                            if (!role) {
-                                continue;
-                            }
-                            if (!role.name) {
-                                console.log(role);
-                                console.log(role.name);
-                                continue;
-                            }
                             let creepName=role.name;
 
                             try {
