@@ -1,5 +1,3 @@
-const Tasks=require('tasks');
-
 const roleHarvester = {
 
     /** @param {Creep} creep **/
