@@ -1,6 +1,6 @@
 const Tasks=require('tasks');
 const Query=require('data');
-const CreepManager=require('creepManager');
+const RoleManager=require('role.manager');
 
 module.exports = {
     process : function (roomId) {
@@ -166,9 +166,9 @@ module.exports = {
         if (Memory.creepRoles == undefined) {
             Memory.creepRoles = {};
         }
-        for (let roleName in CreepManager) {
-            if (CreepManager.hasOwnProperty(roleName)) {
-                let role = CreepManager[roleName];
+        for (let roleName in RoleManager) {
+            if (RoleManager.hasOwnProperty(roleName)) {
+                let role = RoleManager[roleName];
                 if (role != undefined) {
                     Memory.creepRoles[role.role] = role;
                 }

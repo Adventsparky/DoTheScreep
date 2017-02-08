@@ -7,20 +7,6 @@ const roleBasicSoldier = require('role.basicSoldier');
 const roleBasicClaimer = require('role.basicClaimer');
 
 module.exports = {
-    run: function () {
-        for (let name in Game.creeps) {
-            if (Game.creeps.hasOwnProperty(name)) {
-                let creep = Game.creeps[name];
-                if (creep.memory.role !== undefined) {
-                    this[creep.memory.role].run(creep);
-                } else {
-                    console.log('wtf no defined role');
-                    console.log(creep);
-                    console.log(creep.memory.role);
-                }
-            }
-        }
-    },
     harvester: {
         parts: [WORK,CARRY,MOVE],
         stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
