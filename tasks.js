@@ -1,4 +1,6 @@
 const Query=require('data');
+const CreepManager=require('creepManager');
+
 const HITS_MIN=5000;
 const HITS_IMPROVED=20000;
 const HITS_NOW_WERE_COOKING_WITH_GAS=60000;
@@ -675,6 +677,27 @@ module.exports = {
             // we're good to spawn statics
 
             return true;
+        }
+    },
+    roleBuildCosts : function() {
+        if (Memory.roleBuildCosts == undefined) {
+            Memory.roleBuildCosts = {};
+            for (let roleName in Memory.creepRoles) {
+                if (Memory.creepRoles.hasOwnProperty(roleName)) {
+                    let role = CreepManager[roleName];
+                    let cost = 0;
+                    _.each(role.parts, function (part) {
+                        cost += Query.creepBodyPartCost()[part];
+                    });
+                    Memory.roleBuildCosts[roleName] = cost;
+
+                    let improvedCost = 0;
+                    _.each(role.stage2Parts, function (part) {
+                        improvedCost += Query.creepBodyPartCost()[part];
+                    });
+                    Memory.roleBuildCosts[roleName + 'Stage2Parts'] = improvedCost;
+                }
+            }
         }
     }
 };
