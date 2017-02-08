@@ -600,7 +600,7 @@ module.exports = {
                                 console.log(role.name);
                                 continue;
                             }
-                            let creepName=role.name();
+                            let creepName=role.name;
 
                             try {
                                 let creepleCountForRole = 0;
