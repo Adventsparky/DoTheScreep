@@ -1,4 +1,5 @@
 const Query=require('data');
+const Tasks=require('tasks');
 
 const roleUpgrader = {
 
