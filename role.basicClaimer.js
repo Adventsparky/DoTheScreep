@@ -7,21 +7,14 @@ const roleBasicClaimer = {
         if (claimFlag) {
 
             if (claimFlag.room == creep.room) {
-                let enemyData = Memory.roomInfo[creep.room.name].enemyData;
-                if (!enemyData) {
-                    // Fuck all to do, might as well retire
-                } else {
-                    let closestUnclaimedController = _.filter(enemyData.enemyStructures, function (structure) {
-                        if (structure.structureType == STRUCTURE_CONTROLLER) {
-                            return structure;
-                        }
-                    });
 
-                    if (closestUnclaimedController[0]) {
-                        creep.moveTo(closestUnclaimedController[0]);
-                        creep.claimController(closestUnclaimedController[0]);
-                    }
+                let controller = creep.room.find(FIND_STRUCTURES, {filter: (structure) => structure.structureType == STRUCTURE_CONTROLLER});
+                console.log(controller);
+                if (controller && controller[0] && controller[0].level == 0) {
+                    creep.moveTo(controller[0]);
+                    creep.claimController(controller[0]);
                 }
+
             } else {
                 creep.moveTo(claimFlag);
             }
