@@ -267,19 +267,17 @@ module.exports = {
         });
 
         // RUN CREEPS
-        for (let creep in creeps) {
-            if (creeps.hasOwnProperty(creep)) {
-                if (creep.memory.home && creep.memory.home == thisRoom.name) {
-                    if (creep.memory.role !== undefined) {
-                        RoleManager[creep.memory.role].run(creep, availableSources);
-                    } else {
-                        console.log('wtf no defined role');
-                        console.log(creep);
-                        console.log(creep.memory.role);
-                    }
+        _.each(creeps, function(creep) {
+            if (creep.memory.home && creep.memory.home == thisRoom.name) {
+                if (creep.memory.role !== undefined) {
+                    RoleManager[creep.memory.role].run(creep, availableSources);
+                } else {
+                    console.log('wtf no defined role');
+                    console.log(creep);
+                    console.log(creep.memory.role);
                 }
             }
-        }
+        });
 
         if (spawns && spawns[0]) {
             Tasks.performCreepleCensusByRole(spawns[0], creeps);
