@@ -1,6 +1,3 @@
-const Query=require('data');
-const Tasks=require('tasks');
-
 const roleUpgrader = {
 
     run: function(creep, room) {

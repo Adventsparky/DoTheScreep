@@ -1,5 +1,3 @@
-const Tasks=require('tasks');
-
 const roleHarvester = {
 
     run: function(creep, room) {

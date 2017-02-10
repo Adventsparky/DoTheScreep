@@ -185,7 +185,7 @@ module.exports = {
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
-        _.each(structures, function (structure) {
+        _.each(availableStructures, function (structure) {
             if (!container && structure.structureType == STRUCTURE_CONTAINER) {
                 // console.log('checking')
                 // Check is in pos Range

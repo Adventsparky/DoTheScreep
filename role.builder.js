@@ -1,5 +1,3 @@
-const Tasks=require('tasks');
-
 const roleBuilder = {
 
     run: function(creep, room) {
