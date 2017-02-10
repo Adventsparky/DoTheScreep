@@ -24,7 +24,10 @@ module.exports = {
         });
 
         // SITES
-        let availableConstructions = roomInfo.constructions = thisRoom.find(FIND_CONSTRUCTION_SITES);
+        let availableConstructions = roomInfo.constructionsites = thisRoom.find(FIND_CONSTRUCTION_SITES);
+
+        // MY SITES
+        let myAvailableConstructions = roomInfo.myconstructionsites = thisRoom.find(FIND_MY_CONSTRUCTION_SITES);
 
         // SPAWNS
         let spawns = roomInfo.spawn = _.filter(myAvailableStructures, function (structure) {

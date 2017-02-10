@@ -3,7 +3,7 @@ const roleBuilder = {
     run: function(creep, room) {
         // creep.say('b');
         Tasks.findNearestOrLeastBusySource(creep, room);
-        let buildingSites = room.constructions;
+        let buildingSites = room.constructionsites;
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             delete creep.memory.targetDropoff;
