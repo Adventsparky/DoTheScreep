@@ -2,10 +2,7 @@ const Tasks=require('tasks');
 
 const roleStaticHarvester = {
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
-
-        let room=Memory.roomInfo[creep.room.name];
+    run: function(creep, room) {
 
         // Get to spawn, find a source without a flag for static harvest
         if (!creep.memory.targetSource) {

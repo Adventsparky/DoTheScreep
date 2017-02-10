@@ -1,4 +1,6 @@
 const Query=require('data');
+const RoleManager=require('role.manager');
+
 const HITS_MIN=5000;
 const HITS_IMPROVED=20000;
 const HITS_NOW_WERE_COOKING_WITH_GAS=60000;
@@ -9,23 +11,21 @@ module.exports = {
     /*
      * ENERGY
      */
-    findNearestEnergy: function(creep) {
-        let closestSource=creep.pos.findClosestByRange(FIND_SOURCES);
-        if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
-            creep.memory.targetSource = closestSource.id;
-            delete creep.memory.targetDropoff; // This will only be for harvesters
-        }
-    },
-    findNearestEnergyToStructure: function(creep,structure) {
-        let closestSource=structure.pos.findClosestByRange(FIND_SOURCES);
-        if(closestSource) {
-            creep.memory.targetSource=closestSource.id;
-            delete creep.memory.targetDropoff; // This will only be for harvesters
-        }
-    },
-    findNearestOrLeastBusySource : function(creep) {
-        let room = Memory.roomInfo[creep.room.name];
-        // console.log(room);
+    // findNearestEnergy: function(creep) {
+    //     let closestSource=creep.pos.findClosestByRange(FIND_SOURCES);
+    //     if(creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
+    //         creep.memory.targetSource = closestSource.id;
+    //         delete creep.memory.targetDropoff; // This will only be for harvesters
+    //     }
+    // },
+    // findNearestEnergyToStructure: function(creep,structure) {
+    //     let closestSource=structure.pos.findClosestByRange(FIND_SOURCES);
+    //     if(closestSource) {
+    //         creep.memory.targetSource=closestSource.id;
+    //         delete creep.memory.targetDropoff; // This will only be for harvesters
+    //     }
+    // },
+    findNearestOrLeastBusySource : function(creep, room) {
 
         let bestChoiceSource=null;
         // Count how many are heading to this vs how many slots it has
@@ -146,12 +146,12 @@ module.exports = {
         }
         return harvestResult;
     },
-    depositEnergy : function(creep) {
+    depositEnergy : function(creep, room) {
         if(creep.memory.targetDropoff) {
             let targetDropoff = Game.getObjectById(creep.memory.targetDropoff);
             // Let's make sure it's still a valid energy dump
             if(!this.structureHasSpaceForEnergy(targetDropoff)) {
-                targetDropoff = this.findBestEnergyDump(creep);
+                targetDropoff = this.findBestEnergyDump(creep, room);
             }
 
             // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
@@ -169,9 +169,9 @@ module.exports = {
     /*
      * ENERGY DUMPING
      */
-    dumpEnergyAtBase: function(creep) {
-        if(creep.transfer(Query.spawnInCreepRoom(creep), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(Query.spawnInCreepRoom(creep));
+    dumpEnergyAtBase: function(creep, spawn) {
+        if(creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(spawn);
         }
     },
     dumpEnergyIntoExtension: function(creep, extension) {
@@ -179,22 +179,26 @@ module.exports = {
             creep.moveTo(extension);
         }
     },
-    upgradeController: function(creep) {
-        if(creep.upgradeController(Query.controllerInCreepRoom(creep)) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(Query.controllerInCreepRoom(creep));
+    upgradeController: function(creep, room) {
+        if(creep.upgradeController(room.controller) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(room.controller);
         }
     },
-    findBestEnergyDump: function(creep) {
+    findBestEnergyDump: function(creep, room) {
         // console.log(creep);
         // console.log(creep.room.name);
-        let potentialDropOffsInThisRoom = Memory.roomInfo[creep.room.name].structures;
+        let potentialDropOffsInThisRoom = room.structures;
         let dropOffStructures = _.filter(potentialDropOffsInThisRoom, function (structure) {
             return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
         });
+        let towers=false;
         if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
                 return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < (structure.energyCapacity*.3))
             });
+            if (dropOffStructures.length > 0) {
+                towers=true;
+            }
         }
         if(dropOffStructures.length == 0) {
             dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
@@ -214,15 +218,32 @@ module.exports = {
 
 
         if(dropOffStructures.length > 0) {
-            let target = _.reduce(dropOffStructures, function(result, structure) {
-                let range=creep.pos.getRangeTo(structure);
-                if(result && result.range < range) {
-                    return result;
-                }
-                return {range: range, structure: structure}
-            },{range: 99999});
-            // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-            creep.memory.targetDropoff=target.structure.id
+            let target=false;
+            if (towers) {
+                console.log(' drop off in tower');
+                target = _.reduce(dropOffStructures, function(result, structure) {
+                    let energy=structure.energy;
+                    console.log('This energy: '+energy);
+                    console.log(JSON.stringify(result));
+                    console.log('Result energy: '+result.energy);
+                    if(result && result.energy < energy) {
+                        return result;
+                    }
+                    return {energy: energy, structure: structure}
+                },{energyAvailable: 1000});
+            } else {
+                target = _.reduce(dropOffStructures, function(result, structure) {
+                    let range=creep.pos.getRangeTo(structure);
+                    if(result && result.range < range) {
+                        return result;
+                    }
+                    return {range: range, structure: structure}
+                },{range: 99999});
+            }
+            if(target) {
+                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                creep.memory.targetDropoff=target.structure.id
+            }
         } else{
             creep.say('no dumps');
         }
@@ -274,7 +295,7 @@ module.exports = {
             // creep.say('no builds');
         }
     },
-    buildNearestStructure: function(creep) {
+    buildNearestStructure: function(creep, room) {
         if(creep.memory.targetConstruction) {
             let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
             if(targetConstruction) {
@@ -288,7 +309,7 @@ module.exports = {
         } else{
             delete creep.memory.building;
             // If we've no towers, repair
-            if (!Memory.roomInfo[creep.room.name].towers) {
+            if (!room.towers) {
                 this.repairNearestStructure(creep);
             }
         }
@@ -360,13 +381,10 @@ module.exports = {
         // [11:33:46 PM]x,-,-,-,x
         // [11:33:46 PM]o,x,o,x,o
 
-        // Initial forbidden xy is the spawn itself
-        let storedRoom=Memory.roomInfo[room.name];
-
-        if (!storedRoom.extensionBuilderSource) {
+        if (!room.extensionBuilderSource) {
             return;
         }
-        let extensionBuilderSource=storedRoom.extensionBuilderSource;
+        let extensionBuilderSource=room.extensionBuilderSource;
         let forbiddenXs=[extensionBuilderSource.x];
         let forbiddenYs=[extensionBuilderSource.y];
 
@@ -529,134 +547,116 @@ module.exports = {
     /*
      * CREEPLE MANAGEMENT
      */
-    outputPopulationInfoPerRoom: function() {
+    outputPopulationInfoPerRoom: function(room) {
         if(Game.time % 5 == 0) {
-            let roomPopSummary = 'No cached rooms found!!';
-            for(let roomName in Memory.roomInfo) {
-                if (Memory.roomInfo.hasOwnProperty(roomName)) {
-                    let room=Memory.roomInfo[roomName];
-                    roomPopSummary = roomName+': ';
-                    for(let roleName in Memory.creepRoles) {
-                        if (Memory.creepRoles.hasOwnProperty(roleName)) {
-                            roomPopSummary+=(roleName+': '+Query.countRolesInRoom(room, roleName)+',');
-                        }
-                    }
+            let roomPopSummary = roomName+': ';
+            for(let roleName in RoleManager) {
+                if (RoleManager.hasOwnProperty(roleName)) {
+                    roomPopSummary+=(roleName+': '+Query.countRolesInRoom(room, roleName)+',');
                 }
-                console.log(roomPopSummary);
             }
+            console.log(roomPopSummary);
         }
     },
-    performCreepleCensusByRole: function() {
+    performCreepleCensusByRole: function(spawn, creeps) {
 
-        for(let roomId in Memory.roomInfo){
-            if(Memory.roomInfo.hasOwnProperty(roomId)) {
-                let room = Memory.roomInfo[roomId];
-                if(room.spawn != undefined && room.spawn.length) {
+        if(spawn != undefined && spawn.length) {
 
-                    if (this.checkIfWeAreReadyForStaticHarvesters(roomId)) {
-                        // Build the containers we're going to need
-                        // _.each(room.availableSources, function(source) {
-                        //    // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
-                        //     if (source.container && !source.dedicatedMiner) {
-                        //         // Whatevs, cool bruv
-                        //     } else if (source.container && !source.dedicatedMiner) {
-                        //         // This one is good to go, need to get a miner on it
-                        //     } else if (source.container && source.dedicatedMiner) {
-                        //         // Check is he alive
-                        //     } else if (!source.container) {
-                        //         // We need to at least be building a container here
-                        //         this.check
-                        //     }
-                        //
-                        //
-                        // });
-                        // room.staticHarvesterLimit=room.availableSources.length;
-                    } else{
-                        // room.staticHarvesterLimit=0;
-                    }
+            if (this.checkIfWeAreReadyForStaticHarvesters()) {
+                // Build the containers we're going to need
+                // _.each(room.availableSources, function(source) {
+                //    // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
+                //     if (source.container && !source.dedicatedMiner) {
+                //         // Whatevs, cool bruv
+                //     } else if (source.container && !source.dedicatedMiner) {
+                //         // This one is good to go, need to get a miner on it
+                //     } else if (source.container && source.dedicatedMiner) {
+                //         // Check is he alive
+                //     } else if (!source.container) {
+                //         // We need to at least be building a container here
+                //         this.check
+                //     }
+                //
+                //
+                // });
+                // room.staticHarvesterLimit=room.availableSources.length;
+            } else{
+                // room.staticHarvesterLimit=0;
+            }
 
-                    // Check if we need a soldier
-                    let prepAttackFlag = Game.flags['prep-attack'];
-                    if (prepAttackFlag) {
-                        let soldierRole = Memory.creepRoles['basicSoldier'];
-                        room.spawn[0].createCreep(soldierRole.parts, soldierRole.name, {role: soldierRole.role});
-                    }
-                    let prepClaimFlag = Game.flags['prep-claim'];
-                    if (prepClaimFlag) {
-                        let claimerRole = Memory.creepRoles['basicClaimer'];
-                        room.spawn[0].createCreep(claimerRole.parts, claimerRole.name, {role: claimerRole.role});
-                    }
+            // Check if we need a soldier
+            let prepAttackFlag = Game.flags['prep-attack'];
+            if (prepAttackFlag) {
+                let soldierRole = RoleManager['basicSoldier'];
+                spawn.createCreep(soldierRole.parts, soldierRole.name, {role: soldierRole.role});
+            }
+            let prepClaimFlag = Game.flags['prep-claim'];
+            if (prepClaimFlag) {
+                let claimerRole = RoleManager['basicClaimer'];
+                spawn.createCreep(claimerRole.parts, claimerRole.name, {role: claimerRole.role});
+            }
 
-                    for(let roleName in Memory.creepRoles) {
-                        if(Memory.creepRoles.hasOwnProperty(roleName)) {
-                            let role=Memory.creepRoles[roleName];
-                            let creepName=role.name();
+            for(let roleName in RoleManager) {
+                if(RoleManager.hasOwnProperty(roleName)) {
+                    let role=RoleManager[roleName];
+                    let creepName=role.name();
 
-                            try {
-                                let creepleCountForRole = 0;
+                    try {
+                        let creepleCountForRole = 0;
 
-                                if (room.creeps !== undefined && room.creeps.length) {
-                                    creepleCountForRole = _.filter(room.creeps, function (creep) {
-                                        return creep.memory.role == role.role;
-                                    }).length;
-                                }
+                        if (creeps !== undefined && creeps.length) {
+                            creepleCountForRole = _.filter(creeps, function (creep) {
+                                return creep.memory.role == role.role;
+                            }).length;
+                        }
 
-                                if (creepleCountForRole === undefined) {
-                                    creepleCountForRole = 0;
-                                }
+                        if (creepleCountForRole === undefined) {
+                            creepleCountForRole = 0;
+                        }
 
-                                if (creepleCountForRole < role.targetRoomPopulation) {
-                                    // console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
-                                    // console.log(room.spawn[0].canCreateCreep(role.stage2Parts, undefined));
-                                    // console.log(Game.rooms[roomId].energyCapacityAvailable);
-                                    // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
+                        if (creepleCountForRole < role.targetRoomPopulation) {
+                            // console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
+                            // console.log(room.spawn[0].canCreateCreep(role.stage2Parts, undefined));
+                            // console.log(Game.rooms[roomId].energyCapacityAvailable);
+                            // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
 
-                                    if(room.spawn[0].canCreateCreep(role.stage2Parts, creepName) == OK){
-                                        // console.log('Build big one');
-                                        room.spawn[0].createCreep(role.stage2Parts, creepName, {role: role.role});
-                                    } else {
-                                        // console.log('Build little one');
-                                        room.spawn[0].createCreep(role.parts, creepName, {role: role.role});
-                                    }
-                                    return false;
-                                }
-                            }catch(e){
-                                console.log('census: '+e);
-
-                                // Fall back to this non cache based stuff if we murder the census
-                                let creeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
-                                // console.log('ST: '+creeps.length+' '+role.role);
-                                if(creeps.length < role.targetRoomPopulation) {
-                                    console.log('ST: '+'need to spawn a '+role.role);
-                                    room.spawn[0].createCreep(role.parts, creepName, {role: role.role});
-                                    return false;
-                                }
+                            if(spawn.canCreateCreep(role.stage2Parts, creepName) == OK){
+                                // console.log('Build big one');
+                                spawn.createCreep(role.stage2Parts, creepName, {role: role.role});
+                            } else {
+                                // console.log('Build little one');
+                                spawn.createCreep(role.parts, creepName, {role: role.role});
                             }
+                            return false;
+                        }
+                    }catch(e){
+                        console.log('census: '+e);
+
+                        // Fall back to this non cache based stuff if we murder the census
+                        let basicCreeps = _.filter(Game.creeps, (creep) => creep.memory.role == role.role);
+                        // console.log('ST: '+creeps.length+' '+role.role);
+                        if(basicCreeps.length < role.targetRoomPopulation) {
+                            console.log('ST: '+'need to spawn a '+role.role);
+                            spawn.createCreep(role.parts, creepName, {role: role.role});
+                            return false;
                         }
                     }
-
-                    return true;
                 }
             }
 
+            return true;
         }
 
-        return true;
+        return false;
     },
     checkIfWeAreReadyForStaticHarvesters : function(room) {
-        // count sources without static harvester flag
-        // let sources = Memory.roomInfo[room.name].availableSources;
-        // let sourceWithoutStaticHarvester = _.filter(sources, function (structure) {
-        //     return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
-        // });
-
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
         if(room.energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
             // console.log('Ready for big bastard harvesters');
-            for(let roleName in Memory.creepRoles) {
-                if(Memory.creepRoles.hasOwnProperty(roleName)) {
-                    let role=Memory.creepRoles[roleName];
+            for(let roleName in RoleManager) {
+                if(RoleManager.hasOwnProperty(roleName)) {
+                    let role=RoleManager[roleName];
                     if(role.minRoomPopulation){
                         if (room.creeps !== undefined && room.creeps.length) {
                             let creepsOfRole = _.filter(room.creeps, function (creep) {

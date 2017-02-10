@@ -27,31 +27,10 @@ module.exports = {
     /*
      * ENERGY
      */
-    energyAvailableInRoom: function(room) {
-        return room.energyCapacityAvailable;
-    },
 
     /*
      * UTILITY
      */
-    spawnInCreepRoom: function(creep) {
-        for(let room_name in Memory.roomInfo){
-            if(Memory.roomInfo.hasOwnProperty(room_name)) {
-                if (room_name == creep.room.name) {
-                    return Memory.roomInfo[room_name].spawn[0];
-                }
-            }
-        }
-    },
-    controllerInCreepRoom: function(creep) {
-        for(let room_name in Memory.roomInfo){
-            if(Memory.roomInfo.hasOwnProperty(room_name)) {
-                if (room_name == creep.room.name) {
-                    return Memory.roomInfo[room_name].controller[0];
-                }
-            }
-        }
-    },
     creepBodyPartCost: function() {
         return {
             "move": 50,
@@ -99,8 +78,6 @@ module.exports = {
         return this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length;
     },
     numberOfBuildingTypeAvailable : function(type, room) {
-        // console.log(room);
-        let storedRoom = Memory.roomInfo[room.name];
         // console.log(CONTROLLER_STRUCTURES[type][room.controller.level]);
         // console.log(this.structuresTotalInPlayInRoom(type, storedRoom));
 
@@ -196,7 +173,7 @@ module.exports = {
         // console.log('Found '+spaces+' '+pos+' in '+room);
         return spaces;
     },
-    locateContainersAroundPoint : function(pos) {
+    locateContainersAroundPoint : function(pos, availableStructures) {
         // console.log('Check '+pos+' in '+room);
         let container;
 
@@ -208,21 +185,19 @@ module.exports = {
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
-        if (Memory.roomInfo[pos.roomName] && Memory.roomInfo[pos.roomName].structures) {
-            _.each(Memory.roomInfo[pos.roomName].structures, function (structure) {
-                if (!container && structure.structureType == STRUCTURE_CONTAINER) {
-                    // console.log('checking')
-                    // Check is in pos Range
-                    if (structure.pos.x >= minX &&
-                        structure.pos.x <= maxX &&
-                        structure.pos.y >= minY &&
-                        structure.pos.y <= maxY) {
-                        // we have a container
-                        container = structure;
-                    }
+        _.each(structures, function (structure) {
+            if (!container && structure.structureType == STRUCTURE_CONTAINER) {
+                // console.log('checking')
+                // Check is in pos Range
+                if (structure.pos.x >= minX &&
+                    structure.pos.x <= maxX &&
+                    structure.pos.y >= minY &&
+                    structure.pos.y <= maxY) {
+                    // we have a container
+                    container = structure;
                 }
-            });
-        }
+            }
+        });
 
         return container;
     },

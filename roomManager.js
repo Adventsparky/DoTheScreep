@@ -27,7 +27,7 @@ module.exports = {
         let availableConstructions = roomInfo.constructions = thisRoom.find(FIND_CONSTRUCTION_SITES);
 
         // SPAWNS
-        roomInfo.spawn = _.filter(myAvailableStructures, function (structure) {
+        let spawns = roomInfo.spawn = _.filter(myAvailableStructures, function (structure) {
             if (structure.structureType == STRUCTURE_SPAWN) {
                 return structure;
             }
@@ -58,20 +58,59 @@ module.exports = {
             roomInfo.extensionBuilderSource = roomInfo.spawn[0].pos;
         }
 
-        // Basic tower code taken directly from tutorial
         if (roomInfo.towers) {
             _.each(roomInfo.towers, function (tower) {
-                let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 50000 // todo remove hardcoded hits check for tower repair
-                });
-                if (closestDamagedStructure) {
-                    tower.repair(closestDamagedStructure);
-                }
-
                 let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
                 if (closestHostile) {
-                    tower.attack(closestHostile);
+                    let suppressTowerAttackFlag = Game.flags['suppress-ta'];
+                    if (!suppressTowerAttackFlag) {
+                        tower.attack(closestHostile);
+                    }
+                } else{
+                    let suppressTowerRepairFlag = Game.flags['suppress-tr'];
+                    let energyFlowIsOk = tower.energy > tower.energyCapacity*.4 && roomInfo.energyAvailable > roomInfo.energyCapacity*.3;
+                    if (!suppressTowerRepairFlag && energyFlowIsOk) {
+                        let closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                            filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 150000 // todo remove hardcoded hits check for tower repair
+                        });
+                        if (roomInfo.energyAvailable > roomInfo.energyCapacity*.3) {
+                            if (!closestDamagedStructure) {
+                                closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                                    filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 200000 // todo remove hardcoded hits check for tower repair
+                                });
+                            }
+                            if (roomInfo.energyAvailable > roomInfo.energyCapacity*.5) {
+                                if (!closestDamagedStructure) {
+                                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                                        filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 300000 // todo remove hardcoded hits check for tower repair
+                                    });
+                                }
+                                if (roomInfo.energyAvailable > roomInfo.energyCapacity*.6) {
+                                    if (!closestDamagedStructure) {
+                                        closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                                            filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 500000 // todo remove hardcoded hits check for tower repair
+                                        });
+                                    }
+                                    if (!closestDamagedStructure) {
+                                        closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                                            filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 700000 // todo remove hardcoded hits check for tower repair
+                                        });
+                                    }
+                                    if (!closestDamagedStructure) {
+                                        closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                                            filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 1000000 // todo remove hardcoded hits check for tower repair
+                                        });
+                                    }
+                                    if (closestDamagedStructure) {
+                                        tower.repair(closestDamagedStructure);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+
+
             });
         }
 
@@ -86,9 +125,6 @@ module.exports = {
                 if (source.dedicatedMiner === undefined) {
                     source.dedicatedMiner = 0;
                 }
-                // if (Memory.sources && Memory.sources[source.id]){
-                //     console.log(Memory.sources[source.id]);
-                // }
 
                 if (source.accessibleSpaces === undefined) {
                     source.accessibleSpaces = 0;
@@ -160,20 +196,7 @@ module.exports = {
         roomInfo.energyAvailable = thisRoom.energyAvailable;
 
         // CREEPS
-        roomInfo.creeps = thisRoom.find(FIND_MY_CREEPS);
-
-        // ROLES
-        if (Memory.creepRoles == undefined) {
-            Memory.creepRoles = {};
-        }
-        for (let roleName in RoleManager) {
-            if (RoleManager.hasOwnProperty(roleName)) {
-                let role = RoleManager[roleName];
-                if (role != undefined) {
-                    Memory.creepRoles[role.role] = role;
-                }
-            }
-        }
+        roomInfo.creepsInThisRoom = thisRoom.find(FIND_MY_CREEPS);
 
         // GRAVE
         // Use energy capacity as a marker for how advanced the room is, let's not care about graves early on
@@ -231,6 +254,33 @@ module.exports = {
             delete roomInfo.enemyData;
         }
 
-        Memory.roomInfo[thisRoom.name] = roomInfo;
+        // CREEPS
+        let creeps = _.filter(Game.creeps, function(creep) {
+            let homeRoom = creep.memory.home;
+            if (!homeRoom) {
+                creep.memory.home = creep.room.name;
+            };
+            return homeRoom && homeRoom == room.name;
+        });
+
+        // RUN CREEPS
+        for (let creep in creeps) {
+            if (creeps.hasOwnProperty(creep)) {
+                if (creep.memory.home && creep.memory.home == thisRoom.name) {
+                    if (creep.memory.role !== undefined) {
+                        RoleManager[creep.memory.role].run(creep, availableSources);
+                    } else {
+                        console.log('wtf no defined role');
+                        console.log(creep);
+                        console.log(creep.memory.role);
+                    }
+                }
+            }
+        }
+
+        if (spawns && spawns[0]) {
+            Tasks.performCreepleCensusByRole(spawns[0], creeps);
+            Tasks.outputPopulationInfoPerRoom();
+        }
     }
 }

@@ -2,11 +2,10 @@ const Tasks=require('tasks');
 
 const roleBuilder = {
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, room) {
         // creep.say('b');
-        Tasks.findNearestOrLeastBusySource(creep);
-        let buildingSites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+        Tasks.findNearestOrLeastBusySource(creep, room);
+        let buildingSites = room.constructions;
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             delete creep.memory.targetDropoff;
@@ -24,22 +23,22 @@ const roleBuilder = {
             if(!creep.memory.targetConstruction){
                 Tasks.findNearestConstructionTowerContainerExtensionRampartWall(creep);
             }
-            Tasks.buildNearestStructure(creep);
+            Tasks.buildNearestStructure(creep, room);
         }
         else {
             if(creep.carry.energy == creep.carryCapacity) {
                 // drop it off
                 // Find new drop off
                 if(!creep.memory.targetDropoff) {
-                    Tasks.findBestEnergyDump(creep);
+                    Tasks.findBestEnergyDump(creep, room);
                 }
                 delete creep.memory.targetSource;
                 delete creep.memory.targetStorageSource;
-                Tasks.depositEnergy(creep);
+                Tasks.depositEnergy(creep, room);
             } else {
                 // collect energy
                 if (!creep.memory.targetSource) {
-                    Tasks.findNearestOrLeastBusySource(creep);
+                    Tasks.findNearestOrLeastBusySource(creep, room);
                 }
                 delete creep.memory.targetDropoff;
                 Tasks.collectEnergy(creep);

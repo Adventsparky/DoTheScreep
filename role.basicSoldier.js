@@ -1,13 +1,12 @@
 const roleBasicSoldier = {
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, room) {
         // creep.say('b-s');
         let attackFlag = Game.flags['attack-room'];
         if (attackFlag) {
 
             if(attackFlag.room == creep.room) {
-                let enemyData = Memory.roomInfo[creep.room.name].enemyData;
+                let enemyData = room.enemyData;
                 if (!enemyData) {
                     // Fuck all to do, might as well retire
                 } else {

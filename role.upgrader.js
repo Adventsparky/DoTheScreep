@@ -3,8 +3,7 @@ const Tasks=require('tasks');
 
 const roleUpgrader = {
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, room) {
         // creep.say('u');
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
@@ -19,9 +18,8 @@ const roleUpgrader = {
             Tasks.upgradeController(creep);
         } else {
             if(!creep.memory.targetSource) {
-                let controllerInThisRoom=Query.controllerInCreepRoom(creep);
-                if(controllerInThisRoom) {
-                    Tasks.findNearestOrLeastBusySource(creep);
+                if(room.controller) {
+                    Tasks.findNearestOrLeastBusySource(creep, room);
                 }
             }
             Tasks.collectEnergy(creep);
