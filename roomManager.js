@@ -263,7 +263,7 @@ module.exports = {
             if (!homeRoom) {
                 creep.memory.home = creep.room.name;
             };
-            return homeRoom && homeRoom == room.name;
+            return homeRoom && homeRoom == roomInfo.name;
         });
 
         // RUN CREEPS
