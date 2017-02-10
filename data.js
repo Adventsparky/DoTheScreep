@@ -71,20 +71,20 @@ module.exports = {
         return _.filter(room.constructions, function(site){
             return site.structureType == type; });
     },
-    structuresTotalInPlayInRoom : function(type, room) {
+    structuresTotalInPlayInRoom : function(type, roomInfo) {
         // console.log(this.structuresOfTypeAlreadyBuilt(type, room).length);
         // console.log(this.structuresOfTypeAlreadyPlanned(type, room).length);
         // console.log(this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length);
-        return this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length;
+        return this.structuresOfTypeAlreadyBuilt(type, roomInfo.mystructures).length + this.structuresOfTypeAlreadyPlanned(type, roomInfo.myconstructions).length;
     },
-    numberOfBuildingTypeAvailable : function(type, room) {
+    numberOfBuildingTypeAvailable : function(type, roomInfo) {
         // console.log(CONTROLLER_STRUCTURES[type][room.controller.level]);
         // console.log(this.structuresTotalInPlayInRoom(type, storedRoom));
 
-        return CONTROLLER_STRUCTURES[type][room.controller.level] - this.structuresTotalInPlayInRoom(type, storedRoom);
+        return CONTROLLER_STRUCTURES[type][room.controller.level] - this.structuresTotalInPlayInRoom(type, roomInfo);
     },
-    isBuildingTypeAvailable : function(type, room) {
-        return this.numberOfBuildingTypeAvailable(type, room) > 0;
+    isBuildingTypeAvailable : function(type, roomInfo) {
+        return this.numberOfBuildingTypeAvailable(type, roomInfo) > 0;
     },
     safeCoord : function(c, buffer) {
         let b=buffer ? buffer : 0;

@@ -365,7 +365,7 @@ module.exports = {
             // this.findBestEnergyDump(creep);
         }
     },
-    checkForExtensionsAndRoadConstruction : function (room) {
+    checkForExtensionsAndRoadConstruction : function (roomInfo) {
         // We should have roads right beside the spawn, extensions will be diagonal
 
         // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
@@ -381,15 +381,15 @@ module.exports = {
         // [11:33:46 PM]x,-,-,-,x
         // [11:33:46 PM]o,x,o,x,o
 
-        if (!room.extensionBuilderSource) {
+        if (!roomInfo.extensionBuilderSource) {
             return;
         }
-        let extensionBuilderSource=room.extensionBuilderSource;
+        let extensionBuilderSource=roomInfo.extensionBuilderSource;
         let forbiddenXs=[extensionBuilderSource.x];
         let forbiddenYs=[extensionBuilderSource.y];
 
         // This is the total number of extensions we are ready to build
-        let availableExtensionsCount=Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION, room);
+        let availableExtensionsCount=Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION, roomInfo);
         if (availableExtensionsCount == 0) {
             return;
         }
@@ -445,7 +445,7 @@ module.exports = {
 
                     y = Query.safeCoord(y, 2);
 
-                    let checkPos=new RoomPosition(x, y, room.name);
+                    let checkPos=new RoomPosition(x, y, roomInfo.name);
                     // console.log('checking '+checkPos);
 
                     // Only loop down the whole column, if it's the first or last X, otherwise we only need the top and bottom
@@ -460,11 +460,12 @@ module.exports = {
 
                     // checked++;
 
+                    let room=Game.rooms[roomInfo.name];
                     let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
                     // console.log(canWeBuildHere);
 
                     if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
-                        (!storedRoom.gravePos || !(checkPos.x == storedRoom.gravePos.x && checkPos.y == storedRoom.gravePos.y))) {
+                        (!roomInfo.gravePos || !(checkPos.x == roomInfo.gravePos.x && checkPos.y == roomInfo.gravePos.y))) {
                         // console.log('Found a site at ' + x + ',' + y);
 
                         if(canWeBuildHere){
