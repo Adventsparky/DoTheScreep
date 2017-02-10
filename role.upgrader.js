@@ -1,3 +1,5 @@
+const Tasks=require('tasks');
+
 const roleUpgrader = {
 
     run: function(creep, room) {

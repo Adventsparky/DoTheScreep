@@ -1,3 +1,5 @@
+const Tasks=require('tasks');
+
 const roleStaticHarvester = {
 
     run: function(creep, room) {
