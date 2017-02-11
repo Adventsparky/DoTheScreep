@@ -3,7 +3,6 @@
 const profiler = require('screeps-profiler');
 
 const RoomManager=require('roomManager');
-const Tasks=require('tasks');
 
 // This line monkey patches the global prototypes.
 profiler.enable();
@@ -11,7 +10,7 @@ module.exports.loop = function () {
     profiler.wrap(function() {
 
         // RIP in pieces
-        Tasks.clearMemoryOfDeadCreeples();
+        Game.clearMemoryOfDeadCreeps();
 
         _.each(Game.rooms, function(room) {
             RoomManager.process(room.name);
