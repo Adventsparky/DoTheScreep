@@ -117,12 +117,12 @@ Creep.prototype.collectEnergy = function() {
     return harvestResult;
 }
 
-Creep.prototype.depositEnergy = function(room) {
+Creep.prototype.depositEnergy = function(roomInfo) {
     if(this.memory.targetDropoff) {
         let targetDropoff = Game.getObjectById(this.memory.targetDropoff);
         // Let's make sure it's still a valid energy dump
         if(!targetDropoff.structureHasSpaceForEnergy()) {
-            targetDropoff = this.findBestEnergyDump(this, room);
+            targetDropoff = this.findBestEnergyDump(roomInfo);
         }
 
         // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
@@ -137,10 +137,10 @@ Creep.prototype.depositEnergy = function(room) {
     }
 }
 
-Creep.prototype.findBestEnergyDump = function(room) {
+Creep.prototype.findBestEnergyDump = function(roomInfo) {
     // console.log(creep);
     // console.log(creep.room.name);
-    let potentialDropOffsInThisRoom = room.structures;
+    let potentialDropOffsInThisRoom = roomInfo.structures;
     let dropOffStructures = _.filter(potentialDropOffsInThisRoom, function (structure) {
         return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
     });
