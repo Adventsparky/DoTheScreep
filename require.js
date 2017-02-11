@@ -1,2 +1,3 @@
-require('prototype.creep');
 require('prototype.room');
+require('prototype.structure');
+require('prototype.creep');
