@@ -38,10 +38,8 @@ module.exports.loop = function () {
             }
         }
 
-        for (let roomId in Game.rooms) {
-            if (Game.rooms.hasOwnProperty(roomId)) {
-                RoomManager.process(roomId)
-            }
-        }
+        _.each(Game.rooms, function(room) {
+            RoomManager.process(room.name);
+        });
     });
 };
