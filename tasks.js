@@ -313,9 +313,10 @@ module.exports = {
      */
     clearMemoryOfDeadCreeps: function() {
         _.each(Memory.creeps, function(creep) {
-            if (!Game.creeps[name]) {
-                delete Memory.creeps[name];
-                console.log('Clearing non-existing creep memory:', name);
+            let creepName = creep.name;
+            if (!Game.creeps[creepName]) {
+                delete Memory.creeps[creepName];
+                console.log('Clearing non-existing creep memory:', creepName);
             }
         });
     },
