@@ -398,6 +398,7 @@ module.exports = {
                         // console.log(Game.rooms[roomId].energyCapacityAvailable);
                         // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
 
+                        console.log(roomInfo.spawn);
                         if(roomInfo.spawn.canCreateCreep(role.stage2Parts, creepName) == OK){
                             // console.log('Build big one');
                             roomInfo.spawn.createCreep(role.stage2Parts, creepName, {role: role.role});
