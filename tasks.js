@@ -25,12 +25,6 @@ module.exports = {
     //         delete creep.memory.targetDropoff; // This will only be for harvesters
     //     }
     // },
-    structureHasSpaceForEnergy : function (structure) {
-        if(structure.structureType == STRUCTURE_CONTAINER) {
-            return _.sum(structure.store) < structure.storeCapacity;
-        }
-        return structure.energy < structure.energyCapacity;
-    },
 
     /*
      * CONSTRUCTION

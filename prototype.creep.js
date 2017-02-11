@@ -121,7 +121,7 @@ Creep.prototype.depositEnergy = function(room) {
     if(this.memory.targetDropoff) {
         let targetDropoff = Game.getObjectById(this.memory.targetDropoff);
         // Let's make sure it's still a valid energy dump
-        if(!this.structureHasSpaceForEnergy(targetDropoff)) {
+        if(!room.structureHasSpaceForEnergy(targetDropoff)) {
             targetDropoff = this.findBestEnergyDump(this, room);
         }
 
