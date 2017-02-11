@@ -27,10 +27,3 @@ Room.prototype.countAccessibleSpacesAroundPoint = function(pos) {
     // console.log('Found '+spaces+' '+pos+' in '+room);
     return spaces;
 }
-
-Room.prototype.structureHasSpaceForEnergy = function (structure) {
-    if(structure.structureType == STRUCTURE_CONTAINER) {
-        return _.sum(structure.store) < structure.storeCapacity;
-    }
-    return structure.energy < structure.energyCapacity;
-}
