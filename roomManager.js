@@ -280,8 +280,8 @@ module.exports = {
             }
         });
 
-        if (spawns && spawns[0]) {
-            Tasks.performCreepleCensusByRole(spawns[0], creeps);
+        if (roomInfo.spawn) {
+            Tasks.performCreepleCensusByRole(roomInfo);
             Tasks.outputPopulationInfoPerRoom(roomInfo);
         }
     }
