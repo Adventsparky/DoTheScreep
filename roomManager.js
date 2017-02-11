@@ -132,7 +132,7 @@ module.exports = {
                 if (source.accessibleSpaces === undefined) {
                     source.accessibleSpaces = 0;
                 }
-                source.accessibleSpaces = Query.countAccessibleSpacesAroundPoint(source.room, source.pos);
+                source.accessibleSpaces = source.room.countAccessibleSpacesAroundPoint(source.pos);
 
                 if (Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
                     if (!source.container) {

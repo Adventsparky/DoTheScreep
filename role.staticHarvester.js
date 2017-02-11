@@ -41,7 +41,7 @@ const roleStaticHarvester = {
             } else {
                 // console.log('arrived');
                 source.dedicatedMiner=creep.id;
-                Tasks.collectEnergy(creep);
+                creep.collectEnergy();
             }
         }
 

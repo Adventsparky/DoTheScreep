@@ -2,7 +2,7 @@ const roleBuilder = {
 
     run: function(creep, room) {
         // creep.say('b');
-        Tasks.findNearestOrLeastBusySource(creep, room);
+        creep.findNearestOrLeastBusySource(room);
         let buildingSites = room.constructionsites;
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
@@ -32,14 +32,14 @@ const roleBuilder = {
                 }
                 delete creep.memory.targetSource;
                 delete creep.memory.targetStorageSource;
-                Tasks.depositEnergy(creep, room);
+                creep.depositEnergy(room);
             } else {
                 // collect energy
                 if (!creep.memory.targetSource) {
-                    Tasks.findNearestOrLeastBusySource(creep, room);
+                    creep.findNearestOrLeastBusySource(room);
                 }
                 delete creep.memory.targetDropoff;
-                Tasks.collectEnergy(creep);
+                creep.collectEnergy();
             }
         }
     }

@@ -33,7 +33,7 @@ const roleBasicClaimer = {
 
                             if (!currentlyHarvesting && creep.carry.energy == 0) {
                                 // We haven't started harvesting yet and we're out of energy, creep's gotta eat
-                                Tasks.findNearestOrLeastBusySource(creep, room);
+                                creep.findNearestOrLeastBusySource(room);
                                 delete creep.memory.targetDropoff;
                             }
 
@@ -45,8 +45,8 @@ const roleBasicClaimer = {
                             }
                         }
 
-                        Tasks.collectEnergy(creep);
-                        Tasks.depositEnergy(creep, room);
+                        creep.collectEnergy();
+                        creep.depositEnergy(room);
 
                     }
                 }
