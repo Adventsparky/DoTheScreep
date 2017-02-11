@@ -1,3 +1,4 @@
+require('require');
 const Tasks=require('tasks');
 const Query=require('data');
 const RoleManager=require('role.manager');
