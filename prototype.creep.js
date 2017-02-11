@@ -202,8 +202,8 @@ Creep.prototype.findBestEnergyDump = function(room) {
     }
 }
 
-Creep.prototype.upgradeControllerInRoom = function(room) {
-    if(this.upgradeController(room.controller) == ERR_NOT_IN_RANGE) {
-        this.moveTo(room.controller);
+Creep.prototype.upgradeControllerInRoom = function() {
+    if(this.room.controller && this.upgradeController(this.room.controller) == ERR_NOT_IN_RANGE) {
+        this.moveTo(this.room.controller);
     }
 }
