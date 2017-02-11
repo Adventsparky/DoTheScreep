@@ -341,7 +341,7 @@ module.exports = {
 
         if(roomInfo.spawn) {
 
-            if (this.checkIfWeAreReadyForStaticHarvesters()) {
+            if (this.checkIfWeAreReadyForStaticHarvesters(roomInfo)) {
                 // Build the containers we're going to need
                 // _.each(room.availableSources, function(source) {
                 //    // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
@@ -415,17 +415,17 @@ module.exports = {
 
         return false;
     },
-    checkIfWeAreReadyForStaticHarvesters : function(room) {
+    checkIfWeAreReadyForStaticHarvesters : function(roomInfo) {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
-        if(room.energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
+        if(roomInfo.energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
             // console.log('Ready for big bastard harvesters');
             for(let roleName in RoleManager) {
                 if(RoleManager.hasOwnProperty(roleName)) {
                     let role=RoleManager[roleName];
                     if(role.minRoomPopulation){
-                        if (room.creeps !== undefined && room.creeps.length) {
-                            let creepsOfRole = _.filter(room.creeps, function (creep) {
+                        if (roomInfo.creeps !== undefined && roomInfo.creeps.length) {
+                            let creepsOfRole = _.filter(roomInfo.creeps, function (creep) {
                                 return creep.memory.role == role.role;
                             }).length;
                             if(creepsOfRole < role.minRoomPopulation){
