@@ -2,6 +2,7 @@
 // before you require the profiler.
 const profiler = require('screeps-profiler');
 const RoomManager=require('roomManager');
+const Utils=require('tasks');
 
 // This line monkey patches the global prototypes.
 profiler.enable();
@@ -10,7 +11,7 @@ module.exports.loop = function () {
 
         console.log(Game);
         // RIP in pieces
-        clearMemoryOfDeadCreeps();
+        Utils.clearMemoryOfDeadCreeps();
 
         _.each(Game.rooms, function(room) {
             RoomManager.process(room.name);

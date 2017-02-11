@@ -309,6 +309,18 @@ module.exports = {
     },
 
     /*
+     * UTILS
+     */
+    clearMemoryOfDeadCreeps: function() {
+        _.each(Memory.creeps, function(creep) {
+            if (!Game.creeps[name]) {
+                delete Memory.creeps[name];
+                console.log('Clearing non-existing creep memory:', name);
+            }
+        });
+    },
+
+    /*
      * CREEPLE MANAGEMENT
      */
     outputPopulationInfoPerRoom: function(roomInfo) {
