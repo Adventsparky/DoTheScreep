@@ -271,7 +271,7 @@ module.exports = {
         _.each(creeps, function(creep) {
             if (creep.memory.home && creep.memory.home == thisRoom.name) {
                 if (creep.memory.role !== undefined) {
-                    RoleManager[creep.memory.role].run(creep, availableSources);
+                    RoleManager[creep.memory.role].run(creep, roomInfo);
                 } else {
                     console.log('wtf no defined role');
                     console.log(creep);
