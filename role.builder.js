@@ -3,6 +3,7 @@ const roleBuilder = {
     run: function(creep, roomInfo) {
         // creep.say('b');
         console.log(roomInfo);
+        console.log(JSON.stringify(roomInfo));
         creep.findNearestOrLeastBusySource(roomInfo);
         let buildingSites = roomInfo.constructionsites;
         if(creep.memory.building && creep.carry.energy == 0) {
