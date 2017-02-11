@@ -2,7 +2,7 @@ const roleStaticHarvester = {
 
     run: function(creep, room) {
 
-        // Get to spawn, find a source without a flag for static harvest
+        // Get to mainSpawn, find a source without a flag for static harvest
         if (!creep.memory.targetSource) {
             let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticHarvester = _.find(potentialSources, function (source) {

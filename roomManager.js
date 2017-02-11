@@ -31,7 +31,7 @@ module.exports = {
         let myAvailableConstructions = roomInfo.myconstructionsites = thisRoom.find(FIND_MY_CONSTRUCTION_SITES);
 
         // SPAWNS
-        let spawns = roomInfo.spawn = _.filter(myAvailableStructures, function (structure) {
+        roomInfo.mainSpawn = _.filter(myAvailableStructures, function (structure) {
             if (structure.structureType == STRUCTURE_SPAWN) {
                 return structure;
             }
@@ -52,14 +52,14 @@ module.exports = {
         });
 
         // GRAVE POS
-        if (roomInfo.spawn[0]) {
-            roomInfo.gravePos = new RoomPosition(roomInfo.spawn[0].pos.x + 1, roomInfo.spawn[0].pos.y + 1, thisRoom.name);
+        if (roomInfo.mainSpawn[0]) {
+            roomInfo.gravePos = new RoomPosition(roomInfo.mainSpawn[0].pos.x + 1, roomInfo.mainSpawn[0].pos.y + 1, thisRoom.name);
         }
 
         // EXTENSION BUILDER SOURCE
-        if (!roomInfo.extensionBuilderSource && roomInfo.spawn[0]) {
+        if (!roomInfo.extensionBuilderSource && roomInfo.mainSpawn[0]) {
             // We only want one extension builder source. OR DO WE.... todo, maybe. Might check second source instead of allowed the "broken" pattern.
-            roomInfo.extensionBuilderSource = roomInfo.spawn[0].pos;
+            roomInfo.extensionBuilderSource = roomInfo.mainSpawn[0].pos;
         }
 
         if (roomInfo.towers) {
@@ -162,7 +162,7 @@ module.exports = {
                                     nearestSite[0].pos.x < (source.pos.x - 1) || nearestSite[0].pos.x > (source.pos.x + 1) ||
                                     nearestSite[0].pos.y < (source.pos.y - 1) || nearestSite[0].pos.y > (source.pos.y + 1)) {
 
-                                    // todo make up a "closest to spawn" function for the  passable xy at a source
+                                    // todo make up a "closest to mainSpawn" function for the  passable xy at a source
                                     let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
 
                                     if (buildPos) {
@@ -204,8 +204,8 @@ module.exports = {
 
         // GRAVE
         // Use energy capacity as a marker for how advanced the room is, let's not care about graves early on
-        if (roomInfo.spawn && roomInfo.energyCapacity > 500 && (!roomInfo.grave || !Game.getObjectById[roomInfo.grave.id])) {
-            // We always want a grave, let's say in the top right square, right beside the spawn, for creeps to die on, to drop energy
+        if (roomInfo.mainSpawn && roomInfo.energyCapacity > 500 && (!roomInfo.grave || !Game.getObjectById[roomInfo.grave.id])) {
+            // We always want a grave, let's say in the top right square, right beside the mainSpawn, for creeps to die on, to drop energy
             let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, roomInfo.gravePos);
             if (!structuresInGraveSpot) {
                 let constructionsInGraveSpot = thisRoom.lookForAt(LOOK_CONSTRUCTION_SITES, roomInfo.gravePos);
@@ -234,7 +234,7 @@ module.exports = {
         // BUILD ROADS AND EXTENSIONS AROUND SPAWN
         // console.log('Extensions available: '+Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
         // console.log('Is available? '+Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
-        if (roomInfo.spawn && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION, thisRoom)) {
+        if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION, thisRoom)) {
             Tasks.checkForExtensionsAndRoadConstruction(thisRoom);
         }
 
@@ -280,7 +280,7 @@ module.exports = {
             }
         });
 
-        if (roomInfo.spawn) {
+        if (roomInfo.mainSpawn) {
             Tasks.performCreepleCensusByRole(roomInfo);
             Tasks.outputPopulationInfoPerRoom(roomInfo);
         }

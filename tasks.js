@@ -29,7 +29,7 @@ module.exports = {
     /*
      * CONSTRUCTION
      */
-    // Pointless check, it's not paid from spawn, it's filled
+    // Pointless check, it's not paid from mainSpawn, it's filled
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
@@ -143,9 +143,9 @@ module.exports = {
         }
     },
     checkForExtensionsAndRoadConstruction : function (roomInfo) {
-        // We should have roads right beside the spawn, extensions will be diagonal
+        // We should have roads right beside the mainSpawn, extensions will be diagonal
 
-        // Go out from spawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
+        // Go out from mainSpawn one ring at a time looking for open (non wall, road and extensions will overlap) 3x3 areas to build new spawns
         // ring one is special, extension at 3 corners only (one reserved for grave)
 
         // It's ALIVE!!
@@ -177,7 +177,7 @@ module.exports = {
         let innerLoopCounter=0;
         let loopRange=3;
 
-        // Kick off point is always the spawn
+        // Kick off point is always the mainSpawn
         let startX=extensionBuilderSource.x;
         let startY=extensionBuilderSource.y;
 
@@ -339,7 +339,7 @@ module.exports = {
     },
     performCreepleCensusByRole: function(roomInfo) {
 
-        if(roomInfo.spawn) {
+        if(roomInfo.mainSpawn) {
 
             if (this.checkIfWeAreReadyForStaticHarvesters(roomInfo)) {
                 // Build the containers we're going to need
@@ -367,12 +367,12 @@ module.exports = {
             let prepAttackFlag = Game.flags['prep-attack'];
             if (prepAttackFlag) {
                 let soldierRole = RoleManager['basicSoldier'];
-                roomInfo.spawn.createCreep(soldierRole.parts, soldierRole.name, {role: soldierRole.role});
+                roomInfo.mainSpawn.createCreep(soldierRole.parts, soldierRole.name, {role: soldierRole.role});
             }
             let prepClaimFlag = Game.flags['prep-claim'];
             if (prepClaimFlag) {
                 let claimerRole = RoleManager['basicClaimer'];
-                roomInfo.spawn.createCreep(claimerRole.parts, claimerRole.name, {role: claimerRole.role});
+                roomInfo.mainSpawn.createCreep(claimerRole.parts, claimerRole.name, {role: claimerRole.role});
             }
 
             for(let roleName in RoleManager) {
@@ -393,18 +393,18 @@ module.exports = {
                     }
 
                     if (creepleCountForRole < role.targetRoomPopulation) {
-                        // console.log('New: '+'need to spawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
-                        // console.log(room.spawn[0].canCreateCreep(role.stage2Parts, undefined));
+                        // console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
+                        // console.log(room.mainSpawn[0].canCreateCreep(role.stage2Parts, undefined));
                         // console.log(Game.rooms[roomId].energyCapacityAvailable);
                         // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
 
-                        console.log(roomInfo.spawn);
-                        if(roomInfo.spawn.canCreateCreep(role.stage2Parts, creepName) == OK){
+                        console.log(roomInfo.mainSpawn);
+                        if(roomInfo.mainSpawn.canCreateCreep(role.stage2Parts, creepName) == OK){
                             // console.log('Build big one');
-                            roomInfo.spawn.createCreep(role.stage2Parts, creepName, {role: role.role});
+                            roomInfo.mainSpawn.createCreep(role.stage2Parts, creepName, {role: role.role});
                         } else {
                             // console.log('Build little one');
-                            roomInfo.spawn.createCreep(role.parts, creepName, {role: role.role});
+                            roomInfo.mainSpawn.createCreep(role.parts, creepName, {role: role.role});
                         }
                         return false;
                     }
@@ -439,7 +439,7 @@ module.exports = {
                 }
             }
 
-            // we're good to spawn statics
+            // we're good to mainSpawn statics
 
             return true;
         }
