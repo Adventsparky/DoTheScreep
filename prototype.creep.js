@@ -136,3 +136,74 @@ Creep.prototype.depositEnergy = function(room) {
         }
     }
 }
+
+Creep.prototype.findBestEnergyDump = function(room) {
+    // console.log(creep);
+    // console.log(creep.room.name);
+    let potentialDropOffsInThisRoom = room.structures;
+    let dropOffStructures = _.filter(potentialDropOffsInThisRoom, function (structure) {
+        return structure.structureType == STRUCTURE_SPAWN && structure.energy < structure.energyCapacity;
+    });
+    let towers=false;
+    if(dropOffStructures.length == 0) {
+        dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
+            return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < (structure.energyCapacity*.3))
+        });
+        if (dropOffStructures.length > 0) {
+            towers=true;
+        }
+    }
+    if(dropOffStructures.length == 0) {
+        dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
+            return structure.structureType == STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
+        });
+    }
+    if(dropOffStructures.length == 0) {
+        dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
+            return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity)
+        });
+    }
+    if(dropOffStructures.length == 0) {
+        dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
+            return structure.structureType == STRUCTURE_CONTROLLER
+        });
+    }
+
+
+    if(dropOffStructures.length > 0) {
+        let target=false;
+        if (towers) {
+            console.log(' drop off in tower');
+            target = _.reduce(dropOffStructures, function(result, structure) {
+                let energy=structure.energy;
+                console.log('This energy: '+energy);
+                console.log(JSON.stringify(result));
+                console.log('Result energy: '+result.energy);
+                if(result && result.energy < energy) {
+                    return result;
+                }
+                return {energy: energy, structure: structure}
+            },{energyAvailable: 1000});
+        } else {
+            target = _.reduce(dropOffStructures, function(result, structure) {
+                let range=this.pos.getRangeTo(structure);
+                if(result && result.range < range) {
+                    return result;
+                }
+                return {range: range, structure: structure}
+            },{range: 99999});
+        }
+        if(target) {
+            // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+            this.memory.targetDropoff=target.structure.id
+        }
+    } else{
+        this.say('no dumps');
+    }
+}
+
+Creep.prototype.upgradeControllerInRoom = function(room) {
+    if(this.upgradeController(room.controller) == ERR_NOT_IN_RANGE) {
+        this.moveTo(room.controller);
+    }
+}

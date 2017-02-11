@@ -28,7 +28,7 @@ const roleBuilder = {
                 // drop it off
                 // Find new drop off
                 if(!creep.memory.targetDropoff) {
-                    Tasks.findBestEnergyDump(creep, room);
+                    creep.findBestEnergyDump(room);
                 }
                 delete creep.memory.targetSource;
                 delete creep.memory.targetStorageSource;
