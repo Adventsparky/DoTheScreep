@@ -325,12 +325,13 @@ module.exports = {
     /*
      * CREEPLE MANAGEMENT
      */
-    outputPopulationInfoPerRoom: function(room) {
+    outputPopulationInfoPerRoom: function(roomInfo) {
         if(Game.time % 5 == 0) {
+            let roomName=roomInfo.name;
             let roomPopSummary = roomName+': ';
             for(let roleName in RoleManager) {
                 if (RoleManager.hasOwnProperty(roleName)) {
-                    roomPopSummary+=(roleName+': '+Query.countRolesInRoom(room, roleName)+',');
+                    roomPopSummary+=(roleName+': '+Query.countRolesInRoom(roomInfo, roleName)+',');
                 }
             }
             console.log(roomPopSummary);
