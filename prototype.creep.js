@@ -173,6 +173,7 @@ Creep.prototype.findBestEnergyDump = function(room) {
 
     if(dropOffStructures.length > 0) {
         let target=false;
+        let currentPos=this.pos;
         if (towers) {
             console.log(' drop off in tower');
             target = _.reduce(dropOffStructures, function(result, structure) {
@@ -187,7 +188,7 @@ Creep.prototype.findBestEnergyDump = function(room) {
             },{energyAvailable: 1000});
         } else {
             target = _.reduce(dropOffStructures, function(result, structure) {
-                let range=this.pos.getRangeTo(structure);
+                let range=currentPos.getRangeTo(structure);
                 if(result && result.range < range) {
                     return result;
                 }
