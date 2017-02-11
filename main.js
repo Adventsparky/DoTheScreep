@@ -9,6 +9,7 @@ profiler.enable();
 module.exports.loop = function () {
     profiler.wrap(function() {
 
+        console.log(Game);
         // RIP in pieces
         Game.clearMemoryOfDeadCreeps();
 
