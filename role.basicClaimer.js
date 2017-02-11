@@ -18,7 +18,6 @@ const roleBasicClaimer = {
                 } else {
 
                     let controller = creep.room.find(FIND_STRUCTURES, {filter: (structure) => structure.structureType == STRUCTURE_CONTROLLER});
-                    console.log(controller);
                     if (controller && controller[0]) {
                         if (!controller[0].my && controller[0].level == 0) {
                             creep.moveTo(controller[0]);

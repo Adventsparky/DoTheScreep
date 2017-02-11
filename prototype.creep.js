@@ -121,7 +121,6 @@ Creep.prototype.depositEnergy = function(room) {
     if(this.memory.targetDropoff) {
         let targetDropoff = Game.getObjectById(this.memory.targetDropoff);
         // Let's make sure it's still a valid energy dump
-        console.log(targetDropoff);
         if(!targetDropoff.structureHasSpaceForEnergy()) {
             targetDropoff = this.findBestEnergyDump(this, room);
         }
@@ -175,12 +174,8 @@ Creep.prototype.findBestEnergyDump = function(room) {
         let target=false;
         let currentPos=this.pos;
         if (towers) {
-            console.log(' drop off in tower');
             target = _.reduce(dropOffStructures, function(result, structure) {
                 let energy=structure.energy;
-                console.log('This energy: '+energy);
-                console.log(JSON.stringify(result));
-                console.log('Result energy: '+result.energy);
                 if(result && result.energy < energy) {
                     return result;
                 }
