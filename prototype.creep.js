@@ -29,7 +29,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
             }
         });
 
-        let creepAllowanceForSource = roomInfo.countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
+        let creepAllowanceForSource = Game.rooms[roomInfo.name].countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
         let creepOverflowForSource = source.accessibleSpaces * 1.5;
 
 
