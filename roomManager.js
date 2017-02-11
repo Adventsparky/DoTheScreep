@@ -52,14 +52,14 @@ module.exports = {
         });
 
         // GRAVE POS
-        if (roomInfo.mainSpawn[0]) {
-            roomInfo.gravePos = new RoomPosition(roomInfo.mainSpawn[0].pos.x + 1, roomInfo.mainSpawn[0].pos.y + 1, thisRoom.name);
+        if (roomInfo.mainSpawn) {
+            roomInfo.gravePos = new RoomPosition(roomInfo.mainSpawn.pos.x + 1, roomInfo.mainSpawn.pos.y + 1, thisRoom.name);
         }
 
         // EXTENSION BUILDER SOURCE
-        if (!roomInfo.extensionBuilderSource && roomInfo.mainSpawn[0]) {
+        if (!roomInfo.extensionBuilderSource && roomInfo.mainSpawn) {
             // We only want one extension builder source. OR DO WE.... todo, maybe. Might check second source instead of allowed the "broken" pattern.
-            roomInfo.extensionBuilderSource = roomInfo.mainSpawn[0].pos;
+            roomInfo.extensionBuilderSource = roomInfo.mainSpawn.pos;
         }
 
         if (roomInfo.towers) {
