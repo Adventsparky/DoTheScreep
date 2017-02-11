@@ -312,12 +312,14 @@ module.exports = {
      * UTILS
      */
     clearMemoryOfDeadCreeps: function() {
-        _.each(Memory.creeps, function(creep) {
-            if (!Game.creeps[creep]) {
-                delete Memory.creeps[creep];
-                console.log('Clearing non-existing creep memory:', creep);
+        for (let name in Memory.creeps) {
+            if(Memory.creeps.hasOwnProperty(name)) {
+                if (!Game.creeps[name]) {
+                    delete Memory.creeps[name];
+                    console.log('Clearing non-existing creep memory:', name);
+                }
             }
-        });
+        }
     },
 
     /*
