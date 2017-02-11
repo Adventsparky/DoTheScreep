@@ -1,6 +1,6 @@
 'use strict';
 
-Creep.prototype.findNearestOrLeastBusySource = function(creep, room) {
+Creep.prototype.findNearestOrLeastBusySource = function(room) {
 
     let bestChoiceSource=null;
     // Count how many are heading to this vs how many slots it has
