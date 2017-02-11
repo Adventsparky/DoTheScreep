@@ -35,7 +35,7 @@ module.exports = {
             if (structure.structureType == STRUCTURE_SPAWN) {
                 return structure;
             }
-        });
+        })[0];
 
         // CONTROLLER
         roomInfo.controller = _.filter(myAvailableStructures, function (structure) {
