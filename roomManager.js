@@ -259,7 +259,7 @@ module.exports = {
         }
 
         // CREEPS
-        let creeps = _.filter(Game.creeps, function(creep) {
+        let creeps = roomInfo.creeps = _.filter(Game.creeps, function(creep) {
             let homeRoom = creep.memory.home;
             if (!homeRoom) {
                 creep.memory.home = creep.room.name;

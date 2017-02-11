@@ -1,6 +1,6 @@
 'use strict';
 
-Creep.prototype.findNearestOrLeastBusySource = function(room) {
+Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
     let bestChoiceSource=null;
     // Count how many are heading to this vs how many slots it has
@@ -10,26 +10,26 @@ Creep.prototype.findNearestOrLeastBusySource = function(room) {
     let allSources = null;
     // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 600 of that
 
-    if (this.memory.role == 'builder' && room.energyCapacity >= 800 && room.energyAvailable >=  600 && room.fullExtensions && room.fullExtensions[0]) {
+    if (this.memory.role == 'builder' && roomInfo.energyCapacity >= 800 && roomInfo.energyAvailable >=  600 && roomInfo.fullExtensions && roomInfo.fullExtensions[0]) {
         // console.log('this is a builder, allow extensions as sources');
-        allSources = _.sortBy(_.union(room.availableSources, room.fullExtensions), s => this.pos.getRangeTo(s));
+        allSources = _.sortBy(_.union(roomInfo.availableSources, roomInfo.fullExtensions), s => this.pos.getRangeTo(s));
     }
 
     if (!allSources || !allSources[0]) {
-        allSources = _.sortBy(room.availableSources, s => this.pos.getRangeTo(s));
+        allSources = _.sortBy(roomInfo.availableSources, s => this.pos.getRangeTo(s));
     }
 
     _.each(allSources, function(source) {
         let targetSource=source;
         // console.log('check source ' + targetSource.id);
         let creepAssignedToSourceCount = 0;
-        _.each(room.creeps, function (harvestingCreep) {
+        _.each(roomInfo.creeps, function (harvestingCreep) {
             if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
                 creepAssignedToSourceCount++;
             }
         });
 
-        let creepAllowanceForSource = room.countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
+        let creepAllowanceForSource = roomInfo.countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
         let creepOverflowForSource = source.accessibleSpaces * 1.5;
 
 
