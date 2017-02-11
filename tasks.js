@@ -396,7 +396,6 @@ module.exports = {
                         // console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
                         // console.log(room.mainSpawn[0].canCreateCreep(role.stage2Parts, undefined));
                         // console.log(Game.rooms[roomId].energyCapacityAvailable);
-                        // console.log(Memory.roleBuildCosts[role.role+'Stage2Parts']);
 
                         if(roomInfo.mainSpawn.canCreateCreep(role.stage2Parts, creepName) == OK){
                             // console.log('Build big one');
@@ -418,7 +417,7 @@ module.exports = {
     checkIfWeAreReadyForStaticHarvesters : function(roomInfo) {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
-        if(roomInfo.energyCapacityAvailable > Memory.roleBuildCosts['staticHarvester'] * 1.3){ // 130% capacity, just for some wiggle room
+        if(roomInfo.energyCapacityAvailable > RoleManager['staticHarvester'].pricePerBlock * 1.3){ // 130% capacity, just for some wiggle room
             // console.log('Ready for big bastard harvesters');
             for(let roleName in RoleManager) {
                 if(RoleManager.hasOwnProperty(roleName)) {
