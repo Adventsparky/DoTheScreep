@@ -282,7 +282,7 @@ module.exports = {
 
         if (roomInfo.mainSpawn) {
             Tasks.performCreepleCensusByRole(roomInfo);
-            Tasks.outputPopulationInfoPerRoom(roomInfo);
+            // Tasks.outputPopulationInfoPerRoom(roomInfo);
         }
     }
 }

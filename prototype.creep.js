@@ -5,6 +5,8 @@ const HITS_IMPROVED=20000;
 const HITS_NOW_WERE_COOKING_WITH_GAS=60000;
 const HITS_NOW_WERE_SUCKIN_DIESEL=250000;
 
+const STORAGE_TYPES=['extension', 'storage', 'container'];
+
 Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
     let bestChoiceSource=null;
@@ -73,9 +75,10 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     if(bestChoiceSource){
         // todo pick container of source with miner
         if (this.memory.role == 'builder') {
-            console.log(creep+ ' choosing '+bestChoiceSource.source.id);
+            console.log(this+ ' choosing '+bestChoiceSource.source.id);
             console.log(JSON.stringify(bestChoiceSource.source));
-            console.log(bestChoiceSource.source.container);
+            console.log(bestChoiceSource.source);
+            console.log(bestChoiceSource.source.structureType);
         }
 
         // if (bestChoiceSource.extension) {
@@ -84,11 +87,8 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
         // }
 
         if (bestChoiceSource.source) {
-            if (bestChoiceSource.source.extension) {
+            if (bestChoiceSource.source.structureType && _.contains(STORAGE_TYPES, bestChoiceSource.source.structureType)) {
                 this.memory.targetStorageSource=bestChoiceSource.source.id;
-                delete this.memory.targetSource;
-            } else if (bestChoiceSource.source.container) {
-                this.memory.targetStorageSource=bestChoiceSource.source.container.id;
                 delete this.memory.targetSource;
             } else {
                 this.memory.targetSource=bestChoiceSource.source.id;
