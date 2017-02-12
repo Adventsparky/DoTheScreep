@@ -236,8 +236,9 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
     }
 
     if(potentialConstructions.length > 0) {
+        let creepPos=this.pos;
         let target = _.reduce(potentialConstructions, function(result, site) {
-            let range=this.pos.getRangeTo(site);
+            let range=creepPos.getRangeTo(site);
             if(result && result.range < range) {
                 return result;
             }
