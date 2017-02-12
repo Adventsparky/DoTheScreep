@@ -1,11 +1,6 @@
 const Query=require('data');
 const RoleManager=require('role.manager');
 
-const HITS_MIN=5000;
-const HITS_IMPROVED=20000;
-const HITS_NOW_WERE_COOKING_WITH_GAS=60000;
-const HITS_NOW_WERE_SUCKIN_DIESEL=250000;
-
 module.exports = {
 
     /*
@@ -33,115 +28,6 @@ module.exports = {
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
-    findNearestConstructionTowerContainerExtensionRampartWall : function(creep) {
-        let sites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
-
-        let potentialConstructions = _.filter(sites, function(constructionSite) {
-            return constructionSite.structureType == STRUCTURE_TOWER;
-        });
-        if(potentialConstructions.length == 0) {
-            potentialConstructions = _.filter(sites, function(constructionSite) {
-                return constructionSite.structureType == STRUCTURE_CONTAINER;
-            });
-        }
-
-        if(potentialConstructions.length == 0) {
-            potentialConstructions = _.filter(sites, function(constructionSite) {
-                return constructionSite.structureType == STRUCTURE_EXTENSION ||
-                    constructionSite.structureType == STRUCTURE_RAMPART ||
-                    constructionSite.structureType == STRUCTURE_WALL;
-            });
-        }
-        // console.log(potentialConstructions);
-
-        if(potentialConstructions.length == 0) {
-            potentialConstructions=sites;
-        }
-
-        if(potentialConstructions.length > 0) {
-            let target = _.reduce(potentialConstructions, function(result, site) {
-                let range=creep.pos.getRangeTo(site);
-                if(result && result.range < range) {
-                    return result;
-                }
-                return {range: range, site: site}
-            },{range: 99999});
-            // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-            creep.memory.targetConstruction=target.site.id
-        } else {
-            // creep.say('no builds');
-        }
-    },
-    buildNearestStructure: function(creep, room) {
-        if(creep.memory.targetConstruction) {
-            let targetConstruction = Game.getObjectById(creep.memory.targetConstruction);
-            if(targetConstruction) {
-                if (creep.build(targetConstruction) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targetConstruction);
-                }
-            } else{
-                delete creep.memory.targetConstruction;
-                delete creep.memory.building;
-            }
-        } else{
-            delete creep.memory.building;
-            // If we've no towers, repair
-            if (!room.towers) {
-                this.repairNearestStructure(creep);
-            }
-        }
-    },
-    repairNearestStructure: function(creep) {
-        // Prioritise towers
-        let closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return structure.structureType == STRUCTURE_TOWER && (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
-            }
-        });
-        if(!closestDamagedStructure) {
-            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
-                }
-            });
-        }
-        if(!closestDamagedStructure) {
-            // Try again with higher threshold
-            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.hits < HITS_IMPROVED && structure.hits < structure.hitsMax);
-                }
-            });
-        }
-        if(!closestDamagedStructure) {
-            // Try again with higher threshold
-            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.hits < HITS_NOW_WERE_COOKING_WITH_GAS && structure.hits < structure.hitsMax);
-                }
-            });
-        }
-        if(!closestDamagedStructure) {
-            // Try again with higher threshold
-            closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.hits < HITS_NOW_WERE_SUCKIN_DIESEL && structure.hits < structure.hitsMax);
-                }
-            });
-        }
-        if(closestDamagedStructure) {
-            // console.log('Repair closest ' + closestDamagedStructure);
-            let status = creep.repair(closestDamagedStructure);
-            if(status == ERR_NOT_IN_RANGE) {
-                creep.moveTo(closestDamagedStructure);
-            } else {
-                creep.say('Repairing')
-            }
-        } else {
-            creep.say('Nothing to repair, I\'ll dump');
-            // this.findBestEnergyDump(creep);
-        }
-    },
     checkForExtensionsAndRoadConstruction : function (roomInfo) {
         // We should have roads right beside the mainSpawn, extensions will be diagonal
 

@@ -1,5 +1,10 @@
 'use strict';
 
+const HITS_MIN=5000;
+const HITS_IMPROVED=20000;
+const HITS_NOW_WERE_COOKING_WITH_GAS=60000;
+const HITS_NOW_WERE_SUCKIN_DIESEL=250000;
+
 Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
     let bestChoiceSource=null;
@@ -202,5 +207,117 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
 Creep.prototype.upgradeControllerInRoom = function() {
     if(this.room.controller && this.upgradeController(this.room.controller) == ERR_NOT_IN_RANGE) {
         this.moveTo(this.room.controller);
+    }
+}
+
+Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = function(roomInfo) {
+    let sites = roomInfo.myconstructionsites;
+
+    let potentialConstructions = _.filter(sites, function(constructionSite) {
+        return constructionSite.structureType == STRUCTURE_TOWER;
+    });
+    if(potentialConstructions.length == 0) {
+        potentialConstructions = _.filter(sites, function(constructionSite) {
+            return constructionSite.structureType == STRUCTURE_CONTAINER;
+        });
+    }
+
+    if(potentialConstructions.length == 0) {
+        potentialConstructions = _.filter(sites, function(constructionSite) {
+            return constructionSite.structureType == STRUCTURE_EXTENSION ||
+                constructionSite.structureType == STRUCTURE_RAMPART ||
+                constructionSite.structureType == STRUCTURE_WALL;
+        });
+    }
+    // console.log(potentialConstructions);
+
+    if(potentialConstructions.length == 0) {
+        potentialConstructions=sites;
+    }
+
+    if(potentialConstructions.length > 0) {
+        let target = _.reduce(potentialConstructions, function(result, site) {
+            let range=this.pos.getRangeTo(site);
+            if(result && result.range < range) {
+                return result;
+            }
+            return {range: range, site: site}
+        },{range: 99999});
+        // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+        this.memory.targetConstruction=target.site.id
+    } else {
+        // creep.say('no builds');
+    }
+}
+
+Creep.prototype.buildNearestStructure = function(roomInfo) {
+    if(this.memory.targetConstruction) {
+        let targetConstruction = Game.getObjectById(this.memory.targetConstruction);
+        if(targetConstruction) {
+            if (this.build(targetConstruction) == ERR_NOT_IN_RANGE) {
+                this.moveTo(targetConstruction);
+            }
+        } else{
+            delete this.memory.targetConstruction;
+            delete this.memory.building;
+        }
+    } else{
+        delete this.memory.building;
+        // If we've no towers, repair
+        if (!roomInfo.towers) {
+            this.repairNearestStructure();
+        }
+    }
+}
+
+Creep.prototype.repairNearestStructure = function() {
+    // Prioritise towers
+    let closestDamagedStructure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return structure.structureType == STRUCTURE_TOWER && (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
+        }
+    });
+    if(!closestDamagedStructure) {
+        closestDamagedStructure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.hits < HITS_MIN && structure.hits < structure.hitsMax);
+            }
+        });
+    }
+    if(!closestDamagedStructure) {
+        // Try again with higher threshold
+        closestDamagedStructure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.hits < HITS_IMPROVED && structure.hits < structure.hitsMax);
+            }
+        });
+    }
+    if(!closestDamagedStructure) {
+        // Try again with higher threshold
+        closestDamagedStructure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.hits < HITS_NOW_WERE_COOKING_WITH_GAS && structure.hits < structure.hitsMax);
+            }
+        });
+    }
+    if(!closestDamagedStructure) {
+        // Try again with higher threshold
+        closestDamagedStructure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.hits < HITS_NOW_WERE_SUCKIN_DIESEL && structure.hits < structure.hitsMax);
+            }
+        });
+    }
+    if(closestDamagedStructure) {
+        // console.log('Repair closest ' + closestDamagedStructure);
+        let status = this.repair(closestDamagedStructure);
+        if(status == ERR_NOT_IN_RANGE) {
+            this.moveTo(closestDamagedStructure);
+        } else {
+            this.say('Repairing')
+        }
+    } else {
+        this.say('Nothing to repair, I\'ll dump');
+        // this.findBestEnergyDump(creep);
     }
 }
