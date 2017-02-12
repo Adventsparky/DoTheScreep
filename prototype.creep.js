@@ -62,30 +62,10 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
                 bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
             }
         }
-
-        // console.log(source);
-        // console.log(JSON.stringify(source));
-        // console.log(source.structureType);
-        // console.log(source.structureType == STRUCTURE_EXTENSION);
-        // if (source.structureType && source.structureType == STRUCTURE_EXTENSION) {
-        bestChoiceSource.source.extension = false;
-        // }
     });
 
     if(bestChoiceSource){
         // todo pick container of source with miner
-        if (this.memory.role == 'builder') {
-            console.log(this+ ' choosing '+bestChoiceSource.source.id);
-            console.log(JSON.stringify(bestChoiceSource.source));
-            console.log(bestChoiceSource.source);
-            console.log(bestChoiceSource.source.structureType);
-        }
-
-        // if (bestChoiceSource.extension) {
-        //     creep.memory.targetStorageSource=bestChoiceSource.source.id;
-        //     delete creep.memory.targetSource;
-        // }
-
         if (bestChoiceSource.source) {
             if (bestChoiceSource.source.structureType && _.contains(STORAGE_TYPES, bestChoiceSource.source.structureType)) {
                 this.memory.targetStorageSource=bestChoiceSource.source.id;
