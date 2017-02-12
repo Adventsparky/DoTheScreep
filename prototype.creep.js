@@ -72,9 +72,11 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
     if(bestChoiceSource){
         // todo pick container of source with miner
-        // console.log(creep+ ' choosing '+bestChoiceSource.source.id);
-        // console.log(JSON.stringify(bestChoiceSource.source));
-        // console.log(bestChoiceSource.source.container);
+        if (this.memory.role == 'builder') {
+            console.log(creep+ ' choosing '+bestChoiceSource.source.id);
+            console.log(JSON.stringify(bestChoiceSource.source));
+            console.log(bestChoiceSource.source.container);
+        }
 
         // if (bestChoiceSource.extension) {
         //     creep.memory.targetStorageSource=bestChoiceSource.source.id;

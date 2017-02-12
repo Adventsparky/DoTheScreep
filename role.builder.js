@@ -35,7 +35,7 @@ const roleBuilder = {
                 creep.depositEnergy(roomInfo);
             } else {
                 // collect energy
-                if (!creep.memory.targetSource) {
+                if (!creep.memory.targetSource && !creep.memory.targetStorageSource) {
                     creep.findNearestOrLeastBusySource(roomInfo);
                 }
                 delete creep.memory.targetDropoff;
