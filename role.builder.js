@@ -24,7 +24,13 @@ const roleBuilder = {
             creep.buildNearestStructure(roomInfo);
         }
         else {
-            if(creep.carry.energy == creep.carryCapacity) {
+            let targetHasRunOut=false;
+            if (creep.memory.targetSource || creep.memory.targetStorageSource) {
+                if (creep.collectEnergy() == ERR_NOT_ENOUGH_RESOURCES ) {
+                    targetHasRunOut=true;
+                }
+            }
+            if(creep.carry.energy == creep.carryCapacity || targetHasRunOut) {
                 // drop it off
                 // Find new drop off
                 if(!creep.memory.targetDropoff) {
