@@ -41,7 +41,9 @@ function planRoads(roomInfo) {console.log('plan roads');
                     roomCallback: roomCost
                 });
 
+            console.log(JSON.stringify(results));
             console.log(results);
+            console.log(results.incomplete);
             if(!results.incomplete) {
 
                 _.each(results.path, function(pos) {
