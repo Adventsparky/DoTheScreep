@@ -102,7 +102,7 @@ module.exports = {
 
                             if (!foundContainer) {
                                 console.log('we no find container sir');
-                                let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
+                                let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
 
                                 console.log(buildPos);
 

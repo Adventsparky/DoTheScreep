@@ -189,7 +189,7 @@ module.exports = {
 
         return container;
     },
-    locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos) {
+    locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos, posToCheckProximity) {
         // console.log('Check '+pos+' in '+room);
         let emptySpacePosition;
 
@@ -198,7 +198,6 @@ module.exports = {
         let maxX=pos.x + 1;
         let minY=pos.y - 1;
         let maxY=pos.y + 1;
-        let centreSum=Math.abs(pos.x+pos.y);
 
         let scanResults = Game.rooms[pos.roomName].lookAtArea(this.safeCoord(minY, 2), this.safeCoord(minX, 2),
             this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
@@ -219,7 +218,7 @@ module.exports = {
                                     potentialEmptySpace = thing;
                                 } else{
                                     console.log(potentialEmptySpace.y);
-                                    if ((Math.abs(thing.x+thing.y) - centreSum) < (Math.abs(potentialEmptySpace.x+potentialEmptySpace.y) - centreSum)) {
+                                    if (thing.getRangeTo(posToCheckProximity) < potentialEmptySpace.getRangeTo(posToCheckProximity)) {
                                         potentialEmptySpace = thing;
                                     }
                                 }
