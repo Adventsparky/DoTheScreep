@@ -210,7 +210,7 @@ module.exports = {
                     let type=getTypeFromLookAtAreaResult(thing);
 
                     if (thing && type) {
-                        if (thing.x == pos.x && thing.y == pos.y) {
+                        if (thing.x != pos.x && thing.y != pos.y) {
                             if (!_.contains(nonBuildableTypes, type)) {
                                 potentialEmptySpace=thing;
                             }
