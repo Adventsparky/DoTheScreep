@@ -198,6 +198,7 @@ module.exports = {
         let maxX=pos.x + 1;
         let minY=pos.y - 1;
         let maxY=pos.y + 1;
+        let centreSum=Math.abs(pos.x+pos.y);
 
         let scanResults = Game.rooms[pos.roomName].lookAtArea(this.safeCoord(minY, 2), this.safeCoord(minX, 2),
             this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
@@ -212,7 +213,13 @@ module.exports = {
                     if (thing && type) {
                         if (thing.x != pos.x && thing.y != pos.y) {
                             if (!_.contains(nonBuildableTypes, type)) {
-                                potentialEmptySpace=thing;
+                                if (!potentialEmptySpace) {
+                                    potentialEmptySpace = thing;
+                                } else{
+                                    if ((Math.abs(thing.x+thing.y) - centreSum) < (Math.abs(potentialEmptySpace.pos.x+potentialEmptySpace.pos.y) - centreSum)) {
+                                        potentialEmptySpace = thing;
+                                    }
+                                }
                             }
                         }
                     }
