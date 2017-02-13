@@ -217,7 +217,7 @@ module.exports = {
                                     console.log('set the space')
                                     potentialEmptySpace = thing;
                                 } else{
-                                    console.log(potentialEmptySpace.y);
+                                    console.log(thing.getRangeTo(posToCheckProximity));
                                     if (thing.getRangeTo(posToCheckProximity) < potentialEmptySpace.getRangeTo(posToCheckProximity)) {
                                         potentialEmptySpace = thing;
                                     }
