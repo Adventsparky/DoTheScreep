@@ -90,7 +90,7 @@ module.exports = {
                             console.log('Ok we need a container');
                             let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
                             _.each(thingsBeside, function(thing){
-                                console.log(thing);
+                                console.log(JSON.stringify(thing));
                             });
                             let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
                             let closestContainer = _.filter(sourcesByDistance, function (structure) {
