@@ -191,7 +191,7 @@ module.exports = {
     },
     locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos, posToCheckProximity) {
         // console.log('Check '+pos+' in '+room);
-        let emptySpacePosition;
+        let emptySpacePosition=null;
 
         // Checking the immediate spaces so start top right
         let minX=pos.x - 1;
@@ -203,7 +203,6 @@ module.exports = {
             this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
 
         if (scanResults) {
-            let potentialEmptySpace=null;
             _.each(scanResults, function(thing){
                 if (thing) {
                     let type=getTypeFromLookAtAreaResult(thing);
@@ -212,14 +211,15 @@ module.exports = {
                         if (thing.x != pos.x && thing.y != pos.y) {
                             if (!_.contains(nonBuildableTypes, type)) {
                                 console.log('nothing built here yet');
-                                if (!potentialEmptySpace) {
+                                let checkPos=new RoomPosition(thing.x, thing.y, pos.roomName);
+                                if (!emptySpacePosition) {
                                     console.log('set the space')
-                                    potentialEmptySpace = thing;
+                                    emptySpacePosition = checkPos;
                                 } else{
-                                    console.log(JSON.stringify(thing));
-                                    console.log(thing.getRangeTo(posToCheckProximity));
-                                    if (thing.getRangeTo(posToCheckProximity) < potentialEmptySpace.getRangeTo(posToCheckProximity)) {
-                                        potentialEmptySpace = thing;
+                                    console.log(JSON.stringify(checkPos));
+                                    console.log(checkPos.getRangeTo(posToCheckProximity));
+                                    if (checkPos.getRangeTo(posToCheckProximity) < emptySpacePosition.getRangeTo(posToCheckProximity)) {
+                                        emptySpacePosition = checkPos;
                                     }
                                 }
                             }
@@ -227,10 +227,6 @@ module.exports = {
                     }
                 }
             });
-
-            if (potentialEmptySpace) {
-                emptySpacePosition = new RoomPosition(potentialEmptySpace.x, potentialEmptySpace.y, pos.roomName);
-            }
         }
 
         console.log('done');
