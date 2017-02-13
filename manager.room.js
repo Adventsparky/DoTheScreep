@@ -87,7 +87,7 @@ module.exports = {
                 if (Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
                     if (!source.container) {
                         try {
-                            console.log('Ok we need a container');
+                            console.log(' -- Ok we need a container --');
                             let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
                             let foundContainer = false;
                             _.each(thingsBeside, function(thing){
