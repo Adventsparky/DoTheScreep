@@ -87,7 +87,7 @@ module.exports = {
                 if (Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
                     if (!source.container) {
                         try {
-                            // console.log('Ok we are harvesting away not a bother');
+                            console.log('Ok we need a container');
                             let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
                             let closestContainer = _.filter(sourcesByDistance, function (structure) {
                                 return structure.structureType == STRUCTURE_CONTAINER;
