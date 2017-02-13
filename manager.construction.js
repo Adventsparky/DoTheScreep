@@ -3,10 +3,9 @@ const OBSTACLE_OBJECT_TYPES_NO_CREEP = ["spawn", "wall", "source", "constructedW
 let roomCostCache = {};
 
 function roomCost(room) {
-    if(roomCostCache[room.name]) {
-        return roomCostCache[room.name];
+    if(roomCostCache[room]) {
+        return roomCostCache[room];
     }
-    console.log(room);
     if(room) {
         let costs = new PathFinder.CostMatrix;
 
