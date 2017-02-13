@@ -89,48 +89,24 @@ module.exports = {
                         try {
                             console.log('Ok we need a container');
                             let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
+                            let foundContainer = false;
                             _.each(thingsBeside, function(thing){
                                 if(thing.type == 'structure') {
                                     let typeOfThing = thing['structure'];
                                     console.log(typeOfThing);
-                                    // return typeOfThing.structureType;
+                                    if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
+                                      foundContainer=true;
+                                    };
                                 };
                             });
-                            let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
-                            let closestContainer = _.filter(sourcesByDistance, function (structure) {
-                                return structure.structureType == STRUCTURE_CONTAINER;
-                            });
 
-                            // console.log(closestContainer[0]);
-                            if (!closestContainer ||
-                                closestContainer == undefined ||
-                                closestContainer[0] == undefined ||
-                                closestContainer[0].pos.x < (source.pos.x - 1) || closestContainer[0].pos.x > (source.pos.x + 1) ||
-                                closestContainer[0].pos.y < (source.pos.y - 1) || closestContainer[0].pos.y > (source.pos.y + 1)) {
+                            if (!foundContainer) {
+                                let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
 
-                                let constructionsByDistance = _.sortBy(availableConstructions, c => source.pos.getRangeTo(c));
-                                let nearestSite = _.filter(constructionsByDistance, function (site) {
-                                    return site.structureType == STRUCTURE_CONTAINER;
-                                });
-
-                                if (!nearestSite ||
-                                    nearestSite == undefined ||
-                                    closestContainer[0] == undefined ||
-                                    nearestSite[0].pos.x < (source.pos.x - 1) || nearestSite[0].pos.x > (source.pos.x + 1) ||
-                                    nearestSite[0].pos.y < (source.pos.y - 1) || nearestSite[0].pos.y > (source.pos.y + 1)) {
-
-                                    // todo make up a "closest to mainSpawn" function for the  passable xy at a source
-                                    let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
-
-                                    if (buildPos) {
-                                        // console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
-                                        // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                                    }
+                                if (buildPos) {
+                                    console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
+                                    // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
                                 }
-
-                            } else {
-                                // console.log('set container stuff');
-                                source.container = {} = closestContainer[0];
                             }
                         } catch (e) {
                             // console.log('static check'+e);
