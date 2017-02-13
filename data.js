@@ -233,6 +233,8 @@ module.exports = {
             }
         }
 
+        console.log('done');
+        console.log(emptySpacePosition);
         return emptySpacePosition;
     }
 };
