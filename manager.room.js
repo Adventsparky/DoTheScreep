@@ -88,6 +88,8 @@ module.exports = {
                     if (!source.container) {
                         try {
                             console.log('Ok we need a container');
+                            let beside = thisRoom.lookForAtArea(STRUCTURE_CONTAINER, source.pos.y-1, source.pos.y-1, source.pos.y+1, source.pos.x+1, true);
+                            console.log(beside);
                             let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
                             let closestContainer = _.filter(sourcesByDistance, function (structure) {
                                 return structure.structureType == STRUCTURE_CONTAINER;
