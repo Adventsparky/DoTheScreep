@@ -91,7 +91,7 @@ module.exports = {
                             let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
                             _.each(thingsBeside, function(thing){
                                 if(thing.type == 'structure') {
-                                    let typeOfThing = thing[type];
+                                    let typeOfThing = thing['structure'];
                                     console.log(typeOfThing);
                                     // return typeOfThing.structureType;
                                 };
