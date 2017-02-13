@@ -40,16 +40,13 @@ function planRoads(roomInfo) {console.log('plan roads');
                     swampCost: 10,
                     roomCallback: roomCost
                 });
+
+            console.log(results);
             if(!results.incomplete) {
-                let lastPos;
-                results.path.forEach(function(pos) {
+
+                _.each(results.path, function(pos) {
                     room.createConstructionSite(pos, STRUCTURE_ROAD);
-                    lastPos = pos;
                 });
-                if(lastPos) {
-                    room.createConstructionSite(lastPos, STRUCTURE_CONTAINER);
-                    room.memory.sources[source.id].containerPos = lastPos;
-                }
             }
         })
     });
