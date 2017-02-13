@@ -9,9 +9,6 @@ function roomCost(roomName) {
     let room=Game.rooms[roomName];
     if(room) {
         let costs = new PathFinder.CostMatrix;
-        console.log('---');
-        console.log(room);
-        console.log(JSON.stringify(room));
         room.find(FIND_STRUCTURES).forEach(function (structure) {
             if(structure.structureType == STRUCTURE_ROAD) {
                 costs.set(structure.pos.x, structure.pos.y, 1);
@@ -42,9 +39,6 @@ function planRoads(roomInfo) {console.log('plan roads');
                     roomCallback: roomCost
                 });
 
-            console.log(JSON.stringify(results));
-            console.log(results);
-            console.log(results.incomplete);
             if(!results.incomplete) {
 
                 results.path.forEach(function(pos) {
@@ -57,8 +51,8 @@ function planRoads(roomInfo) {console.log('plan roads');
 
 module.exports = {
     process: function (roomInfo) {
-        // if(Game.time % 100 == 0) {
+        if(Game.time % 100 == 0) {
             planRoads(roomInfo);
-        // }
+        }
     }
 };
