@@ -23,7 +23,7 @@ function roomCost(roomInfo) {
     return false;
 }
 
-function planRoads(roomInfo) {
+function planRoads(roomInfo) {console.log('plan roads');
     let roomName=roomInfo.name;
     let room=Game.rooms[roomName];
     let spawns = room.find(FIND_MY_SPAWNS);
@@ -60,7 +60,7 @@ function planRoads(roomInfo) {
 module.exports = {
     process: function (roomInfo) {
         // if(Game.time % 100 == 0) {
-            planRoads(roomInfo)
+            planRoads(roomInfo);
         // }
     }
 };
