@@ -26,13 +26,13 @@ function roomCost(roomInfo) {
 function planRoads(roomInfo) {console.log('plan roads');
     let roomName=roomInfo.name;
     let room=Game.rooms[roomName];
-    roomInfo.spawns.forEach(function(spawn) {
+    _.each(roomInfo.spawns, function(spawn) {
 
         // utils.spacesAround(room,spawn.pos,function (space) {
         //     room.createConstructionSite(space, STRUCTURE_ROAD);
         // });
 
-        roomInfo.sources.forEach(function (source) {
+        _.each(roomInfo.availableSources, function (source) {
             let results = PathFinder.search(spawn.pos,
                 { pos: source.pos, range: 1 },
                 {
