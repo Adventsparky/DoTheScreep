@@ -6,7 +6,6 @@ function roomCost(room) {
     if(roomCostCache[room.name]) {
         return roomCostCache[room.name];
     }
-    let room = Game.rooms[room.name];
     if(room) {
         let costs = new PathFinder.CostMatrix;
 
