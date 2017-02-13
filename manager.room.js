@@ -84,40 +84,38 @@ module.exports = {
                 }
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
-                if (Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
-                    if (!source.container) {
-                        try {
-                            console.log(' -- Ok we need a container --');
-                            let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
-                            let foundContainer = false;
-                            _.each(thingsBeside, function(thing){
-                                if(thing.type == 'structure') {
-                                    let typeOfThing = thing['structure'];
-                                    console.log(typeOfThing);
-                                    if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
-                                      foundContainer=true;
-                                    };
+                if (!source.container && Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
+                    try {
+                        console.log(' -- Ok we need a container --');
+                        let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
+                        let foundContainer = false;
+                        _.each(thingsBeside, function(thing){
+                            if(thing.type == 'structure') {
+                                let typeOfThing = thing['structure'];
+                                console.log(typeOfThing);
+                                if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
+                                  foundContainer=true;
                                 };
-                            });
+                            };
+                        });
 
-                            if (!foundContainer) {
-                                console.log('we no find container sir');
-                                let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
+                        if (!foundContainer) {
+                            console.log('we no find container sir');
+                            let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
 
-                                if (buildPos) {
-                                    console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
-                                    // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                                }
+                            if (buildPos) {
+                                console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
+                                thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
                             }
-                        } catch (e) {
-                            // console.log('static check'+e);
                         }
+                    } catch (e) {
+                        // console.log('static check'+e);
                     }
                 }
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
                 if (sourceContainer) {
-                    source.container = {} = sourceContainer;
+                    source.container = sourceContainer.id;
                 }
             }
         }
