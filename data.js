@@ -218,7 +218,7 @@ module.exports = {
                                     console.log('set the space')
                                     potentialEmptySpace = thing;
                                 } else{
-                                    console.log(potentialEmptySpace.pos.y);
+                                    console.log(potentialEmptySpace.y);
                                     if ((Math.abs(thing.x+thing.y) - centreSum) < (Math.abs(potentialEmptySpace.x+potentialEmptySpace.y) - centreSum)) {
                                         potentialEmptySpace = thing;
                                     }
