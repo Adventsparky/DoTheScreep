@@ -8,7 +8,9 @@ function roomCost(room) {
     }
     if(room) {
         let costs = new PathFinder.CostMatrix;
-
+        console.log('---');
+        console.log(room);
+        console.log(JSON.stringify(room));
         room.find(FIND_STRUCTURES).forEach(function (structure) {
             if(structure.structureType == STRUCTURE_ROAD) {
                 costs.set(structure.pos.x, structure.pos.y, 1);
