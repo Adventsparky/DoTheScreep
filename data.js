@@ -202,7 +202,6 @@ module.exports = {
         let scanResults = Game.rooms[pos.roomName].lookAtArea(this.safeCoord(minY, 2), this.safeCoord(minX, 2),
             this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
 
-        console.log(scanResults);
         if (scanResults) {
             let potentialEmptySpace=null;
             _.each(scanResults, function(thing){
@@ -217,6 +216,7 @@ module.exports = {
                                     console.log('set the space')
                                     potentialEmptySpace = thing;
                                 } else{
+                                    console.log(thing);
                                     console.log(thing.getRangeTo(posToCheckProximity));
                                     if (thing.getRangeTo(posToCheckProximity) < potentialEmptySpace.getRangeTo(posToCheckProximity)) {
                                         potentialEmptySpace = thing;
