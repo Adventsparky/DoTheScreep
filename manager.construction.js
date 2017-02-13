@@ -46,6 +46,14 @@ function planRoads(roomInfo) {console.log('plan roads');
                 });
             }
         })
+
+        roomInfo.extensions.forEach(function (extenstion) {
+            let pos=extenstion.pos;
+            room.createConstructionSite(pos.x-1, pos.y, STRUCTURE_ROAD);
+            room.createConstructionSite(pos.x+1, pos.y, STRUCTURE_ROAD);
+            room.createConstructionSite(pos.x, pos.y-1, STRUCTURE_ROAD);
+            room.createConstructionSite(pos.x, pos.y+1, STRUCTURE_ROAD);
+        })
     });
 }
 

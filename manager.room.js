@@ -26,6 +26,16 @@ module.exports = {
             structure.structureType != STRUCTURE_WALL
         });
 
+        // FULL EXTENSIONS
+        roomInfo.extensions = {} = _.filter(myAvailableStructures, function (structure) {
+            return structure.structureType == STRUCTURE_EXTENSION
+        });
+
+        // FULL EXTENSIONS
+        roomInfo.fullExtensions = {} = _.filter(roomInfo.extensions, function (structure) {
+            return structure.energy == structure.energyCapacity
+        });
+
         // SITES
         let availableConstructions = roomInfo.constructionsites = thisRoom.find(FIND_CONSTRUCTION_SITES);
 
@@ -86,13 +96,11 @@ module.exports = {
 
                 if (!source.container && Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
                     try {
-                        console.log(' -- Ok we need a container --');
                         let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
                         let foundContainer = false;
                         _.each(thingsBeside, function(thing){
                             if(thing.type == 'structure') {
                                 let typeOfThing = thing['structure'];
-                                console.log(typeOfThing);
                                 if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
                                   foundContainer=true;
                                 };
@@ -100,11 +108,9 @@ module.exports = {
                         });
 
                         if (!foundContainer) {
-                            console.log('we no find container sir');
                             let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
 
                             if (buildPos) {
-                                console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
                                 thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
                             }
                         }
@@ -119,11 +125,6 @@ module.exports = {
                 }
             }
         }
-
-        // FULL EXTENSIONS
-        roomInfo.fullExtensions = {} = _.filter(myAvailableStructures, function (structure) {
-            return structure.structureType == STRUCTURE_EXTENSION && structure.energy == structure.energyCapacity
-        });
 
         // ENERGY CAPACITY
         roomInfo.energyCapacity = thisRoom.energyCapacityAvailable;
