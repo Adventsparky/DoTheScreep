@@ -2,11 +2,12 @@ const OBSTACLE_OBJECT_TYPES_NO_CREEP = ["spawn", "wall", "source", "constructedW
 
 let roomCostCache = {};
 
-function roomCost(roomName) {
+function roomCost(roomInfo) {
+    let roomName=roomInfo.name;
     if(roomCostCache[roomName]) {
         return roomCostCache[roomName];
     }
-    let room = Game.rooms[roomName]
+    let room = Game.rooms[roomName];
     if(room) {
         let costs = new PathFinder.CostMatrix;
 
@@ -22,7 +23,9 @@ function roomCost(roomName) {
     return false;
 }
 
-function planRoads(room) {
+function planRoads(roomInfo) {
+    let roomName=roomInfo.name;
+    let room=Game.rooms[roomName];
     let spawns = room.find(FIND_MY_SPAWNS);
     spawns.forEach(function(spawn) {
 
@@ -55,9 +58,9 @@ function planRoads(room) {
 }
 
 module.exports = {
-    process: function (room) {
+    process: function (roomInfo) {
         // if(Game.time % 100 == 0) {
-            planRoads(room)
+            planRoads(roomInfo)
         // }
     }
 };

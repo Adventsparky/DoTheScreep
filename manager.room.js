@@ -3,6 +3,7 @@ const Tasks=require('tasks');
 const Query=require('data');
 const RoleManager=require('manager.role');
 const Towers=require('manager.towers');
+const Construction=require('manager.construction');
 
 module.exports = {
     process : function (roomId) {
@@ -208,7 +209,7 @@ module.exports = {
             let homeRoom = creep.memory.home;
             if (!homeRoom) {
                 creep.memory.home = creep.room.name;
-            };
+            }
             return homeRoom && homeRoom == roomInfo.name;
         });
 
@@ -227,6 +228,7 @@ module.exports = {
 
         if (roomInfo.mainSpawn) {
             Towers.process(roomInfo);
+            Construction.process(roomInfo);
             Tasks.performCreepleCensusByRole(roomInfo);
             // Tasks.outputPopulationInfoPerRoom(roomInfo);
         }
