@@ -101,6 +101,7 @@ module.exports = {
                             });
 
                             if (!foundContainer) {
+                                console.log('we no find container sir');
                                 let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
 
                                 if (buildPos) {
