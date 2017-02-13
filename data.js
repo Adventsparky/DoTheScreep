@@ -213,7 +213,9 @@ module.exports = {
                     if (thing && type) {
                         if (thing.x != pos.x && thing.y != pos.y) {
                             if (!_.contains(nonBuildableTypes, type)) {
+                                console.log('nothing built here yet');
                                 if (!potentialEmptySpace) {
+                                    console.log('set the space')
                                     potentialEmptySpace = thing;
                                 } else{
                                     console.log(potentialEmptySpace.pos.y);
