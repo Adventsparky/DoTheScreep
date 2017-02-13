@@ -33,11 +33,14 @@ module.exports = {
         let myAvailableConstructions = roomInfo.myconstructionsites = thisRoom.find(FIND_MY_CONSTRUCTION_SITES);
 
         // SPAWNS
-        roomInfo.mainSpawn = _.filter(myAvailableStructures, function (structure) {
+        roomInfo.spawns = _.filter(myAvailableStructures, function (structure) {
             if (structure.structureType == STRUCTURE_SPAWN) {
                 return structure;
             }
-        })[0];
+        });
+
+        // MAIN SPAWN
+        roomInfo.mainSpawn = roomInfo.spawns[0];
 
         // CONTROLLER
         roomInfo.controller = _.filter(myAvailableStructures, function (structure) {
