@@ -104,9 +104,6 @@ module.exports = {
                                 console.log('we no find container sir');
                                 let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
 
-                                console.log(buildPos);
-
-
                                 if (buildPos) {
                                     console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
                                     // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);

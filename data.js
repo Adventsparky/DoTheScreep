@@ -210,14 +210,10 @@ module.exports = {
                     if (thing && type) {
                         if (thing.x != pos.x && thing.y != pos.y) {
                             if (!_.contains(nonBuildableTypes, type)) {
-                                console.log('nothing built here yet');
                                 let checkPos=new RoomPosition(thing.x, thing.y, pos.roomName);
                                 if (!emptySpacePosition) {
-                                    console.log('set the space')
                                     emptySpacePosition = checkPos;
                                 } else{
-                                    console.log(JSON.stringify(checkPos));
-                                    console.log(checkPos.getRangeTo(posToCheckProximity));
                                     if (checkPos.getRangeTo(posToCheckProximity) < emptySpacePosition.getRangeTo(posToCheckProximity)) {
                                         emptySpacePosition = checkPos;
                                     }
@@ -229,8 +225,6 @@ module.exports = {
             });
         }
 
-        console.log('done');
-        console.log(emptySpacePosition);
         return emptySpacePosition;
     }
 };
