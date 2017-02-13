@@ -216,6 +216,7 @@ module.exports = {
                                 if (!potentialEmptySpace) {
                                     potentialEmptySpace = thing;
                                 } else{
+                                    console.log(potentialEmptySpace.pos.y);
                                     if ((Math.abs(thing.x+thing.y) - centreSum) < (Math.abs(potentialEmptySpace.pos.x+potentialEmptySpace.pos.y) - centreSum)) {
                                         potentialEmptySpace = thing;
                                     }
