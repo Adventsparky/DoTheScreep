@@ -31,18 +31,6 @@ module.exports = {
     /*
      * UTILITY
      */
-    creepBodyPartCost: function() {
-        return {
-            "move": 50,
-            "carry": 50,
-            "work": 100,
-            "heal": 250,
-            "claim": 600,
-            "tough": 10,
-            "attack": 80,
-            "ranged_attack": 150
-        };
-    },
     countRolesInRoom: function(checkRoom, checkRole) {
         if(checkRoom && checkRoom.creeps && checkRoom.creeps[0]){
             return _.filter(checkRoom.creeps, function(creep) {

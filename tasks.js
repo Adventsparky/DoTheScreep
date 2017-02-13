@@ -1,5 +1,5 @@
 const Query=require('data');
-const RoleManager=require('role.manager');
+const RoleManager=require('manager.role');
 
 module.exports = {
 

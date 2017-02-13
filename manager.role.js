@@ -17,7 +17,8 @@ const creepBodyPartCost = function() {
         "attack": 80,
         "ranged_attack": 150
     };
-}
+};
+
 function pricePerPartsBlock(role) {
     let cost = 0;
     _.each(role.parts, function (part) {
