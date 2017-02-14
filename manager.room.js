@@ -130,7 +130,8 @@ module.exports = {
                     let roleName = 'staticHarvester';
                     console.log(Tasks.countCreepsForRole(roomInfo, 'staticHarvester'));
                     console.log(Tasks.countCreepsQueuedForSpawn(roomInfo, roleName));
-                    console.log(Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + Tasks.countCreepsQueuedForSpawn(roomInfo, roleName));
+                    console.log('Total statics in action: '+(Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)));
+                    console.log('Total sources needing attention: '+roomInfo.availableSources.length);
                     if (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner]
                         && ((Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length)) {
                         console.log('We need to spawn a static for source.id');
