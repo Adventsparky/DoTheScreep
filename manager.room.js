@@ -130,9 +130,10 @@ module.exports = {
 
                 if (source.container && resourcesAvailableForStatic) {
                     console.log('Source '+source.id+' has container and we have resources');
-                    if (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner]) {
+                    let staticSpawner = {'room': roomInfo.name, 'role':'staticHarvester'};
+                    if (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner] && !_.contains(Memory.highPrioritySpawns, staticSpawner)) {
                         console.log('We need to spawn a static for source.id')
-                        // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
+                        Memory.highPrioritySpawns.push(staticSpawner);
                     }
                 }
             }
