@@ -270,7 +270,7 @@ module.exports = {
 
                     if (Game.creeps && Game.creeps.length) {
                         creepleCountForRole = _.filter(Game.creeps, function (creep) {
-                            return creep.home == roomInfo.name && creep.memory.role == role.role;
+                            return creep.memory.home == roomInfo.name && creep.memory.role == role.role;
                         }).length;
                     }
 
