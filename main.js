@@ -12,6 +12,10 @@ module.exports.loop = function () {
         // RIP in pieces
         Utils.clearMemoryOfDeadCreeps();
 
+        if (Memory.highPrioritySpawns == undefined) {
+            Memory.highPrioritySpawns=[];
+        }
+
         _.each(Game.rooms, function(room) {
             RoomManager.process(room.name);
         });

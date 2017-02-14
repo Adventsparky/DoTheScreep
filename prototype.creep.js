@@ -80,7 +80,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     } else {
         console.log('Could not find a best choice source?? What??');
     }
-}
+};
 
 Creep.prototype.collectEnergy = function() {
     let harvestResult=OK;
@@ -102,7 +102,7 @@ Creep.prototype.collectEnergy = function() {
         }
     }
     return harvestResult;
-}
+};
 
 Creep.prototype.depositEnergy = function(roomInfo) {
     if(this.memory.targetDropoff) {
@@ -122,7 +122,7 @@ Creep.prototype.depositEnergy = function(roomInfo) {
             delete this.targetDropoff;
         }
     }
-}
+};
 
 Creep.prototype.findBestEnergyDump = function(roomInfo) {
     // console.log(creep);
@@ -184,13 +184,13 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
     } else{
         this.say('no dumps');
     }
-}
+};
 
 Creep.prototype.upgradeControllerInRoom = function() {
     if(this.room.controller && this.upgradeController(this.room.controller) == ERR_NOT_IN_RANGE) {
         this.moveTo(this.room.controller);
     }
-}
+};
 
 Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = function(roomInfo) {
     let sites = roomInfo.myconstructionsites;
@@ -231,7 +231,7 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
     } else {
         // creep.say('no builds');
     }
-}
+};
 
 Creep.prototype.buildNearestStructure = function(roomInfo) {
     if(this.memory.targetConstruction) {
@@ -251,7 +251,7 @@ Creep.prototype.buildNearestStructure = function(roomInfo) {
             this.repairNearestStructure();
         }
     }
-}
+};
 
 Creep.prototype.repairNearestStructure = function() {
     // Prioritise towers
@@ -303,4 +303,4 @@ Creep.prototype.repairNearestStructure = function() {
         this.say('Nothing to repair, I\'ll dump');
         // this.findBestEnergyDump(creep);
     }
-}
+};

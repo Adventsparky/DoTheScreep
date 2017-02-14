@@ -219,7 +219,20 @@ module.exports = {
         // RUN CREEPS
         _.each(creeps, function(creep) {
             if (creep.memory.home && creep.memory.home == thisRoom.name) {
-                if (creep.memory.role !== undefined) {
+                if (creep.memory.p45 && (roomInfo.gravePos || roomInfo.mainSpawn)) {
+                    let targetPos=null;
+                    if (roomInfo.gravePos) {
+                        targetPos=roomInfo.gravePos;
+                        creep.moveTo(targetPos);
+                        if (creep.pos.x == targetPos.x && creep.pos.y == targetPos.y) {
+                            if (roomInfo.mainSpawn) {
+                                roomInfo.mainSpawn.recycleCreep(creep);
+                            }
+                        }
+                    } else if (roomInfo.mainSpawn) {
+                        creep.moveTo(roomInfo.mainSpawn.pos);
+                    }
+                } else if (creep.memory.role !== undefined) {
                     RoleManager[creep.memory.role].run(creep, roomInfo);
                 } else {
                     console.log('wtf no defined role');

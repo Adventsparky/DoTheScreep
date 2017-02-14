@@ -261,6 +261,20 @@ module.exports = {
                 roomInfo.mainSpawn.createCreep(claimerRole.parts, claimerRole.name, {role: claimerRole.role});
             }
 
+            if (roomInfo.mainSpawn) {
+                _.each(Memory.highPrioritySpawns, function (spawnTarget) {
+                    console.log(' - - - ');
+                    console.log(spawnTarget.role);
+                    console.log(spawnTarget.room);
+                    if (spawnTarget.room == roomInfo.name) {
+                        if (RoleManager.hasOwnProperty(spawnTarget.role)) {
+                            let role = RoleManager[spawnTarget.role];
+                            console.log('Spawn ' + role + ' in ' + roomInfo.name);
+                        }
+                    }
+                });
+            }
+
             for(let roleName in RoleManager) {
                 if(RoleManager.hasOwnProperty(roleName)) {
                     let role=RoleManager[roleName];
