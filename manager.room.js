@@ -95,6 +95,7 @@ module.exports = {
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
+                console.log(sourceContainer);
                 if (sourceContainer) {
                     console.log('Set container on source');
                     source.container = sourceContainer.id;
