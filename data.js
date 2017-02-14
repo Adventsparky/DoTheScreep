@@ -167,7 +167,7 @@ module.exports = {
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
         _.each(availableStructures, function (structure) {
-            if (structure.pos.isNearTo(pos)) {
+            if (structure.structureType == STRUCTURE_CONTAINER && structure.pos.isNearTo(pos)) {
                 // we have a container
                 return structure;
             }
