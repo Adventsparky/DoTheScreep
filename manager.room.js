@@ -94,7 +94,7 @@ module.exports = {
                 }
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
-                if (!source.container && Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
+                if (!source.container && Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom)) {
                     try {
                         let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
                         let foundContainer = false;

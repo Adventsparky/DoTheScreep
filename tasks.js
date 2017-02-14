@@ -227,23 +227,32 @@ module.exports = {
 
         if(roomInfo.mainSpawn) {
 
-            if (this.checkIfWeAreReadyForStaticHarvesters(roomInfo)) {
-                // Build the containers we're going to need
-                // _.each(room.availableSources, function(source) {
-                //    // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
-                //     if (source.container && !source.dedicatedMiner) {
-                //         // Whatevs, cool bruv
-                //     } else if (source.container && !source.dedicatedMiner) {
-                //         // This one is good to go, need to get a miner on it
-                //     } else if (source.container && source.dedicatedMiner) {
-                //         // Check is he alive
-                //     } else if (!source.container) {
-                //         // We need to at least be building a container here
-                //         this.check
-                //     }
-                //
-                //
-                // });
+            if (this.doWeHaveTheEnergyAndPopulationForStaticHarvesters(roomInfo)) {
+                let timeToStatic=true;
+                _.each(room.availableSources, function(source) {
+
+                    if (!source.container) {
+                        timeToStatic=false;
+                    }
+
+                   // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
+                   //  if (!source.container && !source.dedicatedMiner) {
+                   //      // Whatevs, cool bruv
+                   //  } else if (source.container && !source.dedicatedMiner) {
+                   //      // This one is good to go, need to get a miner on it
+                   //  } else if (source.container && source.dedicatedMiner) {
+                   //      // Check is he alive
+                   //  } else if (!source.container) {
+                   //      // We need to at least be building a container here
+                   //      this.check
+                   //  }
+
+
+                });
+                if (timeToStatic) {
+                    console.log('Queueing a static!!');
+                    Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
+                }
                 // room.staticHarvesterLimit=room.availableSources.length;
             } else{
                 // room.staticHarvesterLimit=0;
@@ -310,7 +319,7 @@ module.exports = {
 
         return false;
     },
-    checkIfWeAreReadyForStaticHarvesters : function(roomInfo) {
+    doWeHaveTheEnergyAndPopulationForStaticHarvesters : function(roomInfo) {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
         if(roomInfo.energyCapacityAvailable > RoleManager['staticHarvester'].pricePerBlock * 1.3){ // 130% capacity, just for some wiggle room
