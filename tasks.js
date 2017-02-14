@@ -324,7 +324,7 @@ module.exports = {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
 
         if(roomInfo.energyCapacityAvailable > RoleManager['staticHarvester'].pricePerBlock * 1.3){ // 130% capacity, just for some wiggle room
-            // console.log('Ready for big bastard harvesters');
+            console.log('Ready for big bastard harvesters');
             for(let roleName in RoleManager) {
                 if(RoleManager.hasOwnProperty(roleName)) {
                     let role=RoleManager[roleName];
