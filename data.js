@@ -168,7 +168,7 @@ module.exports = {
         // todo fix to use lookAtArea
         _.each(availableStructures, function (structure) {
             if (structure.structureType == STRUCTURE_CONTAINER && structure.pos.isNearTo(pos)) {
-                // we have a container
+                console.log('We have a container');
                 return structure;
             }
         });
