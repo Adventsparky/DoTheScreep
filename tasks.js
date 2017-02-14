@@ -231,6 +231,7 @@ module.exports = {
                 let timeToStatic=true;
                 _.each(room.availableSources, function(source) {
 
+                    console.log(JSON.stringify(source));
                     if (!source.container) {
                         timeToStatic=false;
                     }
