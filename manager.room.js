@@ -94,7 +94,8 @@ module.exports = {
                 }
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
-                if (!source.container && Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom)) {
+                let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
+                if (!source.container && resourcesAvailableForStatic) {
                     try {
                         let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
                         let foundContainer = false;
@@ -117,6 +118,11 @@ module.exports = {
                     } catch (e) {
                         // console.log('static check'+e);
                     }
+                }
+
+                if (source.container && resourcesAvailableForStatic && (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner])) {
+                    console.log('We need to spawn a static for source.id')
+                    // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
                 }
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);

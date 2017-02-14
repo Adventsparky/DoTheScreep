@@ -252,7 +252,7 @@ module.exports = {
                 });
                 if (timeToStatic) {
                     console.log('Queueing a static!!');
-                    Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
+                    // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
                 }
                 // room.staticHarvesterLimit=room.availableSources.length;
             } else{
