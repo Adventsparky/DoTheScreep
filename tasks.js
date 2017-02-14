@@ -266,13 +266,9 @@ module.exports = {
                     let role=RoleManager[roleName];
                     let creepName=role.name();
 
-                    let creepleCountForRole = 0;
-
-                    if (Game.creeps && Game.creeps.length) {
-                        creepleCountForRole = _.filter(Game.creeps, function (creep) {
-                            return creep.memory.home == roomInfo.name && creep.memory.role == role.role;
-                        }).length;
-                    }
+                    let creepleCountForRole = _.filter(Game.creeps, function (creep) {
+                        return creep.memory.home == roomInfo.name && creep.memory.role == role.role;
+                    }).length;
 
                     if (creepleCountForRole === undefined) {
                         creepleCountForRole = 0;
