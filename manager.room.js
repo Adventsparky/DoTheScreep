@@ -121,9 +121,12 @@ module.exports = {
                     }
                 }
 
-                if (source.container && resourcesAvailableForStatic && (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner])) {
-                    console.log('We need to spawn a static for source.id')
-                    // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
+                if (source.container && resourcesAvailableForStatic) {
+                    console.log('Source '+source.id+' has container and we have resources');
+                    if (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner]) {
+                        console.log('We need to spawn a static for source.id')
+                        // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
+                    }
                 }
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
