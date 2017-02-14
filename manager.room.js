@@ -96,6 +96,7 @@ module.exports = {
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
                 if (sourceContainer) {
+                    console.log('Set container on source');
                     source.container = sourceContainer.id;
                 }
 
