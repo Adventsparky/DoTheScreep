@@ -163,31 +163,17 @@ module.exports = {
     },
     locateContainersAroundPoint : function(pos, availableStructures) {
         // console.log('Check '+pos+' in '+room);
-        let container;
-
-        // Checking the immediate spaces so start top right
-        let minX=pos.x - 1;
-        let maxX=pos.x + 1;
-        let minY=pos.y - 1;
-        let maxY=pos.y + 1;
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
         _.each(availableStructures, function (structure) {
-            if (!container && structure.structureType == STRUCTURE_CONTAINER) {
-                // console.log('checking')
-                // Check is in pos Range
-                if (structure.pos.x >= minX &&
-                    structure.pos.x <= maxX &&
-                    structure.pos.y >= minY &&
-                    structure.pos.y <= maxY) {
-                    // we have a container
-                    container = structure;
-                }
+            if (structure.pos.isNearTo(pos)) {
+                // we have a container
+                return structure;
             }
         });
 
-        return container;
+        return null;
     },
     locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos, posToCheckProximity) {
         // console.log('Check '+pos+' in '+room);
