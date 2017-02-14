@@ -268,9 +268,9 @@ module.exports = {
 
                     let creepleCountForRole = 0;
 
-                    if (roomInfo.creeps !== undefined && roomInfo.creeps.length) {
-                        creepleCountForRole = _.filter(roomInfo.creeps, function (creep) {
-                            return creep.memory.role == role.role;
+                    if (Game.creeps && Game.creeps.length) {
+                        creepleCountForRole = _.filter(Game.creeps, function (creep) {
+                            return creep.home == roomInfo.name && creep.memory.role == role.role;
                         }).length;
                     }
 
@@ -279,7 +279,7 @@ module.exports = {
                     }
 
                     if (creepleCountForRole < role.targetRoomPopulation) {
-                        // console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomId+', only have '+creepleCountForRole);
+                        console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomInfo.name+', only have '+creepleCountForRole);
                         // console.log(room.mainSpawn[0].canCreateCreep(role.stage2Parts, undefined));
                         // console.log(Game.rooms[roomId].energyCapacityAvailable);
 
