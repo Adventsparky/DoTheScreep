@@ -227,37 +227,37 @@ module.exports = {
 
         if(roomInfo.mainSpawn) {
 
-            if (this.doWeHaveTheEnergyAndPopulationForStaticHarvesters(roomInfo)) {
-                let timeToStatic=true;
-                _.each(room.availableSources, function(source) {
-
-                    console.log(JSON.stringify(source));
-                    if (!source.container) {
-                        timeToStatic=false;
-                    }
-
-                   // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
-                   //  if (!source.container && !source.dedicatedMiner) {
-                   //      // Whatevs, cool bruv
-                   //  } else if (source.container && !source.dedicatedMiner) {
-                   //      // This one is good to go, need to get a miner on it
-                   //  } else if (source.container && source.dedicatedMiner) {
-                   //      // Check is he alive
-                   //  } else if (!source.container) {
-                   //      // We need to at least be building a container here
-                   //      this.check
-                   //  }
-
-
-                });
-                if (timeToStatic) {
-                    console.log('Queueing a static!!');
-                    // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
-                }
-                // room.staticHarvesterLimit=room.availableSources.length;
-            } else{
-                // room.staticHarvesterLimit=0;
-            }
+            // if (this.doWeHaveTheEnergyAndPopulationForStaticHarvesters(roomInfo)) {
+            //     let timeToStatic=true;
+            //     _.each(room.availableSources, function(source) {
+            //
+            //         console.log(JSON.stringify(source));
+            //         if (!source.container) {
+            //             timeToStatic=false;
+            //         }
+            //
+            //        // Check they have an extension, if so, STATIC TIME, else make sure it's under construction at least
+            //        //  if (!source.container && !source.dedicatedMiner) {
+            //        //      // Whatevs, cool bruv
+            //        //  } else if (source.container && !source.dedicatedMiner) {
+            //        //      // This one is good to go, need to get a miner on it
+            //        //  } else if (source.container && source.dedicatedMiner) {
+            //        //      // Check is he alive
+            //        //  } else if (!source.container) {
+            //        //      // We need to at least be building a container here
+            //        //      this.check
+            //        //  }
+            //
+            //
+            //     });
+            //     if (timeToStatic) {
+            //         console.log('Queueing a static!!');
+            //         // Memory.highPrioritySpawns.push({'room': roomInfo.name, 'role':'staticHarvester'});
+            //     }
+            //     // room.staticHarvesterLimit=room.availableSources.length;
+            // } else{
+            //     // room.staticHarvesterLimit=0;
+            // }
 
             // Check if we need a soldier
             let prepAttackFlag = Game.flags['prep-attack'];
