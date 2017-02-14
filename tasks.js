@@ -290,16 +290,14 @@ module.exports = {
                     let role=RoleManager[roleName];
                     let creepName=role.name();
 
-                    let creepleCountForRole = _.filter(Game.creeps, function (creep) {
-                        return creep.memory.home == roomInfo.name && creep.memory.role == role.role;
-                    }).length;
+                    let creepCountForRole = countCreepsForRole(roomInfo, roleName);
 
-                    if (creepleCountForRole === undefined) {
-                        creepleCountForRole = 0;
+                    if (creepCountForRole === undefined) {
+                        creepCountForRole = 0;
                     }
 
-                    if (creepleCountForRole < role.targetRoomPopulation) {
-                        console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomInfo.name+', only have '+creepleCountForRole);
+                    if (creepCountForRole < role.targetRoomPopulation) {
+                        console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomInfo.name+', only have '+creepCountForRole);
                         // console.log(room.mainSpawn[0].canCreateCreep(role.stage2Parts, undefined));
                         // console.log(Game.rooms[roomId].energyCapacityAvailable);
 
@@ -319,6 +317,24 @@ module.exports = {
         }
 
         return false;
+    },
+    countCreepsForRole : function(roomInfo, roleName) {
+        if (RoleManager.hasOwnProperty(roleName)) {
+            let role = RoleManager[roleName];
+
+            return _.filter(Game.creeps, function (creep) {
+                return creep.memory.home == roomInfo.name && creep.memory.role == role.role;
+            }).length;
+        }
+    },
+    countCreepsQueuedForSpawn : function(roomInfo, roleName) {
+        let count=0;
+        Memory.highPrioritySpawns.forEach(function(spawn) {
+            if(spawn.room == roomInfo.name && spawn.role == roleName) {
+                count++;
+            }
+        });
+        return count;
     },
     doWeHaveTheEnergyAndPopulationForStaticHarvesters : function(roomInfo) {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
