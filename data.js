@@ -162,7 +162,7 @@ module.exports = {
         return spaces;
     },
     locateContainersAroundPoint : function(pos, availableStructures) {
-        console.log('Check '+pos+' in '+room);
+        console.log('Check '+pos+' in '+pos.room);
 
         // We have min and max xy to check, load the containers and check if we have one here
         // todo fix to use lookAtArea
