@@ -290,7 +290,7 @@ module.exports = {
                     let role=RoleManager[roleName];
                     let creepName=role.name();
 
-                    let creepCountForRole = countCreepsForRole(roomInfo, roleName);
+                    let creepCountForRole = this.countCreepsForRole(roomInfo, roleName);
 
                     if (creepCountForRole === undefined) {
                         creepCountForRole = 0;

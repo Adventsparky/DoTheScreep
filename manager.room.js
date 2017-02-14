@@ -95,14 +95,11 @@ module.exports = {
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
-                console.log(sourceContainer);
                 if (sourceContainer) {
-                    console.log('Set container on source');
                     source.container = sourceContainer.id;
                 }
 
                 let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
-                console.log(resourcesAvailableForStatic);
                 if (!source.container && resourcesAvailableForStatic) {
                     try {
                         let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
