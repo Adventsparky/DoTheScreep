@@ -133,7 +133,7 @@ module.exports = {
                     let staticSpawner = {'room': roomInfo.name, 'role':'staticHarvester'};
                     if (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner] && !_.contains(Memory.highPrioritySpawns, staticSpawner)) {
                         console.log('We need to spawn a static for source.id')
-                        Memory.highPrioritySpawns.push(staticSpawner);
+                        // Memory.highPrioritySpawns.push(staticSpawner);
                     }
                 }
             }
