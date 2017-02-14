@@ -30,22 +30,24 @@ function planRoads(roomInfo) {console.log('plan roads');
         //     room.createConstructionSite(space, STRUCTURE_ROAD);
         // });
 
-        roomInfo.availableSources.forEach(function (source) {
-            let results = PathFinder.search(spawn.pos,
-                { pos: source.pos, range: 1 },
-                {
-                    plainCost: 2,
-                    swampCost: 10,
-                    roomCallback: roomCost
-                });
+        if (roomInfo.controller && roomInfo.controller.level > 2) {
+            roomInfo.availableSources.forEach(function (source) {
+                let results = PathFinder.search(spawn.pos,
+                    {pos: source.pos, range: 1},
+                    {
+                        plainCost: 2,
+                        swampCost: 10,
+                        roomCallback: roomCost
+                    });
 
-            if(!results.incomplete) {
+                if (!results.incomplete) {
 
-                results.path.forEach(function(pos) {
-                    room.createConstructionSite(pos, STRUCTURE_ROAD);
-                });
-            }
-        })
+                    results.path.forEach(function (pos) {
+                        room.createConstructionSite(pos, STRUCTURE_ROAD);
+                    });
+                }
+            });
+        }
 
         roomInfo.extensions.forEach(function (extenstion) {
             let pos=extenstion.pos;
@@ -53,7 +55,7 @@ function planRoads(roomInfo) {console.log('plan roads');
             room.createConstructionSite(pos.x+1, pos.y, STRUCTURE_ROAD);
             room.createConstructionSite(pos.x, pos.y-1, STRUCTURE_ROAD);
             room.createConstructionSite(pos.x, pos.y+1, STRUCTURE_ROAD);
-        })
+        });
     });
 }
 
