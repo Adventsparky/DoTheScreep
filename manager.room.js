@@ -26,6 +26,16 @@ module.exports = {
             structure.structureType != STRUCTURE_WALL
         });
 
+        // FULL EXTENSIONS
+        roomInfo.extensions = {} = _.filter(myAvailableStructures, function (structure) {
+            return structure.structureType == STRUCTURE_EXTENSION
+        });
+
+        // FULL EXTENSIONS
+        roomInfo.fullExtensions = {} = _.filter(roomInfo.extensions, function (structure) {
+            return structure.energy == structure.energyCapacity
+        });
+
         // SITES
         let availableConstructions = roomInfo.constructionsites = thisRoom.find(FIND_CONSTRUCTION_SITES);
 
@@ -84,63 +94,37 @@ module.exports = {
                 }
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
-                if (Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
-                    if (!source.container) {
-                        try {
-                            // console.log('Ok we are harvesting away not a bother');
-                            let sourcesByDistance = _.sortBy(availableSources, s => source.pos.getRangeTo(s));
-                            let closestContainer = _.filter(sourcesByDistance, function (structure) {
-                                return structure.structureType == STRUCTURE_CONTAINER;
-                            });
+                if (!source.container && Tasks.checkIfWeAreReadyForStaticHarvesters(thisRoom)) {
+                    try {
+                        let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
+                        let foundContainer = false;
+                        _.each(thingsBeside, function(thing){
+                            if(thing.type == 'structure') {
+                                let typeOfThing = thing['structure'];
+                                if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
+                                  foundContainer=true;
+                                };
+                            };
+                        });
 
-                            // console.log(closestContainer[0]);
-                            if (!closestContainer ||
-                                closestContainer == undefined ||
-                                closestContainer[0] == undefined ||
-                                closestContainer[0].pos.x < (source.pos.x - 1) || closestContainer[0].pos.x > (source.pos.x + 1) ||
-                                closestContainer[0].pos.y < (source.pos.y - 1) || closestContainer[0].pos.y > (source.pos.y + 1)) {
+                        if (!foundContainer) {
+                            let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
 
-                                let constructionsByDistance = _.sortBy(availableConstructions, c => source.pos.getRangeTo(c));
-                                let nearestSite = _.filter(constructionsByDistance, function (site) {
-                                    return site.structureType == STRUCTURE_CONTAINER;
-                                });
-
-                                if (!nearestSite ||
-                                    nearestSite == undefined ||
-                                    closestContainer[0] == undefined ||
-                                    nearestSite[0].pos.x < (source.pos.x - 1) || nearestSite[0].pos.x > (source.pos.x + 1) ||
-                                    nearestSite[0].pos.y < (source.pos.y - 1) || nearestSite[0].pos.y > (source.pos.y + 1)) {
-
-                                    // todo make up a "closest to mainSpawn" function for the  passable xy at a source
-                                    let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos);
-
-                                    if (buildPos) {
-                                        // console.log('WE CAN BUILD CONTAINER AT ' + buildPos);
-                                        // thisRoom.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-                                    }
-                                }
-
-                            } else {
-                                // console.log('set container stuff');
-                                source.container = {} = closestContainer[0];
+                            if (buildPos) {
+                                thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
                             }
-                        } catch (e) {
-                            // console.log('static check'+e);
                         }
+                    } catch (e) {
+                        // console.log('static check'+e);
                     }
                 }
 
                 let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
                 if (sourceContainer) {
-                    source.container = {} = sourceContainer;
+                    source.container = sourceContainer.id;
                 }
             }
         }
-
-        // FULL EXTENSIONS
-        roomInfo.fullExtensions = {} = _.filter(myAvailableStructures, function (structure) {
-            return structure.structureType == STRUCTURE_EXTENSION && structure.energy == structure.energyCapacity
-        });
 
         // ENERGY CAPACITY
         roomInfo.energyCapacity = thisRoom.energyCapacityAvailable;

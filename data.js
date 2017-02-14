@@ -189,9 +189,9 @@ module.exports = {
 
         return container;
     },
-    locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos) {
+    locateAnyEmptySpaceClosestToSpawnAroundPoint : function(pos, posToCheckProximity) {
         // console.log('Check '+pos+' in '+room);
-        let emptySpacePosition;
+        let emptySpacePosition=null;
 
         // Checking the immediate spaces so start top right
         let minX=pos.x - 1;
@@ -203,24 +203,26 @@ module.exports = {
             this.safeCoord(maxY, 2), this.safeCoord(maxX, 2), true);
 
         if (scanResults) {
-            let potentialEmptySpace=null;
             _.each(scanResults, function(thing){
                 if (thing) {
                     let type=getTypeFromLookAtAreaResult(thing);
 
                     if (thing && type) {
-                        if (thing.x == pos.x && thing.y == pos.y) {
+                        if (thing.x != pos.x && thing.y != pos.y) {
                             if (!_.contains(nonBuildableTypes, type)) {
-                                potentialEmptySpace=thing;
+                                let checkPos=new RoomPosition(thing.x, thing.y, pos.roomName);
+                                if (!emptySpacePosition) {
+                                    emptySpacePosition = checkPos;
+                                } else{
+                                    if (checkPos.getRangeTo(posToCheckProximity) < emptySpacePosition.getRangeTo(posToCheckProximity)) {
+                                        emptySpacePosition = checkPos;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             });
-
-            if (potentialEmptySpace) {
-                emptySpacePosition = new RoomPosition(potentialEmptySpace.x, potentialEmptySpace.y, pos.roomName);
-            }
         }
 
         return emptySpacePosition;
