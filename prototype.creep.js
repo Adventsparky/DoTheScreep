@@ -66,18 +66,13 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
     if(bestChoiceSource){
         // todo pick container of source with miner
-        if (Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceSource.source.pos, roomInfo.structures)) {
-
-        }
-
-        if (bestChoiceSource.source) {
-            if (bestChoiceSource.source.structureType && _.contains(STORAGE_TYPES, bestChoiceSource.source.structureType)) {
-                this.memory.targetStorageSource=bestChoiceSource.source.id;
-                delete this.memory.targetSource;
-            } else {
-                this.memory.targetSource=bestChoiceSource.source.id;
-                delete this.memory.targetStorageSource;
-            }
+        let container=Game.rooms[roomInfo.name].locateContainerAroundPoint(bestChoiceSource.source.pos, roomInfo.structures);
+        if (container && Memory.dedicatedMiners[bestChoiceSource.source.id] && bestChoiceSource.source.structureType && _.contains(STORAGE_TYPES, bestChoiceSource.source.structureType)) {
+            this.memory.targetStorageSource=bestChoiceSource.source.id;
+            delete this.memory.targetSource;
+        }else {
+            this.memory.targetSource=bestChoiceSource.source.id;
+            delete this.memory.targetStorageSource;
         }
 
         delete this.memory.targetDropoff; // This will only be for harvesters
