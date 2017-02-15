@@ -71,7 +71,7 @@ bestChoiceSource.source=allSources[0];
         let container=Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceSource.source.pos, roomInfo.structures);
         console.log(container);
         if (container && Memory.dedicatedMiners[bestChoiceSource.source.id]) {
-            this.memory.targetStorageSource=bestChoiceSource.source.id;
+            this.memory.targetStorageSource=container.id;
             delete this.memory.targetSource;
         }else {
             this.memory.targetSource=bestChoiceSource.source.id;
