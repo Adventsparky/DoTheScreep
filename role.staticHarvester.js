@@ -38,6 +38,7 @@ const roleStaticHarvester = {
                             creep.moveTo(source.container.pos);
                             let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
                             if (distanceLeftToTravel <= 5) {
+                                // We need to kill the current harvester
                                 currentHarvester.memory.p45 = true;
                             }
                         }
