@@ -8,8 +8,6 @@ const roleStaticHarvester = {
         if (!creep.memory.targetSource) {
             let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
-                console.log(JSON.stringify(Memory.dedicatedMiners[source.id]));
-                console.log(JSON.stringify(Game.getObjectById(Memory.dedicatedMiners[source.id])));
                 return !Memory.dedicatedMiners[source.id]
                     || !Game.getObjectById(Memory.dedicatedMiners[source.id])
                     || (Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive < ticksToLiveToPerformSwap);
@@ -51,10 +49,7 @@ const roleStaticHarvester = {
 
                 // If we're in place, get workin'
                 if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
-                    console.log('#');
-                    console.log(Memory.dedicatedMiners);
                     Memory.dedicatedMiners[source.id] = creep.id;
-                    console.log(Memory.dedicatedMiners);
                     creep.collectEnergy();
                 }
             }
