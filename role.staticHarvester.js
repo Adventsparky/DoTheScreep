@@ -9,10 +9,10 @@ const roleStaticHarvester = {
             let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
                 console.log(JSON.stringify(Memory.dedicatedMiners[source.id]));
-                console.log(JSON.stringify(Memory.dedicatedMiners[source.id]));
+                console.log(JSON.stringify(Game.getObjectById(Memory.dedicatedMiners[source.id])));
                 console.log(Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive);
                 return !Memory.dedicatedMiners[source.id]
-                    || !Game.getObjectById(Memory.dedicatedMiners[source.id]
+                    || !Game.getObjectById(Memory.dedicatedMiners[source.id])
                     || (Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive < ticksToLiveToPerformSwap);
             });
             if (closestSourceWithoutStaticOrNeedsReplacing) {
