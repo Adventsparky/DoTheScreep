@@ -25,7 +25,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     if (!allSources || !allSources[0]) {
         allSources = _.sortBy(roomInfo.availableSources, s => this.pos.getRangeTo(s));
     }
-bestChoiceSource.source=allSources[0];
+bestChoiceSource.source={}=allSources[0];
     // _.each(allSources, function(source) {
     //     let targetSource=source;
     //     // console.log('check source ' + targetSource.id);
