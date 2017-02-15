@@ -94,7 +94,7 @@ module.exports = {
                 }
                 source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
-                let sourceContainer = Query.locateContainersAroundPoint(source.pos, availableStructures);
+                let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
                 if (sourceContainer) {
                     source.container = sourceContainer.id;
                 }
