@@ -280,6 +280,15 @@ module.exports = {
                         if (RoleManager.hasOwnProperty(spawnTarget.role)) {
                             let role = RoleManager[spawnTarget.role];
                             console.log('Spawn ' + role + ' in ' + roomInfo.name);
+                            let creepName=role.name();
+
+                            if(roomInfo.mainSpawn.canCreateCreep(role.stage2Parts, creepName) == OK){
+                                // console.log('Build big one');
+                                roomInfo.mainSpawn.createCreep(role.stage2Parts, creepName, {role: role.role});
+                            } else {
+                                // console.log('Build little one');
+                                roomInfo.mainSpawn.createCreep(role.parts, creepName, {role: role.role});
+                            }
                         }
                     }
                 });
