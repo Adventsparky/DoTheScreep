@@ -22,29 +22,33 @@ const roleStaticHarvester = {
         // We have our target, check if there's a container spot there already
         if (source.container) {
 
-            // Check are we where we need to be
-            if (creep.pos.x != source.container.pos.x || creep.pos.y != source.container.pos.y) {
-                // If non static source, move in directly
-                if (!source.dedicatedMiner) {
-                    creep.moveTo(source.container.pos);
-                } else {
-                    // Check for a swap
-                    let currentHarvester = Game.creeps[source.dedicatedMiner];
-                    if (!currentHarvester || currentHarvester.ticksToLive<ticksToLiveToPerformSwap){
-                        // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
-                        creep.moveTo(source.container.pos);
-                        let distanceLeftToTravel=creep.pos.getRangeTo(source.container.pos);
-                        if (distanceLeftToTravel<=5) {
-                            currentHarvester.memory.p45=true;
+            let sourceContainer=Game.getObjectById(source.container);
+
+            if (sourceContainer) {
+                // Check are we where we need to be
+                if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
+                    // If non static source, move in directly
+                    if (!source.dedicatedMiner) {
+                        creep.moveTo(sourceContainer.pos);
+                    } else {
+                        // Check for a swap
+                        let currentHarvester = Game.creeps[source.dedicatedMiner];
+                        if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
+                            // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
+                            creep.moveTo(source.container.pos);
+                            let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
+                            if (distanceLeftToTravel <= 5) {
+                                currentHarvester.memory.p45 = true;
+                            }
                         }
                     }
                 }
-            }
 
-            // If we're in place, get workin'
-            if (creep.pos.x == source.container.pos.x || creep.pos.y == source.container.pos.y) {
-                source.dedicatedMiner=creep.id;
-                creep.collectEnergy();
+                // If we're in place, get workin'
+                if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
+                    source.dedicatedMiner = creep.id;
+                    creep.collectEnergy();
+                }
             }
         }
 
