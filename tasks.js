@@ -272,26 +272,35 @@ module.exports = {
             }
 
             if (roomInfo.mainSpawn) {
+                let spawnRole=null;
                 _.each(Memory.highPrioritySpawns, function (spawnTarget) {
                     console.log(' - - - ');
                     console.log(spawnTarget.role);
                     console.log(spawnTarget.room);
                     if (spawnTarget.room == roomInfo.name) {
                         if (RoleManager.hasOwnProperty(spawnTarget.role)) {
-                            let role = RoleManager[spawnTarget.role];
-                            console.log('Spawn ' + role + ' in ' + roomInfo.name);
-                            let creepName=role.name();
-
-                            if(roomInfo.mainSpawn.canCreateCreep(role.stage2Parts, creepName) == OK){
-                                // console.log('Build big one');
-                                roomInfo.mainSpawn.createCreep(role.stage2Parts, creepName, {role: role.role});
-                            } else {
-                                // console.log('Build little one');
-                                roomInfo.mainSpawn.createCreep(role.parts, creepName, {role: role.role});
-                            }
+                            spawnRole = RoleManager[spawnTarget.role];
                         }
                     }
                 });
+                if(spawnRole) {
+                    console.log('Spawn ' + spawnRole + ' in ' + roomInfo.name);
+                    let creepName=spawnRole.name();
+                    let spawnResult=null;
+
+                    if(roomInfo.mainSpawn.canCreateCreep(spawnRole.stage2Parts, creepName) == OK){
+                        // console.log('Build big one');
+                        spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.stage2Parts, creepName, {role: spawnRole.role});
+                    } else {
+                        // console.log('Build little one');
+                        spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.parts, creepName, {role: spawnRole.role});
+                    }
+
+                    if (spawnResult == OK) {
+                        // Remove from q
+                        removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
+                    }
+                }
             }
 
             for(let roleName in RoleManager) {
@@ -344,6 +353,17 @@ module.exports = {
             }
         });
         return count;
+    },
+    removeEntryFromSpawnQueue : function(roomInfo, roleName) {
+        let newQueue=[];
+        Memory.highPrioritySpawns.forEach(function(spawn) {
+            if(spawn.room == roomInfo.name && spawn.role == roleName) {
+                // Skipping this
+            } else {
+                newQueue.push(this);
+            }
+        });
+        Memory.highPrioritySpawns=newQueue;
     },
     doWeHaveTheEnergyAndPopulationForStaticHarvesters : function(roomInfo) {
         // console.log(sourceWithoutStaticHarvester+' does not have id');
