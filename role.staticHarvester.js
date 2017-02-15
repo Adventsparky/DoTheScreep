@@ -10,7 +10,7 @@ const roleStaticHarvester = {
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
                 console.log(JSON.stringify(Memory.dedicatedMiners[source.id]));
                 console.log(JSON.stringify(console.log(JSON.stringify(Memory.dedicatedMiners[source.id]))));
-                console.log(Game.creeps[Memory.dedicatedMiners[source.id]].ticksToLive);
+                console.log(Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive);
                 return !Memory.dedicatedMiners[source.id]
                     || !console.log(JSON.stringify(Memory.dedicatedMiners[source.id]))
                     || (Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive < ticksToLiveToPerformSwap);
