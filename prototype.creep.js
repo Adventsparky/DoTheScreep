@@ -96,7 +96,7 @@ Creep.prototype.collectEnergy = function() {
         }
     } else if (this.memory.targetStorageSource) {
         let targetStorage = Game.getObjectById(this.memory.targetStorageSource);
-        // if(targetStorage && (targetStorage.energy > (this.energyCapacity - this.energy))){
+        // if(targetStorage && (targetStorage.energy > (this.energyCapacity - this.energy))){todo
         if(targetStorage){
             harvestResult=this.withdraw(targetStorage, RESOURCE_ENERGY);
             if(harvestResult == ERR_NOT_IN_RANGE) {

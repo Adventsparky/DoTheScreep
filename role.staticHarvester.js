@@ -34,7 +34,7 @@ const roleStaticHarvester = {
                     if (!dedicatedMiner) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
-                        // Check for a swap
+                        // Check for a swap todo
                         // let currentHarvester = Game.creeps[dedicatedMiner];
                         // if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
                         //     // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
