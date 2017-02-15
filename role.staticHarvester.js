@@ -48,7 +48,9 @@ const roleStaticHarvester = {
                 // If we're in place, get workin'
                 if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
                     console.log('#');
+                    console.log(Memory.dedicatedMiners);
                     Memory.dedicatedMiners[source.id] = creep.id;
+                    console.log(Memory.dedicatedMiners);
                     creep.collectEnergy();
                 }
             }
