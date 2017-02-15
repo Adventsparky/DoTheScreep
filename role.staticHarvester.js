@@ -8,7 +8,7 @@ const roleStaticHarvester = {
         if (!creep.memory.targetSource) {
             let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
-                return !source.dedicatedMiner || Game.creeps[source.dedicatedMiner].ticksToLive < ticksToLiveToPerformSwap;
+                return !Memory.dedicatedMiners[source.id] || Game.creeps[Memory.dedicatedMiners[source.id]].ticksToLive < ticksToLiveToPerformSwap;
             });
             if (closestSourceWithoutStaticOrNeedsReplacing) {
                 creep.memory.targetSource = closestSourceWithoutStaticOrNeedsReplacing.id;
@@ -23,16 +23,17 @@ const roleStaticHarvester = {
         if (source.container) {
 
             let sourceContainer=Game.getObjectById(source.container);
+            let dedicatedMiner=Memory.dedicatedMiners[source.id];
 
             if (sourceContainer) {
                 // Check are we where we need to be
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
                     // If non static source, move in directly
-                    if (!source.dedicatedMiner) {
+                    if (!dedicatedMiner) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
                         // Check for a swap
-                        let currentHarvester = Game.creeps[source.dedicatedMiner];
+                        let currentHarvester = Game.creeps[dedicatedMiner];
                         if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
                             // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
                             creep.moveTo(source.container.pos);
@@ -46,7 +47,7 @@ const roleStaticHarvester = {
 
                 // If we're in place, get workin'
                 if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
-                    source.dedicatedMiner = creep.id;
+                    Memory.dedicatedMiners[source.id] = creep.id;
                     creep.collectEnergy();
                 }
             }
