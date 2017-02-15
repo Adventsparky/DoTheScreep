@@ -13,7 +13,7 @@ const roleStaticHarvester = {
                 console.log(Game.creeps[Memory.dedicatedMiners[source.id]].ticksToLive);
                 return !Memory.dedicatedMiners[source.id]
                     || !console.log(JSON.stringify(Memory.dedicatedMiners[source.id]))
-                    || (Game.creeps[Memory.dedicatedMiners[source.id]].ticksToLive < ticksToLiveToPerformSwap);
+                    || (Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive < ticksToLiveToPerformSwap);
             });
             if (closestSourceWithoutStaticOrNeedsReplacing) {
                 creep.memory.targetSource = closestSourceWithoutStaticOrNeedsReplacing.id;
