@@ -126,17 +126,12 @@ module.exports = {
                 }
 
                 if (source.container && resourcesAvailableForStatic) {
-                    console.log('Source '+source.id+' has container and we have resources');
                     let roleName = 'staticHarvester';
-                    console.log(Tasks.countCreepsForRole(roomInfo, 'staticHarvester'));
-                    console.log(Tasks.countCreepsQueuedForSpawn(roomInfo, roleName));
-                    console.log('Total statics in action: '+(Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)));
-                    console.log('Total sources needing attention: '+roomInfo.availableSources.length);
-                    if (!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner]
-                        && ((Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length)) {
-                        console.log('We need to spawn a static for source.id');
+                    let notEnoughStaticsInAction = (Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length;
+                    if ((!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner])
+                        && notEnoughStaticsInAction) {
                         // We need to check there's not one on the way to the source or one in the spawn Q
-                        // Memory.highPrioritySpawns.push(staticSpawner);
+                        Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
                     }
                 }
             }
