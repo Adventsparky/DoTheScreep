@@ -69,7 +69,8 @@ bestChoiceSource.source=allSources[0];
     if(bestChoiceSource){
         // todo pick container of source with miner
         let container=Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceSource.source.pos, roomInfo.structures);
-        if (container && Memory.dedicatedMiners[bestChoiceSource.source.id] && bestChoiceSource.source.structureType && _.contains(STORAGE_TYPES, bestChoiceSource.source.structureType)) {
+        console.log(container);
+        if (container && Memory.dedicatedMiners[bestChoiceSource.source.id]) {
             this.memory.targetStorageSource=bestChoiceSource.source.id;
             delete this.memory.targetSource;
         }else {
