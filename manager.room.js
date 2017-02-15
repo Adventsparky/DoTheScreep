@@ -86,7 +86,7 @@ module.exports = {
                 // Query.countAccessibleSpacesAroundStructure(source);
 
                 if (Memory.dedicatedMiners == undefined) {
-                    Memory.dedicatedMiners = [];
+                    Memory.dedicatedMiners = {};
                 }
 
                 if (source.accessibleSpaces === undefined) {
