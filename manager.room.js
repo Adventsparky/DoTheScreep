@@ -86,7 +86,7 @@ module.exports = {
                 // Query.countAccessibleSpacesAroundStructure(source);
 
                 if (source.dedicatedMiner === undefined) {
-                    source.dedicatedMiner = source.memory.dedicatedMiner = 0;
+                    source.dedicatedMiner = 0;
                 }
 
                 if (source.accessibleSpaces === undefined) {
@@ -131,7 +131,7 @@ module.exports = {
                     if ((!source.dedicatedMiner || !Game.creeps[source.dedicatedMiner])
                         && notEnoughStaticsInAction) {
                         // We need to check there's not one on the way to the source or one in the spawn Q
-                        Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
+                        // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
                     }
                 }
             }

@@ -8,7 +8,7 @@ const roleStaticHarvester = {
         if (!creep.memory.targetSource) {
             let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
-                return !source.memory.dedicatedMiner || Game.creeps[source.memory.dedicatedMiner].ticksToLive < ticksToLiveToPerformSwap;
+                return !source.dedicatedMiner || Game.creeps[source.dedicatedMiner].ticksToLive < ticksToLiveToPerformSwap;
             });
             if (closestSourceWithoutStaticOrNeedsReplacing) {
                 creep.memory.targetSource = closestSourceWithoutStaticOrNeedsReplacing.id;
@@ -22,24 +22,22 @@ const roleStaticHarvester = {
         // We have our target, check if there's a container spot there already
         if (source.container) {
 
-            let sourceObj=Game.getObjectById(source.id);
             let sourceContainer=Game.getObjectById(source.container);
 
             if (sourceContainer) {
                 // Check are we where we need to be
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
                     // If non static source, move in directly
-                    if (!source.memory.dedicatedMiner) {
+                    if (!source.dedicatedMiner) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
                         // Check for a swap
-                        let currentHarvester = Game.creeps[source.memory.dedicatedMiner];
+                        let currentHarvester = Game.creeps[source.dedicatedMiner];
                         if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
                             // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
                             creep.moveTo(source.container.pos);
                             let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
                             if (distanceLeftToTravel <= 5) {
-                                // We need to kill the current harvester
                                 currentHarvester.memory.p45 = true;
                             }
                         }
@@ -48,7 +46,7 @@ const roleStaticHarvester = {
 
                 // If we're in place, get workin'
                 if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
-                    sourceObj.memory.dedicatedMiner = creep.id;
+                    source.dedicatedMiner = creep.id;
                     creep.collectEnergy();
                 }
             }
