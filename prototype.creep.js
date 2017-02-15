@@ -25,44 +25,44 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     if (!allSources || !allSources[0]) {
         allSources = _.sortBy(roomInfo.availableSources, s => this.pos.getRangeTo(s));
     }
-
-    _.each(allSources, function(source) {
-        let targetSource=source;
-        // console.log('check source ' + targetSource.id);
-        let creepAssignedToSourceCount = 0;
-        _.each(roomInfo.creeps, function (harvestingCreep) {
-            if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
-                creepAssignedToSourceCount++;
-            }
-        });
-
-        let creepAllowanceForSource = Game.rooms[roomInfo.name].countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
-        let creepOverflowForSource = source.accessibleSpaces * 1.5;
-
-
-        if (bestChoiceSource == null) {
-            // We have nothing, so ANYTHING is the best choice
-            bestChoiceSource={};
-            bestChoiceSource.source=targetSource;
-            bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
-            bestChoiceSource.overFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
-            bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
-        } else if (bestChoiceSource.spaces <= 0) {
-            // Only come in here if the source we've chosen, is tight on spaces
-
-            let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
-            let sourceOverFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
-            // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
-            // console.log('Score for '+source.id+': '+sourceScore);
-
-            if (sourceScore < bestChoiceSource.score || sourceOverFlowScore < bestChoiceSource.overFlowScore){
-                bestChoiceSource.source=targetSource;
-                bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
-                bestChoiceSource.overFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
-                bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
-            }
-        }
-    });
+bestChoiceSource.source=allSources[0];
+    // _.each(allSources, function(source) {
+    //     let targetSource=source;
+    //     // console.log('check source ' + targetSource.id);
+    //     let creepAssignedToSourceCount = 0;
+    //     _.each(roomInfo.creeps, function (harvestingCreep) {
+    //         if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
+    //             creepAssignedToSourceCount++;
+    //         }
+    //     });
+    //
+    //     let creepAllowanceForSource = Game.rooms[roomInfo.name].countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
+    //     let creepOverflowForSource = source.accessibleSpaces * 1.5;
+    //
+    //
+    //     if (bestChoiceSource == null) {
+    //         // We have nothing, so ANYTHING is the best choice
+    //         bestChoiceSource={};
+    //         bestChoiceSource.source=targetSource;
+    //         bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
+    //         bestChoiceSource.overFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
+    //         bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
+    //     } else if (bestChoiceSource.spaces <= 0) {
+    //         // Only come in here if the source we've chosen, is tight on spaces
+    //
+    //         let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
+    //         let sourceOverFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
+    //         // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
+    //         // console.log('Score for '+source.id+': '+sourceScore);
+    //
+    //         if (sourceScore < bestChoiceSource.score || sourceOverFlowScore < bestChoiceSource.overFlowScore){
+    //             bestChoiceSource.source=targetSource;
+    //             bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
+    //             bestChoiceSource.overFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
+    //             bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
+    //         }
+    //     }
+    // });
 
     if(bestChoiceSource){
         // todo pick container of source with miner
