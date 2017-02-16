@@ -92,6 +92,7 @@ module.exports = {
                 source.accessibleSpaces = 0;
             }
             source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
+            console.log(source.accessibleSpaces);
 
             let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
             if (sourceContainer) {
