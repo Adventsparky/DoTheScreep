@@ -121,7 +121,7 @@ module.exports = {
                                 thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
                             }
                         } else {
-                            roomInfo.staticContainers.push[foundContainer];
+                            roomInfo.staticContainers.push(foundContainer);
                         }
                     } catch (e) {
                         // console.log('static check'+e);
