@@ -80,66 +80,62 @@ module.exports = {
         // SOURCES
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
         roomInfo.staticContainers=[];
-        for (let sourceNum in availableSources) {
-            if (availableSources.hasOwnProperty(sourceNum)) {
-                let source = availableSources[sourceNum];
+        _.each(availableSources, function(source){
+            // Query.countAccessibleSpacesAroundStructure(source);
 
-                // Query.countAccessibleSpacesAroundStructure(source);
+            if (Memory.dedicatedMiners == undefined) {
+                Memory.dedicatedMiners = {};
+            }
 
-                if (Memory.dedicatedMiners == undefined) {
-                    Memory.dedicatedMiners = {};
-                }
+            if (source.accessibleSpaces === undefined) {
+                source.accessibleSpaces = 0;
+            }
+            source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
 
-                if (source.accessibleSpaces === undefined) {
-                    source.accessibleSpaces = 0;
-                }
-                source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
+            let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
+            if (sourceContainer) {
+                source.container = sourceContainer.id;
+            }
 
-                let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
-                if (sourceContainer) {
-                    source.container = sourceContainer.id;
-                }
-
-                let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
-                if (!source.container && resourcesAvailableForStatic) {
-                    try {
-                        let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
-                        let foundContainer = false;
-                        _.each(thingsBeside, function(thing){
-                            if(thing.type == 'structure') {
-                                let typeOfThing = thing['structure'];
-                                if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
-                                  foundContainer=thing;
-                                }
+            let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
+            if (!source.container && resourcesAvailableForStatic) {
+                try {
+                    let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
+                    let foundContainer = false;
+                    _.each(thingsBeside, function(thing){
+                        if(thing.type == 'structure') {
+                            let typeOfThing = thing['structure'];
+                            if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
+                              foundContainer=thing;
                             }
-                        });
-
-                        if (!foundContainer) {
-                            let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
-
-                            if (buildPos) {
-                                thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
-                            }
-                        } else {
-                            roomInfo.staticContainers.push(foundContainer);
                         }
-                    } catch (e) {
-                        // console.log('static check'+e);
-                    }
-                }
+                    });
 
-                if (source.container && resourcesAvailableForStatic) {
-                    let roleName = 'staticHarvester';
-                    let dedicatedMiner = Memory.dedicatedMiners[source.id];
-                    let notEnoughStaticsInAction = (Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + (Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length);
-                    if ((!dedicatedMiner || !Game.creeps[dedicatedMiner])
-                        && notEnoughStaticsInAction) {
-                        // We need to check there's not one on the way to the source or one in the spawn Q
-                        // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
+                    if (!foundContainer) {
+                        let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
+
+                        if (buildPos) {
+                            thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
+                        }
+                    } else {
+                        roomInfo.staticContainers.push(foundContainer);
                     }
+                } catch (e) {
+                    // console.log('static check'+e);
                 }
             }
-        }
+
+            if (source.container && resourcesAvailableForStatic) {
+                let roleName = 'staticHarvester';
+                let dedicatedMiner = Memory.dedicatedMiners[source.id];
+                let notEnoughStaticsInAction = (Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + (Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length);
+                if ((!dedicatedMiner || !Game.creeps[dedicatedMiner])
+                    && notEnoughStaticsInAction) {
+                    // We need to check there's not one on the way to the source or one in the spawn Q
+                    // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
+                }
+            }
+        });
 
         // ENERGY CAPACITY
         roomInfo.energyCapacity = thisRoom.energyCapacityAvailable;
