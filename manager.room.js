@@ -79,6 +79,7 @@ module.exports = {
 
         // SOURCES
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
+        roomInfo.staticContainers=[];
         for (let sourceNum in availableSources) {
             if (availableSources.hasOwnProperty(sourceNum)) {
                 let source = availableSources[sourceNum];
@@ -108,9 +109,9 @@ module.exports = {
                             if(thing.type == 'structure') {
                                 let typeOfThing = thing['structure'];
                                 if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
-                                  foundContainer=true;
-                                };
-                            };
+                                  foundContainer=thing;
+                                }
+                            }
                         });
 
                         if (!foundContainer) {
@@ -119,6 +120,8 @@ module.exports = {
                             if (buildPos) {
                                 thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
                             }
+                        } else {
+                            roomInfo.staticContainers.push[foundContainer];
                         }
                     } catch (e) {
                         // console.log('static check'+e);
@@ -132,7 +135,7 @@ module.exports = {
                     if ((!dedicatedMiner || !Game.creeps[dedicatedMiner])
                         && notEnoughStaticsInAction) {
                         // We need to check there's not one on the way to the source or one in the spawn Q
-                        // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
+                        Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
                     }
                 }
             }

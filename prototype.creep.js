@@ -9,72 +9,109 @@ const STORAGE_TYPES=['extension', 'storage', 'container'];
 
 Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
-    let bestChoiceSource=null;
+    let bestChoiceEnergySource=null;
     // Count how many are heading to this vs how many slots it has
     // Allow default of available harvest points +1 to wait
     // After that, prefer the point with more available slots
     // X=slots, allowance=x+1, prefer higher slot number until allowance*1.5 is breached.
-    let allSources = null;
+    let allEnergySources = null;
     // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 600 of that
 
     if (this.memory.role == 'builder' && this.memory.targetConstruction && roomInfo.energyCapacity >= 800 && roomInfo.energyAvailable >=  600 && roomInfo.fullExtensions && roomInfo.fullExtensions[0]) {
         // console.log('this is a builder, allow extensions as sources');
-        allSources = _.sortBy(_.union(roomInfo.availableSources, roomInfo.fullExtensions), s => this.pos.getRangeTo(s));
+        allEnergySources = _.sortBy(_.union(roomInfo.availableSources, roomInfo.fullExtensions), s => this.pos.getRangeTo(s));
+        if (allEnergySources && allEnergySources.length>0) {
+            this.memory.targetStorageSource=container.id;
+            delete this.memory.targetSource;
+            return;
+        }
     }
 
-    if (!allSources || !allSources[0]) {
-        allSources = _.sortBy(roomInfo.availableSources, s => this.pos.getRangeTo(s));
+    // Are we full blown statics?
+    let fullBlownStatic=true;
+    _.each(roomInfo.availableSources, function(source) {
+        if (!Memory.dedicatedMiners[source.id]) {
+            fullBlownStatic=false;
+        }
+    });
+
+    if (fullBlownStatic && roomInfo.staticContainers.length>0) {
+        let allStaticContainers = _.sortBy(roomInfo.staticContainers, s => this.pos.getRangeTo(s));
+        _.each(allStaticContainers, function (staticContainer) {
+
+            let creepAssignedToSourceCount = 0;
+            _.each(roomInfo.creeps, function (harvestingCreep) {
+                if (harvestingCreep.memory.targetStorageSource && harvestingCreep.memory.targetStorageSource == staticContainer.id) {
+                    creepAssignedToSourceCount++;
+                }
+            });
+
+           if (bestChoiceEnergySource=null) {
+               bestChoiceEnergySource = {};
+               bestChoiceEnergySource.source = staticContainer;
+               bestChoiceEnergySource.score = creepAssignedToSourceCount;
+           } else if (creepAssignedToSourceCount < bestChoiceEnergySource.score) {
+               bestChoiceEnergySource.source = staticContainer;
+               bestChoiceEnergySource.score = creepAssignedToSourceCount;
+           }
+        });
+        bestChoiceEnergySource={};
+        bestChoiceEnergySource.source=allSources[0];
+    } else {
+
+        if (!allEnergySources || !allEnergySources[0]) {
+            allEnergySources = _.sortBy(roomInfo.availableSources, s => this.pos.getRangeTo(s));
+        }
+
+        _.each(allEnergySources, function (source) {
+            let targetSource = source;
+            // console.log('check source ' + targetSource.id);
+            let creepAssignedToSourceCount = 0;
+            _.each(roomInfo.creeps, function (harvestingCreep) {
+                if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
+                    creepAssignedToSourceCount++;
+                }
+            });
+
+            let targetPos = targetSource.pos;
+
+            let creepAllowanceForSource = Game.rooms[roomInfo.name].countAccessibleSpacesAroundPoint(targetPos) + 1;
+            let creepOverflowForSource = source.accessibleSpaces * 1.5;
+
+            if (bestChoiceEnergySource == null) {
+                // We have nothing, so ANYTHING is the best choice
+                bestChoiceEnergySource = {};
+                bestChoiceEnergySource.source = targetSource;
+                bestChoiceEnergySource.score = creepAssignedToSourceCount / creepAllowanceForSource;
+                bestChoiceEnergySource.overFlowScore = creepAssignedToSourceCount / creepOverflowForSource;
+                bestChoiceEnergySource.spaces = creepAllowanceForSource - creepAssignedToSourceCount;
+            } else if (bestChoiceEnergySource.spaces <= 0) {
+                // Only come in here if the source we've chosen, is tight on spaces
+
+                let sourceScore = creepAssignedToSourceCount / creepAllowanceForSource;
+                let sourceOverFlowScore = creepAssignedToSourceCount / creepOverflowForSource;
+                // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
+                // console.log('Score for '+source.id+': '+sourceScore);
+
+                if (sourceScore < bestChoiceEnergySource.score || sourceOverFlowScore < bestChoiceEnergySource.overFlowScore) {
+                    bestChoiceEnergySource.source = targetSource;
+                    bestChoiceEnergySource.score = creepAssignedToSourceCount / creepAllowanceForSource;
+                    bestChoiceEnergySource.overFlowScore = creepAssignedToSourceCount / creepOverflowForSource;
+                    bestChoiceEnergySource.spaces = creepAllowanceForSource - creepAssignedToSourceCount;
+                }
+            }
+        });
+
     }
 
-    bestChoiceSource={};
-bestChoiceSource.source=allSources[0];
-    // _.each(allSources, function(source) {
-    //     let targetSource=source;
-    //     // console.log('check source ' + targetSource.id);
-    //     let creepAssignedToSourceCount = 0;
-    //     _.each(roomInfo.creeps, function (harvestingCreep) {
-    //         if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == targetSource.id) {
-    //             creepAssignedToSourceCount++;
-    //         }
-    //     });
-    //
-    //     let creepAllowanceForSource = Game.rooms[roomInfo.name].countAccessibleSpacesAroundPoint(targetSource.pos) + 1;
-    //     let creepOverflowForSource = source.accessibleSpaces * 1.5;
-    //
-    //
-    //     if (bestChoiceSource == null) {
-    //         // We have nothing, so ANYTHING is the best choice
-    //         bestChoiceSource={};
-    //         bestChoiceSource.source=targetSource;
-    //         bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
-    //         bestChoiceSource.overFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
-    //         bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
-    //     } else if (bestChoiceSource.spaces <= 0) {
-    //         // Only come in here if the source we've chosen, is tight on spaces
-    //
-    //         let sourceScore=creepAssignedToSourceCount / creepAllowanceForSource;
-    //         let sourceOverFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
-    //         // console.log('Score for '+bestChoiceSource.source.id+': '+bestChoiceSource.score);
-    //         // console.log('Score for '+source.id+': '+sourceScore);
-    //
-    //         if (sourceScore < bestChoiceSource.score || sourceOverFlowScore < bestChoiceSource.overFlowScore){
-    //             bestChoiceSource.source=targetSource;
-    //             bestChoiceSource.score=creepAssignedToSourceCount / creepAllowanceForSource;
-    //             bestChoiceSource.overFlowScore=creepAssignedToSourceCount / creepOverflowForSource;
-    //             bestChoiceSource.spaces=creepAllowanceForSource - creepAssignedToSourceCount;
-    //         }
-    //     }
-    // });
-
-    if(bestChoiceSource){
+    if(bestChoiceEnergySource){
         // todo pick container of source with miner
-        let container=Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceSource.source.pos, roomInfo.structures);
-        console.log(container);
-        if (container && Memory.dedicatedMiners[bestChoiceSource.source.id]) {
+        let container=Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceEnergySource.source.pos, roomInfo.structures);
+        if (container && Memory.dedicatedMiners[bestChoiceEnergySource.source.id]) {
             this.memory.targetStorageSource=container.id;
             delete this.memory.targetSource;
         }else {
-            this.memory.targetSource=bestChoiceSource.source.id;
+            this.memory.targetSource=bestChoiceEnergySource.source.id;
             delete this.memory.targetStorageSource;
         }
 
