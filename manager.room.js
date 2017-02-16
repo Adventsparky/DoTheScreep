@@ -96,7 +96,9 @@ module.exports = {
 
             let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
             if (sourceContainer) {
+                console.log('found container');
                 source.container = sourceContainer.id;
+                console.log(source.container);
             }
 
             let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
