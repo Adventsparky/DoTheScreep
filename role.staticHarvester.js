@@ -34,16 +34,16 @@ const roleStaticHarvester = {
                     if (!dedicatedMiner) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
-                        // Check for a swap todo
-                        // let currentHarvester = Game.creeps[dedicatedMiner];
-                        // if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
-                        //     // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
-                        //     creep.moveTo(source.container.pos);
-                        //     let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
-                        //     if (distanceLeftToTravel <= 5) {
-                        //         currentHarvester.memory.p45 = true;
-                        //     }
-                        // }
+                        // Check for a swap
+                        let currentHarvester = Game.creeps[dedicatedMiner];
+                        if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
+                            //     // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
+                            creep.moveTo(source.container.pos);
+                            let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
+                            if (distanceLeftToTravel <= 5 && currentHarvester && !currentHarvester.memory.p45) {
+                                currentHarvester.memory.p45 = true;
+                            }
+                        }
                     }
                 }
 
