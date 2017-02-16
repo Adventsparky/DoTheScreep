@@ -2,11 +2,19 @@ const ticksToLiveToPerformSwap=150;
 
 const roleStaticHarvester = {
 
-    run: function(creep, room) {
+    run: function(creep, roomInfo) {
 
         // Get to mainSpawn, find a source without a flag for static harvest
-        if (!creep.memory.targetSource) {
-            let potentialSources=_.sortBy(room.availableSources, s => creep.pos.getRangeTo(s));
+        let source=null;
+
+        if (creep.memory.targetSource) {
+            source = _.find(roomInfo.availableSources, function (source) {
+                return source.id == creep.memory.targetSource;
+            });
+        }
+
+        if (!creep.memory.targetSource || !source) {
+            let potentialSources=_.sortBy(roomInfo.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
                 return !Memory.dedicatedMiners[source.id]
                     || !Game.getObjectById(Memory.dedicatedMiners[source.id])
@@ -14,12 +22,9 @@ const roleStaticHarvester = {
             });
             if (closestSourceWithoutStaticOrNeedsReplacing) {
                 creep.memory.targetSource = closestSourceWithoutStaticOrNeedsReplacing.id;
+                source=closestSourceWithoutStaticOrNeedsReplacing;
             }
         }
-
-        let source = _.find(room.availableSources, function (source) {
-            return source.id == creep.memory.targetSource;
-        });
 
         // We have our target, check if there's a container spot there already
         if (source && source.container) {
