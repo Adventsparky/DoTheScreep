@@ -30,7 +30,7 @@ const roleStaticHarvester = {
             }
         }
 
-        console.log(source);
+        console.log(JSON.stringify(source));
 
         // We have our target, check if there's a container spot there already
         if (source && source.container) {
