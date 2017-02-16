@@ -81,6 +81,7 @@ module.exports = {
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
         roomInfo.staticContainers=[];
         _.each(availableSources, function(source){
+            console.log(source);
             // Query.countAccessibleSpacesAroundStructure(source);
 
             if (Memory.dedicatedMiners == undefined) {
