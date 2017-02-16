@@ -39,6 +39,7 @@ const roleStaticHarvester = {
             let dedicatedMiner=Memory.dedicatedMiners[source.id];
 
             if (sourceContainer) {
+                console.log('lets go');
                 // Check are we where we need to be
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
                     // If non static source, move in directly
