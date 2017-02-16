@@ -9,7 +9,10 @@ const roleStaticHarvester = {
         let source=null;
 
         if (creep.memory.targetSource) {
+            console.log(creep.memory.targetSource);
             source = _.find(roomInfo.availableSources, function (source) {
+                console.log(source);
+                console.log(source.id);
                 return source.id == creep.memory.targetSource;
             });
         }
