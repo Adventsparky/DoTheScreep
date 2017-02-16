@@ -3,6 +3,7 @@ const ticksToLiveToPerformSwap=150;
 const roleStaticHarvester = {
 
     run: function(creep, roomInfo) {
+        console.log(' - - - Static - - - ');
 
         // Get to mainSpawn, find a source without a flag for static harvest
         let source=null;
@@ -25,6 +26,8 @@ const roleStaticHarvester = {
                 source=closestSourceWithoutStaticOrNeedsReplacing;
             }
         }
+
+        console.log(source);
 
         // We have our target, check if there's a container spot there already
         if (source && source.container) {
