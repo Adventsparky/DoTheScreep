@@ -22,7 +22,7 @@ const roleStaticHarvester = {
         });
 
         // We have our target, check if there's a container spot there already
-        if (source.container) {
+        if (source && source.container) {
 
             let sourceContainer=Game.getObjectById(source.container);
             let dedicatedMiner=Memory.dedicatedMiners[source.id];
