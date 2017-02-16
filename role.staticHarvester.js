@@ -42,8 +42,10 @@ const roleStaticHarvester = {
                 console.log('lets go');
                 // Check are we where we need to be
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
+                    console.log('not there');
                     // If non static source, move in directly
-                    if (!dedicatedMiner) {
+                    if (!dedicatedMiner || dedicatedMiner==creep.id) {
+                        console.log('go go');
                         creep.moveTo(sourceContainer.pos);
                     } else {
                         // Check for a swap
@@ -61,6 +63,7 @@ const roleStaticHarvester = {
 
                 // If we're in place, get workin'
                 if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
+                    console.log('there');
                     Memory.dedicatedMiners[source.id] = creep.id;
                     creep.collectEnergy();
                 }
