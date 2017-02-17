@@ -49,21 +49,21 @@ module.exports = {
         if (!room || !room.structures) {
             return 0;
         }
-        return _.filter(room.structures, function(structure){
+        return _.filter(room.mystructures, function(structure){
             return structure.structureType == type; });
     },
     structuresOfTypeAlreadyPlanned : function(type,room){
         if (!room || !room.constructionsites) {
             return 0;
         }
-        return _.filter(room.constructionsites, function(site){
+        return _.filter(room.myconstructionsites, function(site){
             return site.structureType == type; });
     },
     structuresTotalInPlayInRoom : function(type, roomInfo) {
         // console.log(this.structuresOfTypeAlreadyBuilt(type, room).length);
         // console.log(this.structuresOfTypeAlreadyPlanned(type, room).length);
         // console.log(this.structuresOfTypeAlreadyBuilt(type, room).length + this.structuresOfTypeAlreadyPlanned(type, room).length);
-        return this.structuresOfTypeAlreadyBuilt(type, roomInfo.mystructures).length + this.structuresOfTypeAlreadyPlanned(type, roomInfo.myconstructionsites).length;
+        return this.structuresOfTypeAlreadyBuilt(type, roomInfo).length + this.structuresOfTypeAlreadyPlanned(type, roomInfo).length;
     },
     numberOfBuildingTypeAvailable : function(type, roomInfo) {
         // console.log(CONTROLLER_STRUCTURES[type][room.controller.level]);
