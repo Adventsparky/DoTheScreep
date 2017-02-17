@@ -183,9 +183,9 @@ module.exports = {
         }
 
         // BUILD ROADS AND EXTENSIONS AROUND SPAWN
-        // console.log('Extensions available: '+Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
-        // console.log('Is available? '+Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,thisRoom));
-        if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION, thisRoom)) {
+        // console.log('Extensions available: '+Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION,roomInfo));
+        // console.log('Is available? '+Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,roomInfo));
+        if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION, roomInfo)) {
             Tasks.checkForExtensionsAndRoadConstruction(thisRoom);
         }
 
