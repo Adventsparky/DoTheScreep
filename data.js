@@ -102,6 +102,7 @@ module.exports = {
             _.each(scanResults, function(thing){
                 if (thing) {
                     let type=getTypeFromLookAtAreaResult(thing);
+                    let surroundingUnbuildableSquareCount=0;
 
                     if (thing && type) {
                         if (thing.x == pos.x && thing.y == pos.y) {
@@ -114,7 +115,7 @@ module.exports = {
                             // console.log(type);
 
                             if(!_.contains(typesAllowedBesideExtension, type)) {
-                                canBuildHere = false;
+                                surroundingUnbuildableSquareCount++;
                             }
                         }
 
@@ -126,7 +127,7 @@ module.exports = {
             });
 
             // console.log(canBuildHere && foundOneOfTheRequiredTypesNearby);
-            return canBuildHere && foundOneOfTheRequiredTypesNearby;
+            return surroundingUnbuildableSquareCount <= 4 && canBuildHere && foundOneOfTheRequiredTypesNearby;
         }
         return true;
     },
