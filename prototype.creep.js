@@ -21,7 +21,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
         // console.log('this is a builder, allow extensions as sources');
         allEnergySources = _.sortBy(_.union(roomInfo.availableSources, roomInfo.fullExtensions), s => this.pos.getRangeTo(s));
         if (allEnergySources && allEnergySources.length>0) {
-            this.memory.targetStorageSource=container.id;
+            this.memory.targetStorageSource=allEnergySources[0].id;
             delete this.memory.targetSource;
             return;
         }

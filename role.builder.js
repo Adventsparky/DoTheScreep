@@ -7,7 +7,7 @@ const roleBuilder = {
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             delete creep.memory.targetDropoff;
-            delete creep.memory.targetConstruction;
+            // delete creep.memory.targetConstruction;
             creep.say('Gathering');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity && buildingSites && buildingSites[0]) {
@@ -30,7 +30,11 @@ const roleBuilder = {
                     targetHasRunOut=true;
                 }
             }
-            if(creep.carry.energy == creep.carryCapacity || targetHasRunOut) {
+            if( targetHasRunOut && creep.memory.targetConstruction){
+                // need to collect more
+                delete creep.memory.targetSource;
+                delete creep.memory.targetStorageSource;
+            } else if(creep.carry.energy == creep.carryCapacity || targetHasRunOut) {
                 // drop it off
                 // Find new drop off
                 if(!creep.memory.targetDropoff) {
