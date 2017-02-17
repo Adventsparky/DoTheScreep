@@ -81,7 +81,7 @@ module.exports = {
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
         roomInfo.staticContainers=[];
         _.each(availableSources, function(source){
-            console.log(source);
+            // console.log(source);
             // Query.countAccessibleSpacesAroundStructure(source);
 
             if (Memory.dedicatedMiners == undefined) {
@@ -92,16 +92,16 @@ module.exports = {
                 source.accessibleSpaces = 0;
             }
             source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
-            console.log(source.accessibleSpaces);
+            // console.log(source.accessibleSpaces);
 
             let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
             if (sourceContainer) {
-                console.log('found container');
+                // console.log('found container');
                 source.container = sourceContainer.id;
                 if (roomInfo.staticContainers[source.container]) {
                     roomInfo.staticContainers.push(sourceContainer);
                 }
-                console.log(source.container);
+                // console.log(source.container);
             }
 
             let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
