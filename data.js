@@ -96,13 +96,13 @@ module.exports = {
         if (scanResults) {
             //     // console.log('We found '+scanResults.length+' things around '+pos);
 
+            let surroundingUnbuildableSquareCount=0;
             let foundOneOfTheRequiredTypesNearby = false;
             // console.log(scanResults);
 
             _.each(scanResults, function(thing){
                 if (thing) {
                     let type=getTypeFromLookAtAreaResult(thing);
-                    let surroundingUnbuildableSquareCount=0;
 
                     if (thing && type) {
                         if (thing.x == pos.x && thing.y == pos.y) {
