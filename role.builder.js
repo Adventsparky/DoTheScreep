@@ -24,17 +24,15 @@ const roleBuilder = {
             creep.buildNearestStructure(roomInfo);
         }
         else {
-            let targetHasRunOut=false;
             if (creep.memory.targetSource || creep.memory.targetStorageSource) {
                 if (creep.collectEnergy() == ERR_NOT_ENOUGH_RESOURCES ) {
-                    targetHasRunOut=true;
+                    delete creep.memory.targetSource;
+                    delete creep.memory.targetStorageSource;
+                    return
                 }
             }
-            if( targetHasRunOut && creep.memory.targetConstruction){
-                // need to collect more
-                delete creep.memory.targetSource;
-                delete creep.memory.targetStorageSource;
-            } else if(creep.carry.energy == creep.carryCapacity || targetHasRunOut) {
+
+            if(creep.carry.energy == creep.carryCapacity) {
                 // drop it off
                 // Find new drop off
                 if(!creep.memory.targetDropoff) {
@@ -44,12 +42,12 @@ const roleBuilder = {
                 delete creep.memory.targetStorageSource;
                 creep.depositEnergy(roomInfo);
             } else {
-                // collect energy
+                // new source and collect energy if we need to, otherwise we collected it already
                 if (!creep.memory.targetSource && !creep.memory.targetStorageSource) {
                     creep.findNearestOrLeastBusySource(roomInfo);
+                    delete creep.memory.targetDropoff;
+                    creep.collectEnergy();
                 }
-                delete creep.memory.targetDropoff;
-                creep.collectEnergy();
             }
         }
     }
