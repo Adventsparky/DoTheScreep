@@ -140,7 +140,8 @@ module.exports = {
                     && notEnoughStaticsInAction) {
                     // We need to check there's not one on the way to the source or one in the spawn Q
                     // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
-                    Tasks.addEntryToSpawnQueue(Tasks.spawnQueueEntry(roomInfo.name, roleName));
+                    console.log(Tasks.spawnQueueEntry(roomInfo.name, roleName));
+                    // Tasks.addEntryToSpawnQueue(Tasks.spawnQueueEntry(roomInfo.name, roleName));
                 }
             }
         });
