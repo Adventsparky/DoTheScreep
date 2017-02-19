@@ -166,6 +166,10 @@ Creep.prototype.depositEnergy = function(roomInfo) {
                 targetDropoff = this.findBestEnergyDump(roomInfo);
             }
 
+            if (!targetDropoff.pos) {
+                console.log('ERROR: '+this+' was given a target dropoff ('+JSON.stringify(targetDropoff)+') with no POS???');
+            }
+
             if (!this.pos.isNearTo(targetDropoff.pos)) {
                 this.moveTo(targetDropoff);
             } else {
