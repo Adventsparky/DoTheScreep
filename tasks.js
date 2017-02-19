@@ -252,7 +252,7 @@ module.exports = {
                     }
                 });
                 if(spawnRole) {
-                    console.log('Spawn ' + spawnRole + ' in ' + roomInfo.name);
+                    // console.log('Spawn ' + spawnRole + ' in ' + roomInfo.name);
                     let creepName=spawnRole.name();
                     let spawnResult=null;
 
