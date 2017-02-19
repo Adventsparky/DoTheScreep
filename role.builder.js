@@ -3,10 +3,10 @@ const roleBuilder = {
     run: function(creep, roomInfo) {
         // creep.say('b');
 
-        if (creep.carry.energy == 0 && !creep.currentlyHarvesting) {
+        if (creep.carry.energy == 0 && !creep.currentlyHarvesting()) {
             delete creep.memory.building;
             creep.findNearestOrLeastBusySource(roomInfo);
-        } else if (!creep.currentlyHarvesting && !creep.memory.targetConstruction && creep.carry.energy>0) {
+        } else if (!creep.currentlyHarvesting() && !creep.memory.targetConstruction && creep.carry.energy>0) {
             // Find a new building if we have energy and are fin
             creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
             if (creep.memory.targetConstruction) {
@@ -24,13 +24,13 @@ const roleBuilder = {
             creep.getABasicJob(roomInfo);
         }
 
-        if(!creep.currentlyBuilding) {
+        if(!creep.currentlyBuilding()) {
             if(creep.carry.energy == creep.carryCapacity) {
                 if(!creep.memory.targetDropoff) {
                     creep.findBestEnergyDump(roomInfo);
                 }
                 creep.depositEnergy(roomInfo);
-            } else if (creep.currentlyHarvesting){
+            } else if (creep.currentlyHarvesting()){
                 creep.collectEnergy();
             }
         }
