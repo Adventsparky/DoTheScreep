@@ -242,9 +242,9 @@ module.exports = {
             if (roomInfo.mainSpawn) {
                 let spawnRole=null;
                 _.each(Memory.highPrioritySpawns, function (spawnTarget) {
-                    console.log(' - - - ');
-                    console.log(spawnTarget.role);
-                    console.log(spawnTarget.room);
+                    // console.log(' - - - ');
+                    // console.log(spawnTarget.role);
+                    // console.log(spawnTarget.room);
                     if (spawnTarget.room == roomInfo.name) {
                         if (RoleManager.hasOwnProperty(spawnTarget.role)) {
                             spawnRole = RoleManager[spawnTarget.role];
