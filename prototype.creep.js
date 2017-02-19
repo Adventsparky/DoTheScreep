@@ -110,7 +110,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     if(bestChoiceEnergySource){
         // todo pick container of source with miner
         let container=Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceEnergySource.source.pos, roomInfo.structures);
-        if (container && Memory.dedicatedMiners[bestChoiceEnergySource.source.id]) {
+        if (container && (Memory.dedicatedMiners[bestChoiceEnergySource.source.id] || container.store.energy > this.carryCapacity)) {
             this.memory.targetSource=container.id;
         }else {
             this.memory.targetSource=bestChoiceEnergySource.source.id;
