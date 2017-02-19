@@ -79,7 +79,7 @@ const roleStaticHarvester = {
         // Am I dying?
         if (creep.ticksToLive < ticksToLiveToPerformSwap) {
             // Uh oh, I need replacing
-            this.addEntryToSpawnQueue(this.spawnQueueEntry(creep.memory.room, creep.memory.role));
+            this.addEntryToSpawnQueue(this.spawnQueueEntry(roomInfo, creep.memory.role));
         }
     }
 };
