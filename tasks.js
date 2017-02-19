@@ -339,7 +339,7 @@ module.exports = {
         let entryLocation = Memory.highPrioritySpawns.indexOf(spawnEntry);
 
         console.log('-- remove --');
-        console.log(Memory.highPrioritySpawns);
+        console.log(JSON.stringify(Memory.highPrioritySpawns));
         console.log(JSON.stringify(spawnEntry));
         console.log(entryLocation);
 
