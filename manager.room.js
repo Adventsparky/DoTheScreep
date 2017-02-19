@@ -143,7 +143,7 @@ module.exports = {
                     console.log(JSON.stringify(Tasks.spawnQueueEntry(roomInfo, roleName)));
                     console.log('add: '+roomInfo);
                     console.log('add: '+roleName);
-                    Tasks.addEntryToSpawnQueue(Tasks.spawnQueueEntry(roomInfo, roleName));
+                    Tasks.addEntryToSpawnQueue(roomInfo, roleName);
                 }
             }
         });
