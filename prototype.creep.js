@@ -169,7 +169,7 @@ Creep.prototype.depositEnergy = function(roomInfo) {
             if (!targetDropoff.structureHasSpaceForEnergy()) {
                 targetDropoff = this.findBestEnergyDump(roomInfo);
                 if (!targetDropoff) {
-                    console.log(this+ ' had a target but its full now??');
+                    // console.log(this+ ' had a target but its full now??');
                 }
             }
 
