@@ -21,7 +21,7 @@ function roomCost(roomName) {
     return false;
 }
 
-function planRoads(roomInfo) {console.log('plan roads');
+function planRoads(roomInfo) {
     let roomName=roomInfo.name;
     let room=Game.rooms[roomName];
     roomInfo.spawns.forEach(function(spawn) {
