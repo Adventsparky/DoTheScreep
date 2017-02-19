@@ -3,12 +3,12 @@ const roleHarvester = {
     run: function(creep, roomInfo) {
         // creep.say('h');
         // We haven't started harvesting yet and we're out of energy, creep's gotta eat
-        if(!creep.currentlyHarvesting && creep.carry.energy == 0) {
+        if(!creep.currentlyHarvesting() && creep.carry.energy == 0) {
             creep.findNearestOrLeastBusySource(roomInfo);
         }
 
         // We were harvesting and now we're full, time to dump
-        if(creep.currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
+        if(creep.currentlyHarvesting() && creep.carry.energy == creep.carryCapacity) {
             creep.findBestEnergyDump(roomInfo);
         }
 
