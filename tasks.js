@@ -341,12 +341,7 @@ module.exports = {
             if (entryLocation == -1 && entry.room == spawnEntry.room && entry.role == spawnEntry.role) {
                 entryLocation=i;
             }
-        })
-
-        console.log('-- remove --');
-        console.log(JSON.stringify(Memory.highPrioritySpawns));
-        console.log(JSON.stringify(spawnEntry));
-        console.log(entryLocation);
+        });
 
         // If we don't find this item but expected to, we might have a problem
         if (!spawnEntry || entryLocation == -1) {

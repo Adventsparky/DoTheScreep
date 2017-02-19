@@ -138,6 +138,7 @@ Creep.prototype.collectEnergy = function() {
                     if (harvestResult == ERR_NOT_IN_RANGE) {
                         this.moveTo(targetSource);
                     }
+                } else {
                     harvestResult = this.harvest(targetSource);
                     if (harvestResult == ERR_NOT_IN_RANGE) {
                         this.moveTo(targetSource);
