@@ -25,7 +25,9 @@ const roleBuilder = {
         }
 
         if(!creep.currentlyBuilding()) {
-            if(creep.carry.energy == creep.carryCapacity) {
+            if (creep.currentlyDepositing() && creep.carry.energy > 0) {
+                creep.depositEnergy(roomInfo);
+            } else if(creep.carry.energy == creep.carryCapacity) {
                 if(!creep.memory.targetDropoff) {
                     creep.findBestEnergyDump(roomInfo);
                 }
