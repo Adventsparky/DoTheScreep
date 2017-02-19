@@ -338,6 +338,10 @@ module.exports = {
         let spawnEntry=this.spawnQueueEntry(roomInfo, roleName);
         let entryLocation = Memory.highPrioritySpawns.indexOf(spawnEntry);
 
+        console.log('-- remove --');
+        console.log(JSON.stringify(spawnEntry));
+        console.log(entryLocation);
+
         // If we don't find this item but expected to, we might have a problem
         if (!spawnEntry || entryLocation == -1) {
             console.log('WARNING: Asked to remove an entry from the spawn queue which isnt there???: '+roomInfo.name+' - '+roleName);
