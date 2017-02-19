@@ -264,10 +264,10 @@ module.exports = {
                         // spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.parts, creepName, {role: spawnRole.role});
                     }
 
-                    if (spawnResult == OK) {
+                    // if (spawnResult == OK) {
                         // Remove from q
                         this.removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
-                    }
+                    // }
                 }
             }
 
