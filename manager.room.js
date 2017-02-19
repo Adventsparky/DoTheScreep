@@ -139,10 +139,6 @@ module.exports = {
                 if ((!dedicatedMiner || !Game.creeps[dedicatedMiner])
                     && notEnoughStaticsInAction) {
                     // We need to check there's not one on the way to the source or one in the spawn Q
-                    // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
-                    console.log(JSON.stringify(Tasks.spawnQueueEntry(roomInfo, roleName)));
-                    console.log('add: '+roomInfo);
-                    console.log('add: '+roleName);
                     Tasks.addEntryToSpawnQueue(roomInfo, roleName);
                 }
             }
