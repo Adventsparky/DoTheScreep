@@ -7,7 +7,6 @@ const roleBuilder = {
         if (creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.findNearestOrLeastBusySource(roomInfo);
-            creep.collectEnergy();
         } else if (!creep.memory.targetConstruction && creep.carry.energy>0) {
             // Find a new building
             creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
@@ -23,6 +22,8 @@ const roleBuilder = {
                 }
                 delete creep.memory.targetSource;
                 creep.depositEnergy(roomInfo);
+            } else {
+                creep.collectEnergy();
             }
         }
     }
