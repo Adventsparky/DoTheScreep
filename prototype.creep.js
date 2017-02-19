@@ -176,7 +176,7 @@ Creep.prototype.depositEnergy = function(roomInfo) {
                 // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
                 // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
                 let transferResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
-                console.log(creep);
+                console.log(this);
                 console.log(transferResult);
 
                 if (transferResult == ERR_INVALID_TARGET ||
@@ -293,7 +293,6 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
         },{range: 99999});
         // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
         this.memory.targetConstruction=target.site.id
-        this.memory.building=true;
     } else {
         // creep.say('no builds');
     }

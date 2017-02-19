@@ -10,6 +10,9 @@ const roleBuilder = {
         } else if (!creep.memory.targetConstruction && creep.carry.energy>0) {
             // Find a new building
             creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
+            if (creep.memory.targetConstruction) {
+                this.memory.building=true;
+            }
             creep.buildNearestStructure(roomInfo);
         }
 
