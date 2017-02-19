@@ -149,6 +149,10 @@ Creep.prototype.collectEnergy = function() {
                     delete this.memory.targetSource;
                 }
 
+                if (this.carry.energy == this.carryCapacity) {
+                    delete this.memory.targetSource;
+                }
+
             }
         }
     }
