@@ -266,7 +266,7 @@ module.exports = {
 
                     if (spawnResult == OK) {
                         // Remove from q
-                        removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
+                        this.removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
                     }
                 }
             }
@@ -322,16 +322,29 @@ module.exports = {
         });
         return count;
     },
+    spawnQueueEntry : function(roomInfo, roleName) {
+        return {'room':roomInfo.name, 'role':roleName};
+    },
+    addEntryToSpawnQueue : function(roomInfo, roleName) {
+        let spawnEntry=this.spawnQueueEntry(roomInfo, roleName);
+
+        // If we don't find this item but expected to, we might have a problem
+        if (!spawnEntry) {
+            console.log('WARNING: Asked to add an entry to the spawn queue but something went wrong creating the entry???: '+roomInfo.name+' - '+roleName);
+        } else {
+            Memory.highPrioritySpawns.push(spawnEntry, 1);
+        }
+    },
     removeEntryFromSpawnQueue : function(roomInfo, roleName) {
-        let newQueue=[];
-        Memory.highPrioritySpawns.forEach(function(spawn) {
-            if(spawn.room == roomInfo.name && spawn.role == roleName) {
-                // Skipping this
-            } else {
-                newQueue.push(this);
-            }
-        });
-        Memory.highPrioritySpawns=newQueue;
+        let spawnEntry=this.spawnQueueEntry(roomInfo, roleName);
+        let entryLocation = Memory.highPrioritySpawns.indexOf(spawnEntry);
+
+        // If we don't find this item but expected to, we might have a problem
+        if (!spawnEntry || entryLocation == -1) {
+            console.log('WARNING: Asked to remove an entry from the spawn queue which isnt there???: '+roomInfo.name+' - '+roleName);
+        } else {
+            Memory.highPrioritySpawns.splice(entryLocation, 1);
+        }
     },
     doWeHaveTheEnergyAndPopulationForStaticHarvesters : function(roomInfo) {
         // console.log(sourceWithoutStaticHarvester+' does not have id');

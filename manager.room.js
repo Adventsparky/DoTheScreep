@@ -135,11 +135,12 @@ module.exports = {
             if (source.container && resourcesAvailableForStatic) {
                 let roleName = 'staticHarvester';
                 let dedicatedMiner = Memory.dedicatedMiners[source.id];
-                let notEnoughStaticsInAction = (Tasks.countCreepsForRole(roomInfo, 'staticHarvester') + (Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length);
+                let notEnoughStaticsInAction = (Tasks.countCreepsForRole(roomInfo, roleName) + (Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length);
                 if ((!dedicatedMiner || !Game.creeps[dedicatedMiner])
                     && notEnoughStaticsInAction) {
                     // We need to check there's not one on the way to the source or one in the spawn Q
                     // Memory.highPrioritySpawns.push({'room':roomInfo.name,'role':'staticHarvester'});
+                    Tasks.addEntryToSpawnQueue(this.spawnQueueEntry(roomInfo.name, roleName));
                 }
             }
         });

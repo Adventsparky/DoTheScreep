@@ -9,6 +9,10 @@ const STORAGE_TYPES=['extension', 'storage', 'container'];
 
 Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
+    if (this.memory.targetSource) {
+        return;
+    }
+
     let bestChoiceEnergySource=null;
     // Count how many are heading to this vs how many slots it has
     // Allow default of available harvest points +1 to wait
@@ -21,8 +25,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
         // console.log('this is a builder, allow extensions as sources');
         allEnergySources = _.sortBy(_.union(roomInfo.availableSources, roomInfo.fullExtensions), s => this.pos.getRangeTo(s));
         if (allEnergySources && allEnergySources.length>0) {
-            this.memory.targetStorageSource=allEnergySources[0].id;
-            delete this.memory.targetSource;
+            this.memory.targetSource=allEnergySources[0].id;
             return;
         }
     }
@@ -41,7 +44,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 
             let creepAssignedToSourceCount = 0;
             _.each(roomInfo.creeps, function (harvestingCreep) {
-                if (harvestingCreep.memory.targetStorageSource && harvestingCreep.memory.targetStorageSource == staticContainer.id) {
+                if (harvestingCreep.memory.targetSource && harvestingCreep.memory.targetSource == staticContainer.id) {
                     creepAssignedToSourceCount++;
                 }
             });
@@ -108,11 +111,9 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
         // todo pick container of source with miner
         let container=Game.rooms[roomInfo.name].locateContainersAroundPoint(bestChoiceEnergySource.source.pos, roomInfo.structures);
         if (container && Memory.dedicatedMiners[bestChoiceEnergySource.source.id]) {
-            this.memory.targetStorageSource=container.id;
-            delete this.memory.targetSource;
+            this.memory.targetSource=container.id;
         }else {
             this.memory.targetSource=bestChoiceEnergySource.source.id;
-            delete this.memory.targetStorageSource;
         }
 
         delete this.memory.targetDropoff; // This will only be for harvesters
@@ -124,20 +125,29 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
 Creep.prototype.collectEnergy = function() {
     let harvestResult=OK;
     if (this.memory.targetSource) {
+
         let targetSource = Game.getObjectById(this.memory.targetSource);
-        if(targetSource){
-            harvestResult=this.harvest(targetSource);
-            if(harvestResult == ERR_NOT_IN_RANGE) {
+
+        if(targetSource) {
+            if (!this.pos.isNearTo(targetSource.pos)) {
                 this.moveTo(targetSource);
-            }
-        }
-    } else if (this.memory.targetStorageSource) {
-        let targetStorage = Game.getObjectById(this.memory.targetStorageSource);
-        // if(targetStorage && (targetStorage.energy > (this.energyCapacity - this.energy))){todo
-        if(targetStorage){
-            harvestResult=this.withdraw(targetStorage, RESOURCE_ENERGY);
-            if(harvestResult == ERR_NOT_IN_RANGE) {
-                this.moveTo(targetStorage);
+            } else {
+
+                if (_.contains(STORAGE_TYPES, targetSource.structureType)) {
+                    harvestResult = this.withdraw(targetSource, RESOURCE_ENERGY);
+                    if (harvestResult == ERR_NOT_IN_RANGE) {
+                        this.moveTo(targetSource);
+                    }
+                    harvestResult = this.harvest(targetSource);
+                    if (harvestResult == ERR_NOT_IN_RANGE) {
+                        this.moveTo(targetSource);
+                    }
+                }
+
+                if (harvestResult == ERR_NOT_ENOUGH_RESOURCES ) {
+                    delete this.memory.targetSource;
+                }
+
             }
         }
     }
@@ -146,20 +156,27 @@ Creep.prototype.collectEnergy = function() {
 
 Creep.prototype.depositEnergy = function(roomInfo) {
     if(this.memory.targetDropoff) {
-        let targetDropoff = Game.getObjectById(this.memory.targetDropoff);
-        // Let's make sure it's still a valid energy dump
-        if(!targetDropoff.structureHasSpaceForEnergy()) {
-            targetDropoff = this.findBestEnergyDump(roomInfo);
-        }
 
-        // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
-        // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
-        let transferResult=this.transfer(targetDropoff, RESOURCE_ENERGY);
-        if(transferResult == ERR_NOT_IN_RANGE) {
-            this.moveTo(targetDropoff);
-        } else if(transferResult == ERR_INVALID_TARGET ||
-            transferResult == ERR_FULL) {
-            delete this.targetDropoff;
+        let targetDropoff = Game.getObjectById(this.memory.targetDropoff);
+
+        if(targetDropoff) {
+            // Let's make sure it's still a valid energy dump
+            if (!targetDropoff.structureHasSpaceForEnergy()) {
+                targetDropoff = this.findBestEnergyDump(roomInfo);
+            }
+
+            if (!this.pos.isNearTo(targetDropoff.pos)) {
+                this.moveTo(targetDropoff);
+            } else {
+                // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
+                // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
+                let transferResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
+
+                if (transferResult == ERR_INVALID_TARGET ||
+                    transferResult == ERR_FULL) {
+                    delete this.targetDropoff;
+                }
+            }
         }
     }
 };
@@ -221,6 +238,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
             // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
             this.memory.targetDropoff=target.structure.id
         }
+        delete this.memory.targetSource;
     } else{
         this.say('no dumps');
     }
@@ -268,6 +286,7 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
         },{range: 99999});
         // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
         this.memory.targetConstruction=target.site.id
+        this.memory.building=true;
     } else {
         // creep.say('no builds');
     }

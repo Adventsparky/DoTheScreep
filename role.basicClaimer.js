@@ -25,7 +25,7 @@ const roleBasicClaimer = {
                         } else if (controller[0].my) {
 
                             // Literally harvester code
-                            let currentlyHarvesting = creep.memory.targetSource || creep.memory.targetStorageSource;
+                            let currentlyHarvesting = creep.memory.targetSource;
 
                             // Two checks to set up the harvesting flag only get run when it fills, or empties
                             // Tasks.findNearestOrLeastBusySource(creep);
@@ -40,7 +40,6 @@ const roleBasicClaimer = {
                                 // We were harvesting and now we're full, time to dump
                                 creep.memory.targetDropoff = controller[0];
                                 delete creep.memory.targetSource;
-                                delete creep.memory.targetStorageSource;
                             }
                         }
 

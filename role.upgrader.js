@@ -2,24 +2,21 @@ const roleUpgrader = {
 
     run: function(creep, room) {
         // creep.say('u');
-        if(creep.memory.upgrading && creep.carry.energy == 0) {
-            creep.memory.upgrading = false;
-        }
-        if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            delete creep.memory.targetSource;
-            delete creep.memory.targetStorageSource;
-        }
-
-        if(creep.memory.upgrading) {
-            creep.upgradeControllerInRoom();
-        } else {
-            if(!creep.memory.targetSource) {
-                if(room.controller) {
-                    creep.findNearestOrLeastBusySource(room);
-                }
+        if(room.controller) {
+            if (creep.carry.energy == 0) {
+                creep.memory.upgrading = false;
+                creep.findNearestOrLeastBusySource(room);
             }
-            creep.collectEnergy(creep);
+
+            if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
+                creep.memory.upgrading = true;
+            }
+
+            if (creep.memory.upgrading) {
+                creep.upgradeControllerInRoom();
+            } else {
+                creep.collectEnergy();
+            }
         }
     }
 };
