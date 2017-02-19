@@ -336,7 +336,7 @@ module.exports = {
     },
     removeEntryFromSpawnQueue : function(roomInfo, roleName) {
         let spawnEntry=this.spawnQueueEntry(roomInfo, roleName);
-        let entryLocation = Memory.highPrioritySpawns.indexOf(spawnEntry);
+        let entryLocation = _.indexOf(Memory.highPrioritySpawns, spawnEntry);
 
         console.log('-- remove --');
         console.log(JSON.stringify(Memory.highPrioritySpawns));
