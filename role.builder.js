@@ -2,15 +2,11 @@ const roleBuilder = {
 
     run: function(creep, roomInfo) {
         // creep.say('b');
-        // creep.findNearestOrLeastBusySource(roomInfo);
 
-        let currentlyHarvesting=creep.memory.targetSource;
-        let currentlyBuilding=creep.memory.building;
-
-        if (creep.carry.energy == 0 && !currentlyHarvesting) {
+        if (creep.carry.energy == 0 && !creep.currentlyHarvesting) {
             creep.memory.building = false;
             creep.findNearestOrLeastBusySource(roomInfo);
-        } else if (!currentlyHarvesting && !creep.memory.targetConstruction && creep.carry.energy>0) {
+        } else if (!creep.currentlyHarvesting && !creep.memory.targetConstruction && creep.carry.energy>0) {
             // Find a new building if we have energy and are fin
             creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
             if (creep.memory.targetConstruction) {
@@ -21,27 +17,19 @@ const roleBuilder = {
             }
         }
 
-        // Fallback for aimless creeps (like when this code went live, might be able to remove later)
-        // console.log(JSON.stringify(creep));
-        if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
-            console.log(creep+' had no target source or dropoff, gap in workflow?');
-            if(creep.carry.energy < creep.carryCapacity) {
-                creep.findNearestOrLeastBusySource(roomInfo);
-            }
-            if(creep.carry.energy == creep.carryCapacity) {
-                creep.findBestEnergyDump(roomInfo);
-            }
+        // Aimless creeps who get their cycles broken particular when collecting or dumping
+        // energy and the target filled/expired/destroyed
+        if (creep.hasNoPurposeInLife()) {
+            creep.getABasicJob(roomInfo);
         }
 
-        if(!currentlyBuilding) {
+        if(!creep.currentlyBuilding) {
             if(creep.carry.energy == creep.carryCapacity) {
-                // drop it off
-                // Find new drop off
                 if(!creep.memory.targetDropoff) {
                     creep.findBestEnergyDump(roomInfo);
                 }
                 creep.depositEnergy(roomInfo);
-            } else if (currentlyHarvesting){
+            } else if (creep.currentlyHarvesting){
                 creep.collectEnergy();
             }
         }

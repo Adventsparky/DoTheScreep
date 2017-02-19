@@ -2,28 +2,20 @@ const roleHarvester = {
 
     run: function(creep, roomInfo) {
         // creep.say('h');
-        let currentlyHarvesting=creep.memory.targetSource;
-
         // We haven't started harvesting yet and we're out of energy, creep's gotta eat
-        if(!currentlyHarvesting && creep.carry.energy == 0) {
+        if(!creep.currentlyHarvesting && creep.carry.energy == 0) {
             creep.findNearestOrLeastBusySource(roomInfo);
         }
 
         // We were harvesting and now we're full, time to dump
-        if(currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
+        if(creep.currentlyHarvesting && creep.carry.energy == creep.carryCapacity) {
             creep.findBestEnergyDump(roomInfo);
         }
 
-        // Fallback for aimless creeps (like when this code went live, might be able to remove later)
-        // console.log(JSON.stringify(creep));
-        if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
-            console.log(creep+' had no target source or dropoff, gap in workflow?');
-            if(creep.carry.energy < creep.carryCapacity) {
-                creep.findNearestOrLeastBusySource(roomInfo);
-            }
-            if(creep.carry.energy == creep.carryCapacity) {
-                creep.findBestEnergyDump(roomInfo);
-            }
+        // Aimless creeps who get their cycles broken particular when collecting or dumping
+        // energy and the target filled/expired/destroyed
+        if (creep.hasNoPurposeInLife()) {
+            creep.getABasicJob(roomInfo);
         }
 
         // Keep the setup checks above and these action perform checks separate, these actions need to happen every tick

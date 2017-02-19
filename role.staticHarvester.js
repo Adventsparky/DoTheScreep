@@ -8,16 +8,16 @@ const roleStaticHarvester = {
         // Get to mainSpawn, find a source without a flag for static harvest
         let source=null;
 
-        if (creep.memory.targetSource) {
-            console.log(creep.memory.targetSource);
+        if (creep.currentlyHarvesting()) {
+            console.log(creep.currentlyHarvesting());
             source = _.find(roomInfo.availableSources, function (source) {
                 console.log(source);
                 console.log(source.id);
-                return source.id == creep.memory.targetSource;
+                return source.id == creep.currentlyHarvesting();
             });
         }
 
-        if (!creep.memory.targetSource || !source) {
+        if (!creep.currentlyHarvesting() || !source) {
             let potentialSources=_.sortBy(roomInfo.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
                 return !Memory.dedicatedMiners[source.id]

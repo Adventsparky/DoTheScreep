@@ -8,11 +8,11 @@ const roleUpgrader = {
                 creep.findNearestOrLeastBusySource(room);
             }
 
-            if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
+            if (!creep.currentlyUpgrading() && creep.carry.energy == creep.carryCapacity) {
                 creep.memory.upgrading = true;
             }
 
-            if (creep.memory.upgrading) {
+            if (creep.currentlyUpgrading()) {
                 creep.upgradeControllerInRoom();
             } else {
                 creep.collectEnergy();

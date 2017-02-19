@@ -328,6 +328,24 @@ Creep.prototype.buildNearestStructure = function(roomInfo) {
     }
 };
 
+Creep.prototype.currentlyHarvesting = function() { return this.memory.targetSource; }
+Creep.prototype.currentlyBuilding = function() { return this.memory.building; }
+Creep.prototype.currentlyDepositing = function() { return this.memory.targetDropoff; }
+Creep.prototype.currentlyUpgrading = function() { return this.memory.upgrading; }
+
+Creep.prototype.hasNoPurposeInLife = function() {
+    return !this.currentlyHarvesting && !this.currentlyBuilding && !this.currentlyDepositing && !this.currentlyUpgrading;
+};
+
+Creep.prototype.getABasicJob = function(roomInfo) {
+    if(this.carry.energy < this.carryCapacity) {
+        this.findNearestOrLeastBusySource(roomInfo);
+    }
+    if(this.carry.energy == this.carryCapacity) {
+        this.findBestEnergyDump(roomInfo);
+    }
+};
+
 Creep.prototype.repairNearestStructure = function() {
     // Prioritise towers
     let closestDamagedStructure = this.pos.findClosestByRange(FIND_STRUCTURES, {
