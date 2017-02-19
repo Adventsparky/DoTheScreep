@@ -4,7 +4,7 @@ const roleBuilder = {
         // creep.say('b');
 
         if (creep.carry.energy == 0 && !creep.currentlyHarvesting) {
-            creep.memory.building = false;
+            delete creep.memory.building;
             creep.findNearestOrLeastBusySource(roomInfo);
         } else if (!creep.currentlyHarvesting && !creep.memory.targetConstruction && creep.carry.energy>0) {
             // Find a new building if we have energy and are fin
