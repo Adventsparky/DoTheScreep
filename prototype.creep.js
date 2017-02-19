@@ -164,24 +164,30 @@ Creep.prototype.depositEnergy = function(roomInfo) {
             // Let's make sure it's still a valid energy dump
             if (!targetDropoff.structureHasSpaceForEnergy()) {
                 targetDropoff = this.findBestEnergyDump(roomInfo);
+                if (!targetDropoff) {
+                    console.log(this+ ' had a target but its full now??');
+                }
             }
 
-            if (!targetDropoff.pos) {
-                console.log('ERROR: '+this+' was given a target dropoff ('+JSON.stringify(targetDropoff)+') with no POS???');
-            }
+            if (targetDropoff) {
 
-            if (!this.pos.isNearTo(targetDropoff.pos)) {
-                this.moveTo(targetDropoff);
-            } else {
-                // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
-                // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
-                let transferResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
-                console.log(this);
-                console.log(transferResult);
+                if (!targetDropoff.pos) {
+                    console.log('ERROR: ' + this + ' was given a target dropoff (' + JSON.stringify(targetDropoff) + ') with no POS???');
+                }
 
-                if (transferResult == ERR_INVALID_TARGET ||
-                    transferResult == ERR_FULL) {
-                    delete this.targetDropoff;
+                if (!this.pos.isNearTo(targetDropoff.pos)) {
+                    this.moveTo(targetDropoff);
+                } else {
+                    // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
+                    // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
+                    let transferResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
+                    console.log(this);
+                    console.log(transferResult);
+
+                    if (transferResult == ERR_INVALID_TARGET ||
+                        transferResult == ERR_FULL) {
+                        delete this.targetDropoff;
+                    }
                 }
             }
         }
