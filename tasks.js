@@ -332,7 +332,7 @@ module.exports = {
         if (!spawnEntry) {
             console.log('WARNING: Asked to add an entry to the spawn queue but something went wrong creating the entry???: '+roomInfo.name+' - '+roleName);
         } else {
-            Memory.highPrioritySpawns.push(spawnEntry, 1);
+            Memory.highPrioritySpawns.push(spawnEntry);
         }
     },
     removeEntryFromSpawnQueue : function(roomInfo, roleName) {
