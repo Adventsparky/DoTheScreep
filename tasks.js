@@ -327,7 +327,7 @@ module.exports = {
     },
     addEntryToSpawnQueue : function(roomInfo, roleName) {
         let spawnEntry=this.spawnQueueEntry(roomInfo, roleName);
-
+        console.log('add: '+JSON.stringify(spawnEntry));
         // If we don't find this item but expected to, we might have a problem
         if (!spawnEntry) {
             console.log('WARNING: Asked to add an entry to the spawn queue but something went wrong creating the entry???: '+roomInfo.name+' - '+roleName);
