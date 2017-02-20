@@ -310,23 +310,42 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
     } else {
         // creep.say('no builds');
     }
+
+    if (this.memory.targetConstruction) {
+        this.memory.building=true;
+    } else {
+        this.memory.building=false;
+    }
 };
 
 Creep.prototype.buildStructure = function(roomInfo) {
     if(this.memory.targetConstruction) {
+
         let targetConstruction = Game.getObjectById(this.memory.targetConstruction);
         if(targetConstruction && targetConstruction.pos) {
+
             if (this.pos.isNearTo(targetConstruction.pos)) {
-                if (this.build(targetConstruction) == ERR_NOT_IN_RANGE) {
+
+                let buildResult=this.build(targetConstruction);
+
+                if (buildResult == ERR_NOT_IN_RANGE) {
                     this.moveTo(targetConstruction);
                 }
+
+                if (buildResult == ERR_INVALID_TARGET) {
+                    delete this.memory.targetConstruction;
+                    delete this.memory.building;
+                }
             }
+
         } else{
             delete this.memory.targetConstruction;
             delete this.memory.building;
         }
+
     } else{
         delete this.memory.building;
+
         // If we've no towers, repair
         if (!roomInfo.towers) {
             this.repairNearestStructure();
