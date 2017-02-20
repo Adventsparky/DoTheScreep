@@ -3,7 +3,7 @@ const roleBuilder = {
     run: function(creep, roomInfo) {
         // creep.say('b');
 
-        if (!creep.currentlyBuilding() && creep.carry.energy < creep.carryCapacity) {
+        if ((!creep.currentlyBuilding() && creep.carry.energy < creep.carryCapacity) || creep.carry.energy == 0) {
             creep.memory.building=false;
             creep.findNearestOrLeastBusySource(roomInfo);
         } else if (creep.carry.energy == creep.carryCapacity) {
