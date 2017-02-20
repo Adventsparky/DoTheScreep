@@ -128,7 +128,7 @@ Creep.prototype.collectEnergy = function() {
 
         let targetSource = Game.getObjectById(this.memory.targetSource);
 
-        if(targetSource) {
+        if (targetSource) {
             if (!this.pos.isNearTo(targetSource.pos)) {
                 this.moveTo(targetSource);
             } else {
@@ -149,17 +149,18 @@ Creep.prototype.collectEnergy = function() {
                     delete this.memory.targetSource;
                 }
 
-                if (this.carry.energy == this.carryCapacity) {
-                    delete this.memory.targetSource;
-                }
-
             }
+        }
+
+        if (this.carry.energy == this.carryCapacity) {
+            delete this.memory.targetSource;
         }
     }
     return harvestResult;
 };
 
 Creep.prototype.depositEnergy = function(roomInfo) {
+    let dropoffResult=0;
     if(this.memory.targetDropoff) {
 
         let targetDropoff = Game.getObjectById(this.memory.targetDropoff);
@@ -184,16 +185,21 @@ Creep.prototype.depositEnergy = function(roomInfo) {
                 } else {
                     // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
                     // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
-                    let transferResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
+                    dropoffResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
 
-                    if (transferResult == ERR_INVALID_TARGET ||
-                        transferResult == ERR_FULL) {
-                        delete this.targetDropoff;
+                    if (dropoffResult == ERR_INVALID_TARGET ||
+                        dropoffResult == ERR_FULL) {
+                        delete this.memory.targetDropoff;
                     }
                 }
             }
         }
+
+        if (this.carry.energy == 0) {
+            delete this.memory.targetDropoff;
+        }
     }
+    return dropoffResult;
 };
 
 Creep.prototype.findBestEnergyDump = function(roomInfo) {
@@ -309,9 +315,11 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
 Creep.prototype.buildStructure = function(roomInfo) {
     if(this.memory.targetConstruction) {
         let targetConstruction = Game.getObjectById(this.memory.targetConstruction);
-        if(targetConstruction) {
-            if (this.build(targetConstruction) == ERR_NOT_IN_RANGE) {
-                this.moveTo(targetConstruction);
+        if(targetConstruction && targetConstruction.pos) {
+            if (this.pos.isNearTo(targetConstruction.pos)) {
+                if (this.build(targetConstruction) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(targetConstruction);
+                }
             }
         } else{
             delete this.memory.targetConstruction;
