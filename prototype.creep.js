@@ -306,7 +306,7 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
     }
 };
 
-Creep.prototype.buildNearestStructure = function(roomInfo) {
+Creep.prototype.build = function(roomInfo) {
     if(this.memory.targetConstruction) {
         let targetConstruction = Game.getObjectById(this.memory.targetConstruction);
         if(targetConstruction) {
@@ -326,10 +326,10 @@ Creep.prototype.buildNearestStructure = function(roomInfo) {
     }
 };
 
-Creep.prototype.currentlyHarvesting = function() { return this.memory.targetSource; }
-Creep.prototype.currentlyBuilding = function() { return this.memory.building; }
-Creep.prototype.currentlyDepositing = function() { return this.memory.targetDropoff; }
-Creep.prototype.currentlyUpgrading = function() { return this.memory.upgrading; }
+Creep.prototype.currentlyHarvesting = function() { return this.memory.targetSource; };
+Creep.prototype.currentlyBuilding = function() { return this.memory.building; };
+Creep.prototype.currentlyDepositing = function() { return this.memory.targetDropoff; };
+Creep.prototype.currentlyUpgrading = function() { return this.memory.upgrading; };
 
 Creep.prototype.hasNoPurposeInLife = function() {
     return !this.currentlyHarvesting && !this.currentlyBuilding && !this.currentlyDepositing && !this.currentlyUpgrading;
