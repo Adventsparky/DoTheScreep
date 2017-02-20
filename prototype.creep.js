@@ -328,6 +328,7 @@ Creep.prototype.buildStructure = function(roomInfo) {
 
                 let buildResult=this.build(targetConstruction);
 
+                console.log(buildResult);
                 if (buildResult == ERR_NOT_IN_RANGE) {
                     this.moveTo(targetConstruction);
                 }
