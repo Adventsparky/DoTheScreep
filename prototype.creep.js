@@ -306,7 +306,7 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
     }
 };
 
-Creep.prototype.build = function(roomInfo) {
+Creep.prototype.buildStructure = function(roomInfo) {
     if(this.memory.targetConstruction) {
         let targetConstruction = Game.getObjectById(this.memory.targetConstruction);
         if(targetConstruction) {

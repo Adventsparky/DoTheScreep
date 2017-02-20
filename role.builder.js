@@ -11,7 +11,7 @@ const roleBuilder = {
             creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
             if (creep.memory.targetConstruction) {
                 this.memory.building=true;
-                creep.build(roomInfo);
+                creep.buildStructure(roomInfo);
             } else {
                 // Nothing to build, but we have energy
             }
@@ -36,7 +36,7 @@ const roleBuilder = {
                 creep.collectEnergy();
             }
         } else {
-            creep.build(roomInfo);
+            creep.buildStructure(roomInfo);
         }
     }
 };
