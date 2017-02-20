@@ -6,9 +6,12 @@ const roleBuilder = {
         if (creep.carry.energy == 0 && !creep.currentlyHarvesting()) {
             creep.memory.building=false;
             creep.findNearestOrLeastBusySource(roomInfo);
-        } else if (!creep.currentlyHarvesting() && !creep.memory.targetConstruction && creep.carry.energy>0) {
+        } else if (!creep.currentlyHarvesting() && creep.carry.energy>0) {
             // Find a new building if we have energy and are fin
-            creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
+            if (!creep.memory.targetConstruction) {
+                creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
+            }
+            creep.memory.building=true;
         }
 
         // Aimless creeps who get their cycles broken particular when collecting or dumping
