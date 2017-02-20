@@ -21,9 +21,9 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     let allEnergySources = null;
     // Make sure we only allow builders to pull from stores, and only if the room is far enough along to have broken 700 capacity, and we currently have more than 600 of that
 
-    if (this.memory.role == 'builder' && this.memory.targetConstruction && roomInfo.energyCapacity >= 800 && roomInfo.energyAvailable >=  600 && roomInfo.fullExtensions && roomInfo.fullExtensions[0]) {
+    if (this.memory.role == 'builder' && this.memory.targetConstruction && roomInfo.energyCapacity >= 800 && roomInfo.fullExtensions && roomInfo.fullExtensions[0]) {
         // console.log('this is a builder, allow extensions as sources');
-        allEnergySources = _.sortBy(_.union(roomInfo.availableSources, roomInfo.fullExtensions), s => this.pos.getRangeTo(s));
+        allEnergySources = _.sortBy(roomInfo.fullExtensions, s => this.pos.getRangeTo(s));
         if (allEnergySources && allEnergySources.length>0) {
             this.memory.targetSource=allEnergySources[0].id;
             return;
