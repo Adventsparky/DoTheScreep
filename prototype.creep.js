@@ -336,6 +336,8 @@ Creep.prototype.buildStructure = function(roomInfo) {
                     delete this.memory.targetConstruction;
                     delete this.memory.building;
                 }
+            }else {
+                this.moveTo(targetConstruction);
             }
 
         } else{
