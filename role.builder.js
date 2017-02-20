@@ -3,10 +3,10 @@ const roleBuilder = {
     run: function(creep, roomInfo) {
         // creep.say('b');
 
-        if ((creep.carry.energy == 0 && !creep.currentlyHarvesting()) || (creep.currentlyHarvesting() && creep.carry.energy < creep.carryCapacity)) {
+        if (!creep.currentlyBuilding() && creep.carry.energy < creep.carryCapacity) {
             creep.memory.building=false;
             creep.findNearestOrLeastBusySource(roomInfo);
-        } else if (!creep.currentlyHarvesting() && creep.carry.energy == creep.carryCapacity) {
+        } else if (creep.carry.energy == creep.carryCapacity) {
             // Find a new building if we have energy and are fin
             if (!creep.memory.targetConstruction) {
                 creep.findNearestConstructionTowerContainerExtensionRampartWall(roomInfo);
@@ -22,13 +22,14 @@ const roleBuilder = {
         }
 
         if(!creep.currentlyBuilding()) {
-            if (creep.currentlyDepositing() && creep.carry.energy > 0) {
-                creep.depositEnergy(roomInfo);
-            } else if(creep.carry.energy == creep.carryCapacity) {
-                if(!creep.memory.targetDropoff) {
-                    creep.findBestEnergyDump(roomInfo);
-                }
-                creep.depositEnergy(roomInfo);
+            // if (creep.currentlyDepositing() && creep.carry.energy > 0) {
+                // creep.depositEnergy(roomInfo);
+            // } else if(creep.carry.energy == creep.carryCapacity) {
+            if(creep.carry.energy == creep.carryCapacity) {
+                // if(!creep.memory.targetDropoff) {
+                    // creep.findBestEnergyDump(roomInfo);
+                // }
+                // creep.depositEnergy(roomInfo);
             } else if (creep.currentlyHarvesting()){
                 creep.collectEnergy();
             }
