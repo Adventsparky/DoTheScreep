@@ -306,14 +306,15 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
             return {range: range, site: site}
         },{range: 99999});
         // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-        this.memory.targetConstruction=target.site.id
+        this.memory.targetConstruction=target.site.id;
+
+        if (this.carry.energy>0) {
+            this.memory.building=true;
+        } else {
+            this.memory.building=false;
+        }
     } else {
         // creep.say('no builds');
-    }
-
-    if (this.memory.targetConstruction) {
-        this.memory.building=true;
-    } else {
         this.memory.building=false;
     }
 };
