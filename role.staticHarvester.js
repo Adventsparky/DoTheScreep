@@ -8,7 +8,7 @@ const roleStaticHarvester = {
         // Get to mainSpawn, find a source without a flag for static harvest
         let source=null;
 
-        if (this.memory.p45) {
+        if (creep.memory.p45) {
             // move to spawn or grave
             let target=roomInfo.grave ? roomInfo.grave : roomInfo.mainSpawn;
             let targetPos=null;
