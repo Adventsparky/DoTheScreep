@@ -55,7 +55,7 @@ const roleStaticHarvester = {
             console.log('Our source is not set or doesnt exist anymore');
             let potentialSources=_.sortBy(roomInfo.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
-                let creepOnThisSpot=Memory.dedicatedMiners[source];
+                let creepOnThisSpot=Memory.dedicatedMiners[source.id];
                 return !creepOnThisSpot
                     || !Game.getObjectById(creepOnThisSpot)
                     || (Game.getObjectById(creepOnThisSpot).ticksToLive < ticksToLiveToPerformSwap);
