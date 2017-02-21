@@ -36,7 +36,7 @@ const roleStaticHarvester = {
                 // Someone is on the spot, someone must have taken it??
                 if (Memory.dedicatedMiners[creep.targetSource] != creep.id) {
                     // SOL
-                    delete creep.memory.targetSource;
+                    // delete creep.memory.targetSource;
                     return;
                 }
             }
