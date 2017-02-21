@@ -37,6 +37,7 @@ const roleStaticHarvester = {
                 if (Memory.dedicatedMiners[creep.targetSource] != creep.id) {
                     // SOL
                     // delete creep.memory.targetSource;
+                    console.log('Someone else is the miner. '+creep.id+' checked, found: '+Memory.dedicatedMiners[creep.targetSource]);
                     return;
                 }
             }
