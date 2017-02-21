@@ -363,7 +363,7 @@ Creep.prototype.currentlyDepositing = function() { return this.memory.targetDrop
 Creep.prototype.currentlyUpgrading = function() { return this.memory.upgrading; };
 
 Creep.prototype.hasNoPurposeInLife = function() {
-    return !this.currentlyHarvesting && !this.currentlyBuilding && !this.currentlyDepositing && !this.currentlyUpgrading;
+    return !this.currentlyHarvesting() && !this.currentlyBuilding() && !this.currentlyDepositing() && !this.currentlyUpgrading();
 };
 
 Creep.prototype.getABasicJob = function(roomInfo) {
