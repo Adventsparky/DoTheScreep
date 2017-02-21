@@ -43,8 +43,6 @@ const roleStaticHarvester = {
             }
 
             source = _.find(roomInfo.availableSources, function (source) {
-                console.log(source);
-                console.log(source.id);
                 return source.id == creep.currentlyHarvesting();
             });
         }
