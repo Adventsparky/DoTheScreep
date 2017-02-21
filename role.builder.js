@@ -33,11 +33,9 @@ const roleBuilder = {
             } else if (creep.currentlyHarvesting()){
                 creep.collectEnergy();
             }
-        } else if(creep.currentlyBuilding()) {
+        } else if(creep.memory.targetConstruction) {
             console.log(creep+' should build');
             creep.buildStructure(roomInfo);
-        } else {
-            // spare fart
         }
     }
 };
