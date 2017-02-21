@@ -193,8 +193,10 @@ Creep.prototype.depositEnergy = function(roomInfo) {
                     }
 
                     // If we dropped off but have energy left over, it filled, let's look for another site, towers doing upgrades trapped harvesters in a deposit loop
+                    // We need to immediately find the new source though so the creep doesn't enter an idle state
                     if (dropoffResult == OK && this.carry.energy > 0) {
                         delete this.memory.targetDropoff;
+                        this.findBestEnergyDump(roomInfo);
                     }
                 }
             }
