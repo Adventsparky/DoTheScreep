@@ -152,7 +152,7 @@ Creep.prototype.collectEnergy = function() {
             }
         }
 
-        if (this.carry.energy == this.carryCapacity) {
+        if (this.carry.energy == this.carryCapacity && this.role != 'staticHarvester') {
             delete this.memory.targetSource;
         }
     }
