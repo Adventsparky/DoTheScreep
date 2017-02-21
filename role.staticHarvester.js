@@ -31,6 +31,7 @@ const roleStaticHarvester = {
         }
 
         if (creep.currentlyHarvesting()) {
+
             // Check we have the reserved spot
             let creepOnThisSpot=Memory.dedicatedMiners[creep.memory.targetSource];
             if (creepOnThisSpot) {
@@ -51,6 +52,7 @@ const roleStaticHarvester = {
         }
 
         if (!creep.currentlyHarvesting() || !source) {
+            console.log('Our source is not set or doesnt exist anymore');
             let potentialSources=_.sortBy(roomInfo.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
                 let creepOnThisSpot=Memory.dedicatedMiners[source];
@@ -97,7 +99,7 @@ const roleStaticHarvester = {
 
                 // If we're in place, get workin'
                 if (creep.pos.x == sourceContainer.pos.x && creep.pos.y == sourceContainer.pos.y) {
-                    console.log('there');
+                    console.log('we should now take over at '+source);
                     Memory.dedicatedMiners[source.id] = creep.id;
                     creep.collectEnergy();
                 }
