@@ -2,6 +2,10 @@ const roleBuilder = {
 
     run: function(creep, roomInfo) {
         // creep.say('b');
+        if (creep.currentlyDepositing()) {
+            creep.depositEnergy(roomInfo);
+            return;
+        }
 
         if ((!creep.currentlyBuilding() && creep.carry.energy < creep.carryCapacity) || creep.carry.energy == 0) {
             creep.memory.building=false;
@@ -36,6 +40,10 @@ const roleBuilder = {
         } else if(creep.memory.targetConstruction) {
             console.log(creep+' should build');
             creep.buildStructure(roomInfo);
+        } else {
+            if(!creep.currentlyDepositing()) {
+                creep.findBestEnergyDump(roomInfo);
+            }
         }
     }
 };
