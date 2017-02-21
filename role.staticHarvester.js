@@ -32,12 +32,13 @@ const roleStaticHarvester = {
 
         if (creep.currentlyHarvesting()) {
             // Check we have the reserved spot
-            if (Memory.dedicatedMiners[creep.memory.targetSource]) {
+            let creepOnThisSpot=Memory.dedicatedMiners[creep.memory.targetSource];
+            if (creepOnThisSpot) {
                 // Someone is on the spot, someone must have taken it??
-                if (Memory.dedicatedMiners[creep.targetSource] != creep.id) {
+                if (creepOnThisSpot != creep.id) {
                     // SOL
-                    // delete creep.memory.targetSource;
-                    console.log('Someone else is the miner. '+creep.id+' checked, found: '+Memory.dedicatedMiners[creep.targetSource]);
+                    delete creep.memory.targetSource;
+                    console.log('Someone else is the miner. '+creep.id+' checked, found: '+creepOnThisSpot);
                     return;
                 }
             }
@@ -52,9 +53,10 @@ const roleStaticHarvester = {
         if (!creep.currentlyHarvesting() || !source) {
             let potentialSources=_.sortBy(roomInfo.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
-                return !Memory.dedicatedMiners[source.id]
-                    || !Game.getObjectById(Memory.dedicatedMiners[source.id])
-                    || (Game.getObjectById(Memory.dedicatedMiners[source.id]).ticksToLive < ticksToLiveToPerformSwap);
+                let creepOnThisSpot=Memory.dedicatedMiners[source];
+                return !creepOnThisSpot
+                    || !Game.getObjectById(creepOnThisSpot)
+                    || (Game.getObjectById(creepOnThisSpot).ticksToLive < ticksToLiveToPerformSwap);
             });
             if (closestSourceWithoutStaticOrNeedsReplacing) {
                 creep.memory.targetSource = closestSourceWithoutStaticOrNeedsReplacing.id;
