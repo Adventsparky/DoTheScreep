@@ -186,7 +186,7 @@ Creep.prototype.depositEnergy = function(roomInfo) {
                     // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
                     // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
                     dropoffResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
-
+console.log(this+' deposit result: '+dropoffResult);
                     if (dropoffResult == ERR_INVALID_TARGET ||
                         dropoffResult == ERR_FULL) {
                         delete this.memory.targetDropoff;
