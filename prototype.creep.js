@@ -186,9 +186,14 @@ Creep.prototype.depositEnergy = function(roomInfo) {
                     // Creep could get stuck at the source if everything is full, move to the dump regardless and wait
                     // console.log(creep.transfer(targetDropoff, RESOURCE_ENERGY));
                     dropoffResult = this.transfer(targetDropoff, RESOURCE_ENERGY);
-console.log(this+' deposit result: '+dropoffResult);
+
                     if (dropoffResult == ERR_INVALID_TARGET ||
                         dropoffResult == ERR_FULL) {
+                        delete this.memory.targetDropoff;
+                    }
+
+                    // If we dropped off but have energy left over, it filled, let's look for another site, towers doing upgrades trapped harvesters in a deposit loop
+                    if (dropoffResult == OK && this.carry.energy > 0) {
                         delete this.memory.targetDropoff;
                     }
                 }
@@ -239,7 +244,6 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
         let target=false;
         let currentPos=this.pos;
         if (towers) {
-            console.log('which tower for '+this.name);
             target = _.reduce(dropOffStructures, function(result, structure) {
                 let energy=structure.energy;
                 if(result && result.energy < energy) {
