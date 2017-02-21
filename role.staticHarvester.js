@@ -8,7 +8,30 @@ const roleStaticHarvester = {
         // Get to mainSpawn, find a source without a flag for static harvest
         let source=null;
 
+        if (this.memory.p45) {
+            // move to spawn or grave
+            let target=roomInfo.grave ? roomInfo.grave : roomInfo.mainSpawn;
+            let targetPos=null;
+
+            if (target && target.pos) {
+                targetPos = target.pos;
+            }
+
+            if (targetPos) {
+                if (roomInfo.grave) {
+                    if (creep.pos.x != targetPos.x || creep.pos.y != targetPos.y) {
+                        creep.moveTo(targetPos);
+                    }
+                } else{
+                    if (!creep.pos.isNearTo(targetPos)){
+                        creep.moveTo(targetPos);
+                    }
+                }
+            }
+        }
+
         if (creep.currentlyHarvesting()) {
+            // Check we have the reserved spot
             console.log(creep.currentlyHarvesting());
             source = _.find(roomInfo.availableSources, function (source) {
                 console.log(source);
@@ -62,7 +85,7 @@ const roleStaticHarvester = {
                 }
 
                 // If we're in place, get workin'
-                if (creep.pos.x == sourceContainer.pos.x || creep.pos.y == sourceContainer.pos.y) {
+                if (creep.pos.x == sourceContainer.pos.x && creep.pos.y == sourceContainer.pos.y) {
                     console.log('there');
                     Memory.dedicatedMiners[source.id] = creep.id;
                     creep.collectEnergy();
@@ -71,7 +94,7 @@ const roleStaticHarvester = {
         }
 
 
-        // Wait for Container or dump
+        // Dump
         if (creep.carry > 0) {
             creep.drop(RESOURCE_ENERGY, creep.carry);
         }
@@ -79,7 +102,7 @@ const roleStaticHarvester = {
         // Am I dying?
         if (creep.ticksToLive < ticksToLiveToPerformSwap) {
             // Uh oh, I need replacing
-            // this.addEntryToSpawnQueue(this.spawnQueueEntry(roomInfo, creep.memory.role));
+            this.addEntryToSpawnQueue(roomInfo, creep.memory.role);
         }
     }
 };
