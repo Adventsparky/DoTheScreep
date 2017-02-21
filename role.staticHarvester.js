@@ -32,7 +32,15 @@ const roleStaticHarvester = {
 
         if (creep.currentlyHarvesting()) {
             // Check we have the reserved spot
-            console.log(creep.currentlyHarvesting());
+            if (Memory.dedicatedMiners[creep.memory.targetSource]) {
+                // Someone is on the spot, someone must have taken it??
+                if (Memory.dedicatedMiners[creep.targetSource] != creep.id) {
+                    // SOL
+                    delete creep.memory.targetSource;
+                    return;
+                }
+            }
+
             source = _.find(roomInfo.availableSources, function (source) {
                 console.log(source);
                 console.log(source.id);
