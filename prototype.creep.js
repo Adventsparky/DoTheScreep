@@ -33,7 +33,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
     // Are we full blown statics?
     let fullBlownStatic=true;
     _.each(roomInfo.availableSources, function(source) {
-        if (!Memory.dedicatedMiners[source.id]) {
+        if (!Memory.dedicatedMiners || !Memory.dedicatedMiners[source.id]) {
             fullBlownStatic=false;
         }
     });
