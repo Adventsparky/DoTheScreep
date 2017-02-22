@@ -84,9 +84,9 @@ module.exports = {
         // RESERVED POS (for extension building purposes)
         if (roomInfo.mainSpawn) {
             roomInfo.reservedPos=[];
-            roomInfo.push(roomInfo.gravePos);
-            roomInfo.push(roomInfo.storagePos);
-            roomInfo.push(roomInfo.spawnLinkPos);
+            roomInfo.reservedPos.push(roomInfo.gravePos);
+            roomInfo.reservedPos.push(roomInfo.storagePos);
+            roomInfo.reservedPos.push(roomInfo.spawnLinkPos);
         }
 
         console.log(roomInfo.storagePos);
