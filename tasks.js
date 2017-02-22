@@ -333,6 +333,9 @@ module.exports = {
         let currentlyQueued=this.countCreepsQueuedForSpawn(roomInfo, roleName);
 
         if (currentlyQueued == 0) {
+            console.log(roleName+'wasnt in the queue already, free to add');
+            console.log(JSON.stringify(Memory.highPrioritySpawns));
+            console.log('--');
             Memory.highPrioritySpawns.push(this.spawnQueueEntry(roomInfo, roleName));
         }
     },
