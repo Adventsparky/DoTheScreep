@@ -124,7 +124,7 @@ const roleStaticHarvester = {
                     }
                 }
             }
-            creep.room.addEntryToSpawnQueueIfNotThereAlready(roomInfo, creep.memory.role);
+            // creep.room.addEntryToSpawnQueueIfNotThereAlready(roomInfo, creep.memory.role);
         }
     }
 };
