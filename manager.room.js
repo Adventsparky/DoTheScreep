@@ -81,6 +81,14 @@ module.exports = {
             roomInfo.spawnLinkPos = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y+2, thisRoom.name);
         }
 
+        // RESERVED POS (for extension building purposes)
+        if (roomInfo.mainSpawn) {
+            roomInfo.reservedPos=[];
+            roomInfo.push(roomInfo.gravePos);
+            roomInfo.push(roomInfo.storagePos);
+            roomInfo.push(roomInfo.spawnLinkPos);
+        }
+
         console.log(roomInfo.storagePos);
         console.log(roomInfo.spawnLinkPos);
 
