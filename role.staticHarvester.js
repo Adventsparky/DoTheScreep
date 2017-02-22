@@ -106,6 +106,23 @@ const roleStaticHarvester = {
             // Uh oh, I need replacing
             creep.room.addEntryToSpawnQueueIfNotThereAlready(roomInfo, creep.memory.role);
         }
+
+        // Am I deth but wasn't replaced?
+        if (creep.ticksToLive < 5) {
+            let targetSourceId=creep.memory.targetSource;
+            if (targetSourceId) {
+                let dedicatedMinerId=Memory.dedicatedMiners[targetSourceId];
+                if (dedicatedMinerId) {
+                    if (dedicatedMinerId == creep.id) {
+                        // uh oh
+                        console.log('Last ditch static cleanup, handover didnt happen from '+creep);
+                        delete Memory.dedicatedMiners[targetSourceId];
+                        delete creep.memory.targetSource;
+                    }
+                }
+            }
+            creep.room.addEntryToSpawnQueueIfNotThereAlready(roomInfo, creep.memory.role);
+        }
     }
 };
 

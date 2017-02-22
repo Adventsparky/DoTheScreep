@@ -9,9 +9,6 @@ profiler.enable();
 module.exports.loop = function () {
     profiler.wrap(function() {
 
-        // RIP in pieces
-        Utils.clearMemoryOfDeadCreeps();
-
         if (Memory.highPrioritySpawns == undefined) {
             Memory.highPrioritySpawns=[];
         }
@@ -19,5 +16,8 @@ module.exports.loop = function () {
         _.each(Game.rooms, function(room) {
             RoomManager.process(room.name);
         });
+
+        // RIP in pieces
+        Utils.clearMemoryOfDeadCreeps();
     });
 };
