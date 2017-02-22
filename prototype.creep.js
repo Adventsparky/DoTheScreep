@@ -127,6 +127,7 @@ Creep.prototype.collectEnergy = function() {
     if (this.memory.targetSource) {
 
         let targetSource = Game.getObjectById(this.memory.targetSource);
+        let clearTarget = false;
 
         if (targetSource) {
             if (!this.pos.isNearTo(targetSource.pos)) {
@@ -146,14 +147,20 @@ Creep.prototype.collectEnergy = function() {
                 }
 
                 if (harvestResult == ERR_NOT_ENOUGH_RESOURCES ) {
-                    delete this.memory.targetSource;
+                    clearTarget=true;
                 }
 
             }
         }
 
         if (this.carry.energy == this.carryCapacity && this.memory.role != 'staticHarvester') {
-            delete this.memory.targetSource;
+            clearTarget=true;
+        }
+
+        if (clearTarget) {
+            if (this.memory.role != 'staticHarvester') {
+                delete this.memory.targetSource;
+            }
         }
     }
     return harvestResult;
