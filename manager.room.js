@@ -73,13 +73,16 @@ module.exports = {
 
         // STORAGE POS
         if (roomInfo.mainSpawn) {
-            roomInfo.storage = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y, thisRoom.name);
+            roomInfo.storagePos = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y, thisRoom.name);
         }
 
         // SPAWN LINK POS
         if (roomInfo.mainSpawn) {
-            roomInfo.spawnLink = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y+2, thisRoom.name);
+            roomInfo.spawnLinkPos = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y+2, thisRoom.name);
         }
+
+        console.log(roomInfo.storagePos);
+        console.log(roomInfo.spawnLinkPos);
 
         // EXTENSION BUILDER SOURCE
         if (!roomInfo.extensionBuilderSource && roomInfo.mainSpawn) {
