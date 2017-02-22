@@ -71,6 +71,11 @@ module.exports = {
             roomInfo.gravePos = new RoomPosition(roomInfo.mainSpawn.pos.x + 1, roomInfo.mainSpawn.pos.y + 1, thisRoom.name);
         }
 
+        // STORAGE POS
+        if (roomInfo.mainSpawn) {
+            roomInfo.gravePos = new RoomPosition(roomInfo.mainSpawn.pos.x + 1, roomInfo.mainSpawn.pos.y - 1, thisRoom.name);
+        }
+
         // EXTENSION BUILDER SOURCE
         if (!roomInfo.extensionBuilderSource && roomInfo.mainSpawn) {
             // We only want one extension builder source. OR DO WE.... todo, maybe. Might check second source instead of allowed the "broken" pattern.
