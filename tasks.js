@@ -335,10 +335,10 @@ module.exports = {
         }
     },
     addEntryToSpawnQueueIfNotThereAlready : function(roomInfo, roleName) {
-        let currentlyQueued=countCreepsQueuedForSpawn(roomInfo, roleName);
+        let currentlyQueued=this.countCreepsQueuedForSpawn(roomInfo, roleName);
 
         if (currentlyQueued == 0) {
-            Memory.highPrioritySpawns.push(spawnEntry);
+            Memory.highPrioritySpawns.push(this.spawnQueueEntry(roomInfo, roleName));
         }
     },
     removeEntryFromSpawnQueue : function(roomInfo, roleName) {
