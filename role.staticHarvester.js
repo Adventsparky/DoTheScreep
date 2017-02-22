@@ -84,6 +84,7 @@ const roleStaticHarvester = {
                             let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
                             if (distanceLeftToTravel <= 5 && currentHarvester && !currentHarvester.memory.p45) {
                                 currentHarvester.memory.p45 = true;
+                                Memory.dedicatedMiners[source.id] = creep.id;
                             }
                         }
                     }
