@@ -73,7 +73,12 @@ module.exports = {
 
         // STORAGE POS
         if (roomInfo.mainSpawn) {
-            roomInfo.gravePos = new RoomPosition(roomInfo.mainSpawn.pos.x + 1, roomInfo.mainSpawn.pos.y - 1, thisRoom.name);
+            roomInfo.storage = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y, thisRoom.name);
+        }
+
+        // SPAWN LINK POS
+        if (roomInfo.mainSpawn) {
+            roomInfo.spawnLink = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y+2, thisRoom.name);
         }
 
         // EXTENSION BUILDER SOURCE
