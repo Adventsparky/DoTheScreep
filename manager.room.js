@@ -148,7 +148,7 @@ module.exports = {
                     // We need to check there's not one on the way to the source or one in the spawn Q
                     Tasks.addEntryToSpawnQueue(roomInfo, roleName);
                 } else {
-                    console.log('No need to spawn for '+source.id+', being looked after already')
+                    console.log('No need to queue spawn for '+source.id+', being looked after already')
                 }
             }
         });
