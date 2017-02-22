@@ -1,4 +1,4 @@
-const ticksToLiveToPerformSwap=150;
+const ticksToLiveToPerformSwap=800;
 
 const roleStaticHarvester = {
 
@@ -33,8 +33,9 @@ const roleStaticHarvester = {
             // Check we have the reserved spot
             let creepOnThisSpot=Memory.dedicatedMiners[creep.memory.targetSource];
             if (creepOnThisSpot) {
+                let currentHarvester = Game.getObjectById(creepOnThisSpot);
                 // Someone is on the spot, someone must have taken it??
-                if (creepOnThisSpot != creep.id) {
+                if (creepOnThisSpot != creep.id && currentHarvester && currentHarvester.ticksToLive > ticksToLiveToPerformSwap) {
                     // SOL
                     delete creep.memory.targetSource;
                     console.log('Someone else is the miner. '+creep.id+' checked, found: '+creepOnThisSpot);
@@ -48,6 +49,7 @@ const roleStaticHarvester = {
         }
 
         if (!creep.currentlyHarvesting() || !source) {
+            console.log('find somewhere to take over');
             let potentialSources=_.sortBy(roomInfo.availableSources, s => creep.pos.getRangeTo(s));
             let closestSourceWithoutStaticOrNeedsReplacing = _.find(potentialSources, function (source) {
                 let creepOnThisSpot=Memory.dedicatedMiners[source.id];
@@ -65,17 +67,17 @@ const roleStaticHarvester = {
         if (source && source.container) {
 
             let sourceContainer=Game.getObjectById(source.container);
-            let dedicatedMiner=Memory.dedicatedMiners[source.id];
+            let dedicatedMiner=Memory.dedicatedMiners[source.id]; console.log(dedicatedMiner);
 
             if (sourceContainer) {
                 // Check are we where we need to be
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
                     // If non static source, move in directly
-                    if (!dedicatedMiner || dedicatedMiner==creep.id) {
+                    let currentHarvester = Game.getObjectById(dedicatedMiner);console.log(currentHarvester);
+                    if (!dedicatedMiner || dedicatedMiner==creep.id || (currentHarvester && currentHarvester.ticksToLive < ticksToLiveToPerformSwap)) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
                         // Check for a swap
-                        let currentHarvester = Game.creeps[dedicatedMiner];
                         if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
                             //     // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
                             creep.moveTo(source.container.pos);
