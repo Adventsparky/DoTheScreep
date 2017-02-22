@@ -105,9 +105,10 @@ const roleStaticHarvester = {
         }
 
         // Am I dying?
-        if (creep.ticksToLive < ticksToLiveToPerformSwap) {
+        if (creep.ticksToLive < ticksToLiveToPerformSwap && !creep.memory.calledreplacement) {
             // Uh oh, I need replacing
-            creep.room.addEntryToSpawnQueueIfNotThereAlready(roomInfo, creep.memory.role);
+            creep.room.addEntryToSpawnQueue(roomInfo, creep.memory.role);
+            creep.memory.calledreplacement=true;
         }
 
         // Am I deth but wasn't replaced?
