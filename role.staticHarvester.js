@@ -1,5 +1,4 @@
 const ticksToLiveToPerformSwap=150;
-const Utils=require('tasks');
 
 const roleStaticHarvester = {
 
@@ -105,7 +104,7 @@ const roleStaticHarvester = {
         // Am I dying?
         if (creep.ticksToLive < ticksToLiveToPerformSwap) {
             // Uh oh, I need replacing
-            Utils.addEntryToSpawnQueue(roomInfo, creep.memory.role);
+            addEntryToSpawnQueue(roomInfo, creep.memory.role);
         }
     }
 };
