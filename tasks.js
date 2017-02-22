@@ -258,17 +258,17 @@ module.exports = {
 
                     if(roomInfo.mainSpawn.canCreateCreep(spawnRole.stage2Parts, creepName) == OK){
                         // console.log('Build big one');
-                        spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.stage2Parts, creepName, {role: spawnRole.role});
+                        // spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.stage2Parts, creepName, {role: spawnRole.role});
                     } else {
                         // console.log('Build little one');
-                        spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.parts, creepName, {role: spawnRole.role});
+                        // spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.parts, creepName, {role: spawnRole.role});
                     }
 
-                    if (spawnResult == OK) {
+                    // if (spawnResult == OK) {
                         // Remove from q
-                    // console.log('Was meant to spawn a static');
+                    console.log('Was meant to spawn a static');
                         this.removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
-                    }
+                    // }
                 }
             }
 
