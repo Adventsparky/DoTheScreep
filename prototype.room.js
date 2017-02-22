@@ -1,5 +1,7 @@
 'use strict';
 
+const Utils=require('tasks');
+
 Room.prototype.countAccessibleSpacesAroundPoint = function(pos) {
     // console.log('Check '+pos+' in '+room);
     let spaces=0;
@@ -42,4 +44,8 @@ Room.prototype.locateContainersAroundPoint = function(pos, availableStructures) 
     });
 
     return container;
+};
+
+Room.prototype.addEntryToSpawnQueue = function(roomInfo, roleName) {
+    Utils.addEntryToSpawnQueue(roomInfo, roleName);
 };
