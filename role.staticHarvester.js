@@ -74,7 +74,7 @@ const roleStaticHarvester = {
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
                     // If non static source, move in directly
                     let currentHarvester = Game.getObjectById(dedicatedMiner);console.log(currentHarvester);
-                    if (!dedicatedMiner || dedicatedMiner==creep.id || (currentHarvester && currentHarvester.ticksToLive < ticksToLiveToPerformSwap)) {
+                    if (!dedicatedMiner || dedicatedMiner==creep.id) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
                         // Check for a swap
