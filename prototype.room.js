@@ -49,3 +49,7 @@ Room.prototype.locateContainersAroundPoint = function(pos, availableStructures) 
 Room.prototype.addEntryToSpawnQueue = function(roomInfo, roleName) {
     Utils.addEntryToSpawnQueue(roomInfo, roleName);
 };
+
+Room.prototype.addEntryToSpawnQueueIfNotThereAlready = function(roomInfo, roleName) {
+    Utils.addEntryToSpawnQueueIfNotThereAlready(roomInfo, roleName);
+};
