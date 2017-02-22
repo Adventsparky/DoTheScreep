@@ -91,7 +91,7 @@ module.exports = {
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
 
         // STATICS
-        if (room.controller && room.controller.level > 3) {
+        if (roomInfo.controller && roomInfo.controller.level > 3) {
             roomInfo.staticContainers = [];
             _.each(availableSources, function (source) {
                 // console.log(source);
