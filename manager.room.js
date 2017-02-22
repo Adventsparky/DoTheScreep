@@ -79,79 +79,83 @@ module.exports = {
 
         // SOURCES
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
-        roomInfo.staticContainers=[];
-        _.each(availableSources, function(source){
-            // console.log(source);
-            // Query.countAccessibleSpacesAroundStructure(source);
 
-            if (Memory.dedicatedMiners == undefined) {
-                Memory.dedicatedMiners = {};
-            }
+        // STATICS
+        if (room.controller && room.controller.level > 3) {
+            roomInfo.staticContainers = [];
+            _.each(availableSources, function (source) {
+                // console.log(source);
+                // Query.countAccessibleSpacesAroundStructure(source);
 
-            if (source.accessibleSpaces === undefined) {
-                source.accessibleSpaces = 0;
-            }
-            source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
-            // console.log(source.accessibleSpaces);
-
-            let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
-            if (sourceContainer) {
-                // console.log('found container');
-                source.container = sourceContainer.id;
-                if (roomInfo.staticContainers[source.container]) {
-                    roomInfo.staticContainers.push(sourceContainer);
+                if (Memory.dedicatedMiners == undefined) {
+                    Memory.dedicatedMiners = {};
                 }
-                // console.log(source.container);
-            }
 
-            let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
-            if (!source.container && resourcesAvailableForStatic) {
-                try {
-                    let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y-1, source.pos.x-1, source.pos.y+1, source.pos.x+1, true);
-                    let foundContainer = false;
-                    _.each(thingsBeside, function(thing){
-                        if(thing.type == 'structure') {
-                            let typeOfThing = thing['structure'];
-                            if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
-                              foundContainer=thing;
-                            }
-                        }
-                    });
+                if (source.accessibleSpaces === undefined) {
+                    source.accessibleSpaces = 0;
+                }
+                source.accessibleSpaces = thisRoom.countAccessibleSpacesAroundPoint(source.pos);
+                // console.log(source.accessibleSpaces);
 
-                    if (!foundContainer) {
-                        let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
-
-                        if (buildPos) {
-                            thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
-                        }
-                    } else {
-                        roomInfo.staticContainers.push(foundContainer);
+                let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
+                if (sourceContainer) {
+                    // console.log('found container');
+                    source.container = sourceContainer.id;
+                    if (roomInfo.staticContainers[source.container]) {
+                        roomInfo.staticContainers.push(sourceContainer);
                     }
-                } catch (e) {
-                    // console.log('static check'+e);
+                    // console.log(source.container);
                 }
-            }
 
-            if (source.container && resourcesAvailableForStatic) {
-                let roleName = 'staticHarvester';
-                let dedicatedMiner = Memory.dedicatedMiners[source.id];
-                let countInRoom = Tasks.countCreepsForRole(roomInfo, roleName);
-                let queuedAlready = Tasks.countCreepsQueuedForSpawn(roomInfo, roleName);
-                console.log('Checking statics');
-                console.log('Does this source need one? '+(!dedicatedMiner || !Game.creeps[dedicatedMiner]));
-                console.log('In room already: '+countInRoom);
-                console.log('Queued already: '+queuedAlready);
-                let notEnoughStaticsInAction = (countInRoom + queuedAlready) < roomInfo.availableSources.length;
-                if ((!dedicatedMiner || !Game.getObjectById(dedicatedMiner))
-                    && notEnoughStaticsInAction) {
-                    console.log('Spawn static for '+source.id);
-                    // We need to check there's not one on the way to the source or one in the spawn Q
-                    Tasks.addEntryToSpawnQueue(roomInfo, roleName);
-                } else {
-                    console.log('No need to queue spawn for '+source.id+', being looked after already')
+                let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
+                if (!source.container && resourcesAvailableForStatic) {
+                    try {
+                        let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true);
+                        let foundContainer = false;
+                        _.each(thingsBeside, function (thing) {
+                            if (thing.type == 'structure') {
+                                let typeOfThing = thing['structure'];
+                                if (typeOfThing.structureType == STRUCTURE_CONTAINER) {
+                                    foundContainer = thing;
+                                }
+                            }
+                        });
+
+                        if (!foundContainer) {
+                            let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
+
+                            if (buildPos) {
+                                thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
+                            }
+                        } else {
+                            roomInfo.staticContainers.push(foundContainer);
+                        }
+                    } catch (e) {
+                        // console.log('static check'+e);
+                    }
                 }
-            }
-        });
+
+                if (source.container && resourcesAvailableForStatic) {
+                    let roleName = 'staticHarvester';
+                    let dedicatedMiner = Memory.dedicatedMiners[source.id];
+                    let countInRoom = Tasks.countCreepsForRole(roomInfo, roleName);
+                    let queuedAlready = Tasks.countCreepsQueuedForSpawn(roomInfo, roleName);
+                    console.log('Checking statics');
+                    console.log('Does this source need one? ' + (!dedicatedMiner || !Game.creeps[dedicatedMiner]));
+                    console.log('In room already: ' + countInRoom);
+                    console.log('Queued already: ' + queuedAlready);
+                    let notEnoughStaticsInAction = (countInRoom + queuedAlready) < roomInfo.availableSources.length;
+                    if ((!dedicatedMiner || !Game.getObjectById(dedicatedMiner))
+                        && notEnoughStaticsInAction) {
+                        console.log('Spawn static for ' + source.id);
+                        // We need to check there's not one on the way to the source or one in the spawn Q
+                        Tasks.addEntryToSpawnQueue(roomInfo, roleName);
+                    } else {
+                        console.log('No need to queue spawn for ' + source.id + ', being looked after already')
+                    }
+                }
+            });
+        }
 
         // ENERGY CAPACITY
         roomInfo.energyCapacity = thisRoom.energyCapacityAvailable;
@@ -164,7 +168,7 @@ module.exports = {
 
         // GRAVE
         // Use energy capacity as a marker for how advanced the room is, let's not care about graves early on
-        if (roomInfo.mainSpawn && roomInfo.energyCapacity > 500 && (!roomInfo.grave || !Game.getObjectById[roomInfo.grave.id])) {
+        if (roomInfo.mainSpawn && roomInfo.controller && roomInfo.controller.level > 2 && (!roomInfo.grave || !Game.getObjectById[roomInfo.grave.id])) {
             // We always want a grave, let's say in the top right square, right beside the mainSpawn, for creeps to die on, to drop energy
             let structuresInGraveSpot = thisRoom.lookForAt(LOOK_STRUCTURES, roomInfo.gravePos);
             if (!structuresInGraveSpot) {
