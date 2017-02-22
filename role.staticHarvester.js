@@ -1,4 +1,4 @@
-const ticksToLiveToPerformSwap=1150;
+const ticksToLiveToPerformSwap=150;
 
 const roleStaticHarvester = {
 
