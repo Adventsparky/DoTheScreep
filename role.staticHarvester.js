@@ -65,6 +65,7 @@ const roleStaticHarvester = {
 
         // We have our target, check if there's a container spot there already
         if (source && source.container) {
+            console.log('static decisions');
             console.log(creep.id);
 
             let sourceContainer=Game.getObjectById(source.container);
