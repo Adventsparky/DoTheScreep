@@ -338,7 +338,7 @@ module.exports = {
         let spawnEntry=this.spawnQueueEntry(roomInfo, roleName);
         // If we don't find this item but expected to, we might have a problem
         if (!_.contains(Memory.highPrioritySpawns, spawnEntry)) {
-            Memory.highPrioritySpawns.push(spawnEntry);
+            // Memory.highPrioritySpawns.push(spawnEntry);
         }
     },
     removeEntryFromSpawnQueue : function(roomInfo, roleName) {
