@@ -305,14 +305,7 @@ module.exports = {
         return false;
     },
     countCreepsForRole : function(roomInfo, roleName) {
-        if (RoleManager.hasOwnProperty(roleName)) {
-            let role = RoleManager[roleName];
-
-            return _.filter(Game.creeps, function (creep) {
-                return creep.memory.home == roomInfo.name && creep.memory.role == role.role;
-            }).length;
-        }
-        // _.sum(Game.creeps, (c) => c.memory.home == roomInfo.name && c.memory.role == roleName);
+        return _.sum(Game.creeps, (c) => c.memory.home == roomInfo.name && c.memory.role == roleName);
     },
     countCreepsQueuedForSpawn : function(roomInfo, roleName) {
         let count=0;
