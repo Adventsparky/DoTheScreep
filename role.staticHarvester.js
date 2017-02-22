@@ -65,6 +65,7 @@ const roleStaticHarvester = {
 
         // We have our target, check if there's a container spot there already
         if (source && source.container) {
+            console.log(creep.id);
 
             let sourceContainer=Game.getObjectById(source.container);
             let dedicatedMiner=Memory.dedicatedMiners[source.id]; console.log(dedicatedMiner);
