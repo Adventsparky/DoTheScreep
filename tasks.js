@@ -266,6 +266,7 @@ module.exports = {
 
                     // if (spawnResult == OK) {
                         // Remove from q
+                    console.log('Was meant to spawn a static');
                         this.removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
                     // }
                 }
