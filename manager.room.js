@@ -144,8 +144,11 @@ module.exports = {
                 let notEnoughStaticsInAction = (countInRoom + queuedAlready) < roomInfo.availableSources.length;
                 if ((!dedicatedMiner || !Game.getObjectById(dedicatedMiner))
                     && notEnoughStaticsInAction) {
+                    console.log('Spawn static for '+source.id);
                     // We need to check there's not one on the way to the source or one in the spawn Q
                     Tasks.addEntryToSpawnQueue(roomInfo, roleName);
+                } else {
+                    console.log('No need to spawn for '+source.id+', being looked after already')
                 }
             }
         });
