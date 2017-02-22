@@ -135,8 +135,14 @@ module.exports = {
             if (source.container && resourcesAvailableForStatic) {
                 let roleName = 'staticHarvester';
                 let dedicatedMiner = Memory.dedicatedMiners[source.id];
-                let notEnoughStaticsInAction = (Tasks.countCreepsForRole(roomInfo, roleName) + (Tasks.countCreepsQueuedForSpawn(roomInfo, roleName)) < roomInfo.availableSources.length);
-                if ((!dedicatedMiner || !Game.creeps[dedicatedMiner])
+                let countInRoom = Tasks.countCreepsForRole(roomInfo, roleName);
+                let queuedAlready = Tasks.countCreepsQueuedForSpawn(roomInfo, roleName);
+                console.log('Checking statics');
+                console.log('Does this source need one? '+(!dedicatedMiner || !Game.creeps[dedicatedMiner]));
+                console.log('In room already: '+countInRoom);
+                console.log('Queued already: '+queuedAlready);
+                let notEnoughStaticsInAction = (countInRoom + queuedAlready) < roomInfo.availableSources.length;
+                if ((!dedicatedMiner || !Game.getObjectById(dedicatedMiner))
                     && notEnoughStaticsInAction) {
                     // We need to check there's not one on the way to the source or one in the spawn Q
                     Tasks.addEntryToSpawnQueue(roomInfo, roleName);
