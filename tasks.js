@@ -127,45 +127,48 @@ module.exports = {
                     let canWeBuildHere = Query.checkIfSiteIsSuitableForExtensionConstruction(checkPos,room);
                     // console.log(canWeBuildHere);
 
-                    if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
-                        (!roomInfo.reservedPos || (roomInfo.reservedPos && !_.findWhere(roomInfo.reservedPos, checkPos)))) {
-                        // console.log('Found a site at ' + x + ',' + y);
+                    // Don't build anything on the reserved tiles
+                    if (!roomInfo.reservedPos || (roomInfo.reservedPos && !_.findWhere(roomInfo.reservedPos, checkPos))) {
 
-                        if(canWeBuildHere){
-                            // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
+                        if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y)) {
+                            // console.log('Found a site at ' + x + ',' + y);
 
-                            //  let flag=Game.flags[''+x+y];
-                            //  if (flag){
-                            //      flag.remove();
-                            //  }
+                            if (canWeBuildHere) {
+                                // room.createFlag(x,y,''+x+y,COLOR_YELLOW);
 
-                            if (room.createConstructionSite(checkPos,STRUCTURE_EXTENSION) == OK) {
-                                let existingRoad = room.lookForAt(LOOK_STRUCTURES, checkPos.x, checkPos.y);
-                                if (existingRoad && existingRoad.structureType == STRUCTURE_ROAD) {
-                                    existingRoad.destroy();
+                                //  let flag=Game.flags[''+x+y];
+                                //  if (flag){
+                                //      flag.remove();
+                                //  }
+
+                                if (room.createConstructionSite(checkPos, STRUCTURE_EXTENSION) == OK) {
+                                    let existingRoad = room.lookForAt(LOOK_STRUCTURES, checkPos.x, checkPos.y);
+                                    if (existingRoad && existingRoad.structureType == STRUCTURE_ROAD) {
+                                        existingRoad.destroy();
+                                    }
+                                    availableExtensionsCount--;
                                 }
-                                availableExtensionsCount--;
                             }
+
+                            newForbiddenXs.push(checkPos.x);
+                            newForbiddenYs.push(checkPos.y);
+
+                            rowStuff.push('o');
+
+                        } else {
+
+                            if (canWeBuildHere) {
+                                room.createConstructionSite(checkPos, STRUCTURE_ROAD);
+
+                                // room.createFlag(x,y,''+x+y, COLOR_CYAN);
+
+                                // let flag=Game.flags[''+x+y];
+                                // if (flag){
+                                //     flag.remove();
+                                // }
+                            }
+                            rowStuff.push('x');
                         }
-
-                        newForbiddenXs.push(checkPos.x);
-                        newForbiddenYs.push(checkPos.y);
-
-                        rowStuff.push('o');
-
-                    } else{
-
-                        if (canWeBuildHere) {
-                            room.createConstructionSite(checkPos,STRUCTURE_ROAD);
-
-                            // room.createFlag(x,y,''+x+y, COLOR_CYAN);
-
-                            // let flag=Game.flags[''+x+y];
-                            // if (flag){
-                            //     flag.remove();
-                            // }
-                        }
-                        rowStuff.push('x');
                     }
 
                     y++;
