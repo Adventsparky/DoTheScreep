@@ -28,6 +28,11 @@ module.exports = {
     // buildingTypeAffordable: function(type) {
     //     return this.energyAvailable() >= CONSTRUCTION_COST[type];
     // },
+    checkForStorageConstruction : function (roomInfo) {
+        if (roomInfo.storagePos) {
+            Game.rooms[roomInfo.name].createConstructionSite(roomInfo.storagePos, STRUCTURE_STORAGE)
+        }
+    },
     checkForExtensionsAndRoadConstruction : function (roomInfo) {
         // We should have roads right beside the mainSpawn, extensions will be diagonal
 

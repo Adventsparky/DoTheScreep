@@ -89,9 +89,6 @@ module.exports = {
             roomInfo.reservedPos.push(roomInfo.spawnLinkPos);
         }
 
-        console.log(roomInfo.storagePos);
-        console.log(roomInfo.spawnLinkPos);
-
         // EXTENSION BUILDER SOURCE
         if (!roomInfo.extensionBuilderSource && roomInfo.mainSpawn) {
             // We only want one extension builder source. OR DO WE.... todo, maybe. Might check second source instead of allowed the "broken" pattern.
@@ -217,10 +214,13 @@ module.exports = {
         }
 
         // BUILD ROADS AND EXTENSIONS AROUND SPAWN
-        // console.log('Extensions available: '+Query.numberOfBuildingTypeAvailable(STRUCTURE_EXTENSION,roomInfo));
-        // console.log('Is available? '+Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION,roomInfo));
         if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION, roomInfo)) {
             Tasks.checkForExtensionsAndRoadConstruction(roomInfo);
+        }
+
+        // BUILD STORAGE
+        if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_STORAGE, roomInfo)) {
+            Tasks.checkForStorageConstruction(roomInfo);
         }
 
         // ENEMY DATA

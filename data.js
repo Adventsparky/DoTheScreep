@@ -79,7 +79,7 @@ module.exports = {
         c = c < b ? c=b : c;
         c = c > (49-b) ? c=(49-b) : c;
         return c;
-    },
+    }
     checkIfSiteIsSuitableForExtensionConstruction : function(pos, room) {
         // If there's anything within 1 square (ie 3x3 grid) play it safe
         // let startPos = new RoomPosition(pos.x-1, pos.y-1, room.name);
