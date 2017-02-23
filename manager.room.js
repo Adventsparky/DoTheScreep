@@ -225,6 +225,9 @@ module.exports = {
 
         // BUILD LINKS
         if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_LINK, roomInfo)) {
+            // todo check first for spawn link
+            // todo check for source links up to 2 (cant have more anyway?)
+            // todo with a 4th, make a turret defence system?
             Tasks.checkForLinkConstruction(roomInfo);
         }
 
