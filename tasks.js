@@ -128,7 +128,7 @@ module.exports = {
                     // console.log(canWeBuildHere);
 
                     if (!_.contains(forbiddenXs, checkPos.x) && !_.contains(forbiddenYs, checkPos.y) &&
-                        (!roomInfo.reservedPos || (roomInfo.reservedPos && !_.contains(roomInfo.reservedPos, checkPos)))) {
+                        (!roomInfo.reservedPos || (roomInfo.reservedPos && !_.findWhere(roomInfo.reservedPos, checkPos)))) {
                         // console.log('Found a site at ' + x + ',' + y);
 
                         if(canWeBuildHere){
