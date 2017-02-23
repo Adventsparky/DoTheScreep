@@ -33,6 +33,11 @@ module.exports = {
             Game.rooms[roomInfo.name].createConstructionSite(roomInfo.storagePos, STRUCTURE_STORAGE)
         }
     },
+    checkForSpawnLinkConstruction : function (roomInfo) {
+        if (roomInfo.spawnLinkPos) {
+            Game.rooms[roomInfo.name].createConstructionSite(roomInfo.spawnLinkPos, STRUCTURE_LINK)
+        }
+    },
     checkForExtensionsAndRoadConstruction : function (roomInfo) {
         // We should have roads right beside the mainSpawn, extensions will be diagonal
 
