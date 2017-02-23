@@ -33,7 +33,7 @@ module.exports = {
             Game.rooms[roomInfo.name].createConstructionSite(roomInfo.storagePos, STRUCTURE_STORAGE)
         }
     },
-    checkForSpawnLinkConstruction : function (roomInfo) {
+    checkForLinkConstruction : function (roomInfo) {
         if (roomInfo.spawnLinkPos) {
             Game.rooms[roomInfo.name].createConstructionSite(roomInfo.spawnLinkPos, STRUCTURE_LINK)
         }

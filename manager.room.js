@@ -223,9 +223,9 @@ module.exports = {
             Tasks.checkForStorageConstruction(roomInfo);
         }
 
-        // BUILD STORAGE
+        // BUILD LINKS
         if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_LINK, roomInfo)) {
-            Tasks.checkForSpawnLinkConstruction(roomInfo);
+            Tasks.checkForLinkConstruction(roomInfo);
         }
 
         // ENEMY DATA
