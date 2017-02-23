@@ -243,12 +243,12 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
     }
     if(dropOffStructures.length == 0) {
         dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-            return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity)
+            return ((structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity*.95)
         });
     }
     if(dropOffStructures.length == 0) {
         dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-            return structure.structureType == STRUCTURE_CONTROLLER
+            return structure.structureType == STRUCTURE_STORAGE
         });
     }
 
