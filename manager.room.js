@@ -79,6 +79,19 @@ module.exports = {
             roomInfo.storagePos = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y, thisRoom.name);
         }
 
+        // BUILD STORAGE
+        if (roomInfo.mainSpawn && thisRoom.controller && thisRoom.controller.level > 3) {
+            if (Query.isBuildingTypeAvailable(STRUCTURE_STORAGE, roomInfo)) {
+                Tasks.checkForStorageConstruction(roomInfo);
+            }
+            let store = _.filter(myAvailableStructures, function (structure) {
+                return structure.structureType == STRUCTURE_STORAGE
+            });
+            if (store) {
+                roomInfo.storage = store;
+            }
+        }
+
         // SPAWN LINK POS
         if (roomInfo.mainSpawn) {
             roomInfo.spawnLinkPos = new RoomPosition(roomInfo.mainSpawn.pos.x + 2, roomInfo.mainSpawn.pos.y+2, thisRoom.name);
@@ -219,11 +232,6 @@ module.exports = {
         // BUILD ROADS AND EXTENSIONS AROUND SPAWN
         if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_EXTENSION, roomInfo)) {
             Tasks.checkForExtensionsAndRoadConstruction(roomInfo);
-        }
-
-        // BUILD STORAGE
-        if (roomInfo.mainSpawn && Query.isBuildingTypeAvailable(STRUCTURE_STORAGE, roomInfo)) {
-            Tasks.checkForStorageConstruction(roomInfo);
         }
 
         // BUILD LINKS
