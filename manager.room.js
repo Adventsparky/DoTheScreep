@@ -58,6 +58,9 @@ module.exports = {
                 return structure;
             }
         });
+        if(roomInfo.controller) {
+            roomInfo.controller = roomInfo.controller[0];
+        }
 
         // TOWERS
         roomInfo.towers = _.filter(myAvailableStructures, function (structure) {

@@ -248,7 +248,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
     }
     if(dropOffStructures.length == 0) {
         dropOffStructures = _.filter(potentialDropOffsInThisRoom, function(structure) {
-            return structure.structureType == STRUCTURE_STORAGE
+            return structure.structureType == STRUCTURE_STORAGE && structure.energy < structure.energyCapacity;
         });
     }
 
