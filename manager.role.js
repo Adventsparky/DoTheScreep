@@ -35,7 +35,7 @@ module.exports = {
         targetRoomPopulation: 4,
         minRoomPopulation: 2,
         run: roleHarvester.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     },
     staticHarvester: {
@@ -44,7 +44,7 @@ module.exports = {
         role: 'staticHarvester',
         targetRoomPopulation: 0,
         run: roleStaticHarvester.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     },
     hauler: {
@@ -53,7 +53,7 @@ module.exports = {
         role: 'hauler',
         targetRoomPopulation: 0,
         run: roleHauler.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     },
     builder: {
@@ -63,7 +63,7 @@ module.exports = {
         targetRoomPopulation: 2,
         minRoomPopulation: 1,
         run: roleBuilder.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     },
     upgrader: {
@@ -73,7 +73,7 @@ module.exports = {
         targetRoomPopulation: 4,
         minRoomPopulation: 1,
         run: roleUpgrader.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     },
     basicSoldier: {
@@ -82,7 +82,7 @@ module.exports = {
         role: 'basicSoldier',
         targetRoomPopulation: 0,
         run: roleBasicSoldier.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     },
     basicClaimer: {
@@ -90,7 +90,7 @@ module.exports = {
         role: 'basicClaimer',
         targetRoomPopulation: 0,
         run: roleBasicClaimer.run,
-        name: function() { return this.role+'-'+Game.time.toString(); },
+        name: function() { return this.role+'-'+Memory.creepCounter; },
         pricePerBlock: pricePerPartsBlock(this)
     }
 };

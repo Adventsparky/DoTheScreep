@@ -13,6 +13,10 @@ module.exports.loop = function () {
             Memory.highPrioritySpawns=[];
         }
 
+        if (Memory.creepCounter == undefined || Memory.creepCounter > 1000) {
+            Memory.creepCounter = 1;
+        }
+
         _.each(Game.rooms, function(room) {
             RoomManager.process(room.name);
         });

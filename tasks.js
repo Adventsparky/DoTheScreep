@@ -278,6 +278,7 @@ module.exports = {
                     }
 
                     if (spawnResult == creepName) {
+                        Memory.creepCounter = Memory.creepCounter+1;
                         // Remove from q
                         this.removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
                     }
@@ -307,6 +308,8 @@ module.exports = {
                             // console.log('Build little one');
                             roomInfo.mainSpawn.createCreep(role.parts, creepName, {role: role.role});
                         }
+
+                        Memory.creepCounter = Memory.creepCounter+1;
                         return false;
                     }
                 }
