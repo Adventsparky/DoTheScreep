@@ -177,7 +177,7 @@ Creep.prototype.depositEnergy = function(roomInfo) {
             if (!targetDropoff.structureHasSpaceForEnergy()) {
                 targetDropoff = this.findBestEnergyDump(roomInfo);
                 if (!targetDropoff) {
-                    // console.log(this+ ' had a target but its full now??');
+                    console.log(this+ ' had a target but its full now??');
                 }
             }
 
@@ -247,7 +247,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
         });
     }
     if(dropOffStructures.length == 0) {
-        console.log('I got nothin, storage? '+roomInfo.storage)
+        // console.log('I got nothin, storage? '+roomInfo.storage)
         dropOffStructures=[roomInfo.storage];
     }
 
@@ -258,10 +258,10 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
         let currentPos=this.pos;
 
         if(dropOffStructures.length==1) {
-            console.log('Only one potential dropoff');
-            console.log(JSON.stringify(dropOffStructures));
-            console.log(JSON.stringify(dropOffStructures[0]));
-            console.log(JSON.stringify(dropOffStructures[0].id));
+            // console.log('Only one potential dropoff');
+            // console.log(JSON.stringify(dropOffStructures));
+            // console.log(JSON.stringify(dropOffStructures[0]));
+            // console.log(JSON.stringify(dropOffStructures[0].id));
             this.memory.targetDropoff=dropOffStructures[0].id;
             delete this.memory.targetSource;
         } else {
