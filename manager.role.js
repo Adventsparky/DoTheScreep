@@ -30,7 +30,7 @@ function pricePerPartsBlock(role) {
 module.exports = {
     harvester: {
         parts: [WORK,CARRY,MOVE],
-        stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
+        stage2Parts: [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE],
         role: 'harvester',
         targetRoomPopulation: 4,
         minRoomPopulation: 2,
