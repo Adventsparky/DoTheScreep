@@ -133,12 +133,12 @@ module.exports = {
 
                 let sourceContainer = thisRoom.locateContainersAroundPoint(source.pos, availableStructures);
                 if (sourceContainer) {
-                    console.log('found container');
+                    // console.log('found container');
                     source.container = sourceContainer.id;
                     if (!roomInfo.staticContainers[sourceContainer]) {
                         roomInfo.staticContainers.push(sourceContainer);
                     }
-                    console.log(source.container);
+                    // console.log(source.container);
                 }
 
                 let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
@@ -174,10 +174,10 @@ module.exports = {
                     let dedicatedMiner = Memory.dedicatedMiners[source.id];
                     let countInRoom = Tasks.countCreepsForRole(roomInfo, roleName);
                     let queuedAlready = Tasks.countCreepsQueuedForSpawn(roomInfo, roleName);
-                    console.log('Checking statics');
-                    console.log('Does this source need one? ' + (!dedicatedMiner || !Game.creeps[dedicatedMiner]));
-                    console.log('In room already: ' + countInRoom);
-                    console.log('Queued already: ' + queuedAlready);
+                    // console.log('Checking statics');
+                    // console.log('Does this source need one? ' + (!dedicatedMiner || !Game.creeps[dedicatedMiner]));
+                    // console.log('In room already: ' + countInRoom);
+                    // console.log('Queued already: ' + queuedAlready);
                     let notEnoughStaticsInAction = (countInRoom + queuedAlready) < roomInfo.availableSources.length;
                     if ((!dedicatedMiner || !Game.getObjectById(dedicatedMiner))
                         && notEnoughStaticsInAction) {
@@ -185,7 +185,7 @@ module.exports = {
                         // We need to check there's not one on the way to the source or one in the spawn Q
                         Tasks.addEntryToSpawnQueue(roomInfo, roleName);
                     } else {
-                        console.log('No need to queue spawn for ' + source.id + ', being looked after already')
+                        // console.log('No need to queue spawn for ' + source.id + ', being looked after already')
                     }
                 }
             });
