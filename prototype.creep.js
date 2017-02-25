@@ -58,8 +58,8 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
                bestChoiceEnergySource.score = creepAssignedToSourceCount;
            }
         });
-        bestChoiceEnergySource={};
-        bestChoiceEnergySource.source=allSources[0];
+        // bestChoiceEnergySource={};
+        // bestChoiceEnergySource.source=allSources[0];
     } else {
 
         if (!allEnergySources || !allEnergySources[0]) {
@@ -338,11 +338,7 @@ Creep.prototype.findNearestConstructionTowerContainerExtensionRampartWall = func
         // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
         this.memory.targetConstruction=target.site.id;
 
-        if (this.carry.energy>0) {
-            this.memory.building=true;
-        } else {
-            this.memory.building=false;
-        }
+        this.memory.building = this.carry.energy > 0;
     } else {
         // creep.say('no builds');
         this.memory.building=false;
