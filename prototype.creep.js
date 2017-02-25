@@ -249,6 +249,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
     if(dropOffStructures.length == 0) {
         console.log('I got nothin, storage? '+roomInfo.storage)
         dropOffStructures=[roomInfo.storage];
+        consol
     }
 
 
@@ -256,25 +257,31 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
     if(dropOffStructures.length > 0) {
         let target=false;
         let currentPos=this.pos;
-        if (towers) {
-            target = _.reduce(dropOffStructures, function(result, structure) {
-                let energy=structure.energy;
-                console.log(structure+' has '+energy);
-                if(result && result.energy < energy) {
-                    console.log(result.structure+'has less energy, choosing');
-                    return result;
-                }
-                return {energy: energy, structure: structure}
-            },{energyAvailable: 1000});
+
+        if(dropOffStructures.length==1) {
+            target=dropOffStructures[0];
         } else {
-            target = _.reduce(dropOffStructures, function(result, structure) {
-                let range=currentPos.getRangeTo(structure);
-                if(result && result.range < range) {
-                    return result;
-                }
-                return {range: range, structure: structure}
-            },{range: 99999});
+            if (towers) {
+                target = _.reduce(dropOffStructures, function (result, structure) {
+                    let energy = structure.energy;
+                    console.log(structure + ' has ' + energy);
+                    if (result && result.energy < energy) {
+                        console.log(result.structure + 'has less energy, choosing');
+                        return result;
+                    }
+                    return {energy: energy, structure: structure}
+                }, {energyAvailable: 1000});
+            } else {
+                target = _.reduce(dropOffStructures, function (result, structure) {
+                    let range = currentPos.getRangeTo(structure);
+                    if (result && result.range < range) {
+                        return result;
+                    }
+                    return {range: range, structure: structure}
+                }, {range: 99999});
+            }
         }
+
         if(target) {
             // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
             this.memory.targetDropoff=target.structure.id
