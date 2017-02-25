@@ -277,11 +277,10 @@ module.exports = {
                         // spawnResult=roomInfo.mainSpawn.createCreep(spawnRole.parts, creepName, {role: spawnRole.role});
                     }
 
-                    // if (spawnResult == OK) {
+                    if (spawnResult == OK) {
                         // Remove from q
-                    console.log('Was meant to spawn a static');
                         this.removeEntryFromSpawnQueue(roomInfo, spawnRole.role);
-                    // }
+                    }
                 }
             }
 
