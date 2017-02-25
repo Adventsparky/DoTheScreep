@@ -248,7 +248,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
     }
     if(dropOffStructures.length == 0) {
         console.log('I got nothin, storage? '+roomInfo.storage)
-        dropOffStructures = roomInfo.storage;
+        dropOffStructures.push(roomInfo.storage);
     }
 
 
