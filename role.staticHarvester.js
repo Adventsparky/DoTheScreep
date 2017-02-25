@@ -83,7 +83,7 @@ const roleStaticHarvester = {
                         console.log('should tag in for '+currentHarvester);
                         // Check for a swap
                         if (!currentHarvester || currentHarvester.ticksToLive < ticksToLiveToPerformSwap) {
-                            //     // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
+                            //     // Move towards the spot and when we're 1 space away, tell the previous worker to, um, "retire"
                             creep.moveTo(sourceContainer.pos);
                             let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
                             if (distanceLeftToTravel <= 1 && currentHarvester && !currentHarvester.memory.p45) {
