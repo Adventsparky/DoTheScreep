@@ -49,7 +49,7 @@ module.exports = {
     },
     hauler: {
         parts: [CARRY,CARRY,MOVE,MOVE],
-        stage2Parts: [WORK,WORK,CARRY,CARRY,MOVE,MOVE],
+        stage2Parts: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,CARRY],
         role: 'hauler',
         targetRoomPopulation: 0,
         run: roleHauler.run,
