@@ -88,7 +88,7 @@ module.exports = {
                 return structure.structureType == STRUCTURE_STORAGE
             });
             if (store) {
-                roomInfo.storage = store;
+                roomInfo.storage = store[0];
             }
         }
 
