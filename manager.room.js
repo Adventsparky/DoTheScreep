@@ -189,6 +189,7 @@ module.exports = {
                     }
                 }
             });
+            console.log(roomInfo.staticContainers);
         }
 
         // ENERGY CAPACITY
