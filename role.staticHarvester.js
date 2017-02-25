@@ -86,7 +86,7 @@ const roleStaticHarvester = {
                             //     // Move towards the spot and when we're 5 spaces away, tell the previous worker to, um, "retire"
                             creep.moveTo(sourceContainer.pos);
                             let distanceLeftToTravel = creep.pos.getRangeTo(sourceContainer.pos);
-                            if (distanceLeftToTravel <= 2 && currentHarvester && !currentHarvester.memory.p45) {
+                            if (distanceLeftToTravel <= 1 && currentHarvester && !currentHarvester.memory.p45) {
                                 currentHarvester.memory.p45 = true;
                                 creep.say('Piss off');
                                 Memory.dedicatedMiners[source.id] = creep.id;
