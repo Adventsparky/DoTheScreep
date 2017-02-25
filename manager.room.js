@@ -135,7 +135,7 @@ module.exports = {
                 if (sourceContainer) {
                     console.log('found container');
                     source.container = sourceContainer.id;
-                    if (roomInfo.staticContainers[source.container]) {
+                    if (!roomInfo.staticContainers[sourceContainer]) {
                         roomInfo.staticContainers.push(sourceContainer);
                     }
                     console.log(source.container);
