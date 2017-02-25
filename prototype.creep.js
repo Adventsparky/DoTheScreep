@@ -50,7 +50,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
                 }
             });
 
-           if (bestChoiceEnergySource=null) {
+           if (!bestChoiceEnergySource) {
                bestChoiceEnergySource = {};
                bestChoiceEnergySource.source = staticContainer;
                bestChoiceEnergySource.score = creepAssignedToSourceCount;
