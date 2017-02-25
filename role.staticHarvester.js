@@ -38,7 +38,7 @@ const roleStaticHarvester = {
                 if (creepOnThisSpot != creep.id && currentHarvester && currentHarvester.ticksToLive > ticksToLiveToPerformSwap) {
                     // SOL
                     delete creep.memory.targetSource;
-                    console.log('Someone else is the miner. '+creep.id+' checked, found: '+creepOnThisSpot);
+                    // console.log('Someone else is the miner. '+creep.id+' checked, found: '+creepOnThisSpot);
                     return;
                 }
             }
@@ -65,18 +65,18 @@ const roleStaticHarvester = {
 
         // We have our target, check if there's a container spot there already
         if (source && source.container) {
-            console.log('static decisions');
-            console.log(creep.id);
+            // console.log('static decisions');
+            // console.log(creep.id);
 
             let sourceContainer=Game.getObjectById(source.container);
             let dedicatedMiner=Memory.dedicatedMiners[source.id];
-            console.log(dedicatedMiner);
+            // console.log(dedicatedMiner);
 
             if (sourceContainer) {
                 // Check are we where we need to be
                 if (creep.pos.x != sourceContainer.pos.x || creep.pos.y != sourceContainer.pos.y) {
                     // If non static source, move in directly
-                    let currentHarvester = Game.getObjectById(dedicatedMiner);console.log(currentHarvester);
+                    let currentHarvester = Game.getObjectById(dedicatedMiner);
                     if (!dedicatedMiner || dedicatedMiner==creep.id) {
                         creep.moveTo(sourceContainer.pos);
                     } else {
@@ -124,7 +124,7 @@ const roleStaticHarvester = {
                 if (dedicatedMinerId) {
                     if (dedicatedMinerId == creep.id) {
                         // uh oh
-                        console.log('Last ditch static cleanup, handover didnt happen from '+creep);
+                        // console.log('Last ditch static cleanup, handover didnt happen from '+creep);
                         delete Memory.dedicatedMiners[targetSourceId];
                         delete creep.memory.targetSource;
                     }

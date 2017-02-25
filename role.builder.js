@@ -21,7 +21,7 @@ const roleBuilder = {
         // Aimless creeps who get their cycles broken particular when collecting or dumping
         // energy and the target filled/expired/destroyed
         if (creep.hasNoPurposeInLife()) {
-            console.log(creep+' needs a job');
+            // console.log(creep+' needs a job');
             creep.getABasicJob(roomInfo);
         }
 
@@ -38,7 +38,7 @@ const roleBuilder = {
                 creep.collectEnergy();
             }
         } else if(creep.memory.targetConstruction) {
-            console.log(creep+' should build');
+            // console.log(creep+' should build');
             creep.buildStructure(roomInfo);
         } else {
             if(!creep.currentlyDepositing()) {

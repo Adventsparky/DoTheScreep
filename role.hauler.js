@@ -17,7 +17,7 @@ const roleHarvester = {
         // Fallback for aimless creeps (like when this code went live, might be able to remove later)
         // console.log(JSON.stringify(creep));
         if(!creep.memory.targetSource && !creep.memory.targetDropoff) {
-            console.log(creep+' had no target source or dropoff, gap in workflow?');
+            // console.log(creep+' had no target source or dropoff, gap in workflow?');
             if(creep.carry.energy < creep.carryCapacity) {
                 creep.findNearestOrLeastBusySource(roomInfo);
             }

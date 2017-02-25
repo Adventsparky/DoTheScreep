@@ -270,9 +270,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
             if (towers) {
                 target = _.reduce(dropOffStructures, function (result, structure) {
                     let energy = structure.energy;
-                    console.log(structure + ' has ' + energy);
                     if (result && result.energy < energy) {
-                        console.log(result.structure + 'has less energy, choosing');
                         return result;
                     }
                     return {energy: energy, structure: structure}
@@ -399,14 +397,14 @@ Creep.prototype.hasNoPurposeInLife = function() {
 };
 
 Creep.prototype.getABasicJob = function(roomInfo) {
-    console.log(this+' is bone idle');
+    // console.log(this+' is bone idle');
     if(this.carry.energy < this.carryCapacity) {
         this.findNearestOrLeastBusySource(roomInfo);
     }
     if(this.carry.energy == this.carryCapacity) {
         this.findBestEnergyDump(roomInfo);
     }
-    console.log(JSON.stringify(this));
+    // console.log(JSON.stringify(this));
 };
 
 Creep.prototype.repairNearestStructure = function() {

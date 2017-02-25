@@ -66,7 +66,6 @@ module.exports = {
         if (availableExtensionsCount == 0) {
             return;
         }
-        console.log(availableExtensionsCount+' available extensions');
 
         // This is a limiter for how far out we should spin
         let emergencyLoopCounter=0;
@@ -215,7 +214,6 @@ module.exports = {
             if(Memory.creeps.hasOwnProperty(name)) {
                 if (!Game.creeps[name]) {
                     delete Memory.creeps[name];
-                    console.log('Clearing non-existing creep memory:', name);
                 }
             }
         }
@@ -298,7 +296,7 @@ module.exports = {
 
                     let spawnResult=null;
                     if (creepCountForRole < role.targetRoomPopulation) {
-                        console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomInfo.name+', only have '+creepCountForRole);
+                        // console.log('New: '+'need to mainSpawn a ' + role.role + ' in '+roomInfo.name+', only have '+creepCountForRole);
                         // console.log(room.mainSpawn[0].canCreateCreep(role.stage2Parts, undefined));
                         // console.log(Game.rooms[roomId].energyCapacityAvailable);
 
