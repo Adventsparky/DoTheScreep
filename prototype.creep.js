@@ -259,7 +259,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
         let currentPos=this.pos;
 
         if(dropOffStructures.length==1) {
-            this.memory.targetDropoff=dropOffStructures[0];
+            this.memory.targetDropoff=dropOffStructures[0].id;
             delete this.memory.targetSource;
         } else {
             let target=false;
