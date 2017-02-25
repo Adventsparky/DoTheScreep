@@ -255,12 +255,15 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
 
 
     if(dropOffStructures.length > 0) {
-        let target=false;
+
         let currentPos=this.pos;
 
         if(dropOffStructures.length==1) {
-            target=dropOffStructures[0];
+            this.memory.targetDropoff=dropOffStructures[0];
+            delete this.memory.targetSource;
         } else {
+            let target=false;
+
             if (towers) {
                 target = _.reduce(dropOffStructures, function (result, structure) {
                     let energy = structure.energy;
@@ -280,13 +283,12 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
                     return {range: range, structure: structure}
                 }, {range: 99999});
             }
+            if(target) {
+                // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
+                this.memory.targetDropoff=target.structure.id
+            }
+            delete this.memory.targetSource;
         }
-
-        if(target) {
-            // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
-            this.memory.targetDropoff=target.structure.id
-        }
-        delete this.memory.targetSource;
     } else{
         this.say('no dumps');
     }
