@@ -113,13 +113,6 @@ module.exports = {
 
         // SOURCES
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
-        if (roomInfo.grave) {
-            let grave = Game.getObjectById[roomInfo.grave.id];
-            if (grave && _.sum(grave.store) > 0) {
-                roomInfo.availableSources.push(grave);
-                availableSources.push(grave);
-            }
-        }
 
         // STATICS
         if (roomInfo.controller && roomInfo.controller.level > 3) {
@@ -231,6 +224,10 @@ module.exports = {
                 });
                 if (grave) {
                     roomInfo.grave = {} = structuresInGraveSpot[0];
+
+                    //Add the grave to the rooms available sources
+                    roomInfo.availableSources.push(grave);
+                    availableSources.push(grave);
                 } else {
                     roomInfo.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
                 }
