@@ -114,7 +114,7 @@ module.exports = {
         // SOURCES
         let availableSources = roomInfo.availableSources = thisRoom.find(FIND_SOURCES);
         let grave=Game.getObjectById[roomInfo.grave.id];
-        if (grave) {
+        if (grave && _.sum(grave.store) > 0) {
             roomInfo.availableSources.push(grave);
             availableSources.push(grave);
         }
