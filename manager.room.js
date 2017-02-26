@@ -225,9 +225,11 @@ module.exports = {
                 if (grave) {
                     roomInfo.grave = {} = structuresInGraveSpot[0];
 
-                    //Add the grave to the rooms available sources
-                    roomInfo.availableSources.push(grave);
-                    availableSources.push(grave);
+                    if (_.sum(grave.store) > 0) {
+                        //Add the grave to the rooms available sources
+                        roomInfo.availableSources.push(grave);
+                        availableSources.push(grave);
+                    }
                 } else {
                     roomInfo.gravePos.createConstructionSite(STRUCTURE_CONTAINER);
                 }
