@@ -144,7 +144,8 @@ module.exports = {
                 let resourcesAvailableForStatic = Tasks.doWeHaveTheEnergyAndPopulationForStaticHarvesters(thisRoom);
                 if (!source.container && resourcesAvailableForStatic) {
                     try {
-                        let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true);
+                        let potentialHarvesterPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
+                        let thingsBeside = thisRoom.lookForAtArea(LOOK_STRUCTURES, potentialHarvesterPos.y - 1, potentialHarvesterPos.x - 1, potentialHarvesterPos.y + 1, potentialHarvesterPos.x + 1, true);
                         let foundContainer = false;
                         _.each(thingsBeside, function (thing) {
                             if (thing.type == 'structure') {
@@ -156,7 +157,7 @@ module.exports = {
                         });
 
                         if (!foundContainer) {
-                            let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(source.pos, roomInfo.mainSpawn.pos);
+                            let buildPos = Query.locateAnyEmptySpaceClosestToSpawnAroundPoint(potentialHarvesterPos.pos, roomInfo.mainSpawn.pos);
 
                             if (buildPos) {
                                 thisRoom.createConstructionSite(buildPos, STRUCTURE_CONTAINER);
