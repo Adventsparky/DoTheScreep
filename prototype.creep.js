@@ -258,7 +258,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
 
         let currentPos=this.pos;
 
-        if(dropOffStructures.length==1) {
+        if(dropOffStructures.length==1 && dropOffStructures[0]!=null) {
             console.log('Only one potential dropoff');
             console.log(JSON.stringify(dropOffStructures));
             console.log(JSON.stringify(dropOffStructures[0]));
