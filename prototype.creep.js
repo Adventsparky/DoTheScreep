@@ -285,7 +285,7 @@ Creep.prototype.findBestEnergyDump = function(roomInfo) {
                     return {range: range, structure: structure}
                 }, {range: 99999});
             }
-            if(target) {
+            if(target && target.structure) {
                 // console.log('Chose '+JSON.stringify(target)+' for '+creep.name);
                 this.memory.targetDropoff=target.structure.id
             }
