@@ -38,7 +38,7 @@ Creep.prototype.findNearestOrLeastBusySource = function(roomInfo) {
         }
     });
 
-    if (fullBlownStatic && roomInfo.staticContainers.length>0) {
+    if (fullBlownStatic && typeof(roomInfo.staticContainers)!=='undefined' && roomInfo.staticContainers.length>0) {
         // console.log('viable statics: '+roomInfo.staticContainers.length);
         let allStaticContainers = _.sortBy(roomInfo.staticContainers, s => this.pos.getRangeTo(s));
         _.each(allStaticContainers, function (staticContainer) {
